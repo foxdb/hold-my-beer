@@ -1,5 +1,5 @@
 {
-  "name": "beer-watch",
+  "name": "hold-my-beer",
   "version": "1.0.0",
   "description": "A front-end app for raspi-chill temperature regulation logs",
   "main": "index.tsx",
