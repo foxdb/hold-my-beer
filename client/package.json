@@ -6,21 +6,24 @@
   "author": "bens.schmitt@gmail.com",
   "license": "MIT",
   "scripts": {
-    "develop": "concurrently -r \"npm:compile --watch\" \"npm:start\"",
     "start": "parcel ./src/index.html",
     "build": "npm run compile && parcel build ./src/index.html --public-url '/'",
     "test": "jest",
     "compile": "tsc --noEmit"
   },
   "dependencies": {
+    "chart.js": "^2.7.3",
+    "moment": "^2.22.2",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "@types/jest": "^23.3.7",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
-    "concurrently": "^4.0.1",
+    "@types/request-promise": "^4.1.42",
     "jest": "^23.6.0",
     "parcel-bundler": "^1.10.3",
     "prettier": "^1.14.3",
