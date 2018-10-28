@@ -28,11 +28,11 @@ class MinMaxChart extends React.Component<Props, never> {
     }
     const data = this.props.points
 
-    let minPoints = []
-    let maxPoints = []
+    let minPoints: any = []
+    let maxPoints: any = []
     let absoluteMin = 100
     let absoluteMax = 0
-    let labels = []
+    let labels: any = []
 
     for (let i = 0; i < data.length; i = i + 100) {
       const subArray = data.slice(i, i + 100)

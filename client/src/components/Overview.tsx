@@ -1,10 +1,11 @@
 import * as React from 'react'
 
 import Paper from '@material-ui/core/Paper'
-const Countdown = require('react-countdown-now')
+import Countdown from 'react-countdown-now'
 
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
+import requestPromise = require('request-promise')
 
 interface Props {
   startDate: string
