@@ -5,4 +5,6 @@ const api = {
   listLogs: 'listLogs-js',
 }
 
-export { api }
+const RAW_DATE_FORMAT = 'YYYYMMDD_HH-mm-ss'
+
+export { api, RAW_DATE_FORMAT }
