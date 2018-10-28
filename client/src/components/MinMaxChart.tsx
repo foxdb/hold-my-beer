@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import moment = require('moment')
-import Chart from 'chart.js'
+const Chart = require('chart.js')
 
 import Paper from '@material-ui/core/Paper'
 

@@ -1,6 +1,5 @@
+import rp = require('request-promise')
 import { api, RAW_DATE_FORMAT } from '../config'
-import moment from 'moment'
-import rp from 'request-promise'
 
 interface ApiResult {
   points: Measure[]

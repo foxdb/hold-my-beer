@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Paper from '@material-ui/core/Paper'
-import Countdown from 'react-countdown-now'
+const Countdown = require('react-countdown-now')
 
 import { Point } from '../lib/api'
 import moment = require('moment')
