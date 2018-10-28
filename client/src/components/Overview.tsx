@@ -3,7 +3,6 @@ import * as React from 'react'
 import Paper from '@material-ui/core/Paper'
 const Countdown = require('react-countdown-now')
 
-import { Point } from '../lib/api'
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
 
