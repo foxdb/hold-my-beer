@@ -23,7 +23,7 @@ const Overview = (props: Props) => {
 
   return (
     <Paper style={{ margin: 20, padding: 10 }}>
-      <div className="columns is-mobile is-gapless">
+      <div className="columns is-multiline">
         <div className="column is-half">
           <table className="table">
             <tbody>
