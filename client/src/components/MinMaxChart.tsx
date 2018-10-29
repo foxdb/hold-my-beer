@@ -93,7 +93,7 @@ class MinMaxChart extends React.Component<Props, never> {
         ],
       },
       options: {
-        responsive: true,
+        maintainAspectRatio: false,
         title: {
           display: true,
           text:
@@ -144,11 +144,11 @@ class MinMaxChart extends React.Component<Props, never> {
 
   render() {
     return (
-      <Paper style={{ margin: 20, padding: 10 }}>
+      <Paper style={{ margin: 10, padding: 10 }}>
         <canvas
+          height="400"
+          width="800"
           ref={c => (this.context = c && c.getContext('2d'))}
-          width="400"
-          height="200"
         />
       </Paper>
     )
