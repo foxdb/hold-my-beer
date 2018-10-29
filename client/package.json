@@ -7,9 +7,10 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "npm run compile && parcel build ./src/index.html --public-url '/'",
+    "build": "rm -r dist && npm run compile && parcel build ./src/index.html --public-url 'http://hold-my-beer.smitchdigital.com/'",
     "test": "jest",
-    "compile": "tsc --noEmit"
+    "compile": "tsc --noEmit",
+    "deploy": "aws s3 sync dist/ s3://hold-my-beer.smitchdigital.com"
   },
   "dependencies": {
     "@material-ui/core": "^3.3.2",
