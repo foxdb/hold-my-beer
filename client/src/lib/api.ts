@@ -1,4 +1,3 @@
-import rp = require('request-promise')
 import { api, RAW_DATE_FORMAT } from '../config'
 
 interface ApiResult {
@@ -36,7 +35,7 @@ export const findMinMax = (
 }
 
 export const getTemperatureLogs = async (): Promise<ApiResult> => {
-  const result = await rp(api.baseUrl + api.getLogs, { json: true })
+  const result = await fetch(api.baseUrl + api.getLogs).then(res => res.json())
   console.log(result)
   return {
     minTemp: result.minTemp,
