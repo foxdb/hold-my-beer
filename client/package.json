@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "rm -r dist && npm run compile && parcel build ./src/index.html --public-url 'http://hold-my-beer.smitchdigital.com/'",
+    "build": "rm -r dist && npm run compile && parcel build ./src/index.html --no-source-maps --public-url 'http://hold-my-beer.smitchdigital.com/'",
     "test": "jest",
     "compile": "tsc --noEmit",
     "deploy": "aws s3 sync dist/ s3://hold-my-beer.smitchdigital.com"
