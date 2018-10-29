@@ -5,7 +5,6 @@ import Countdown from 'react-countdown-now'
 
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
-import requestPromise = require('request-promise')
 
 interface Props {
   startDate: string
