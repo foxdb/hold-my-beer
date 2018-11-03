@@ -126,6 +126,10 @@ class MinMaxChart extends React.Component<Props, never> {
           ],
           yAxes: [
             {
+              gridLines: {
+                color: '#636363',
+                drawTicks: true,
+              },
               ticks: {
                 suggestedMin: absoluteMin - 3,
                 suggestedMax: absoluteMax + 3,

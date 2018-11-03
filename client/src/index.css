@@ -1,4 +1,9 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
-  background-color: #eeeeee;
   font-family: 'Helvetica', 'Arial', sans-serif;
+  height: 100%;
 }

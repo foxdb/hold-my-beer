@@ -1,5 +1,8 @@
 import * as React from 'react'
 
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Button from '@material-ui/core/Button'
+
 import { getTemperatureLogs, Point } from '../lib/api'
 
 import Overview from '../components/Overview'
@@ -27,7 +30,7 @@ class Home extends React.Component<Props, State> {
     }
   }
 
-  public async componentDidMount() {
+  private loadData = async () => {
     const data = await getTemperatureLogs()
     this.setState({
       minTemp: data.minTemp,
@@ -38,11 +41,27 @@ class Home extends React.Component<Props, State> {
     })
   }
 
-  private refresh = () => {}
+  public async componentDidMount() {
+    this.loadData()
+  }
+
+  public refresh = async () => {
+    this.setState({ isLoading: true }, () => this.loadData())
+  }
 
   public render() {
     if (this.state.isLoading) {
-      return <div />
+      return (
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: 20,
+            height: '100%',
+          }}
+        >
+          <CircularProgress size={50} />
+        </div>
+      )
     }
 
     if (
@@ -76,6 +95,17 @@ class Home extends React.Component<Props, State> {
             lastTemp={lastPoint.temperature}
             lastTempDate={lastPoint.date}
           />
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.refresh}
+            disabled={this.state.isLoading}
+            style={{ margin: 10, padding: 10 }}
+          >
+            Refresh
+          </Button>
+
           <MinMaxChart points={this.state.points} />
           <LastHoursChart points={this.state.lastHours} />
         </div>

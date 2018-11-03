@@ -27,7 +27,7 @@ const Overview = (props: Props) => {
           <table className="table">
             <tbody>
               <tr>
-                <th>Last measure</th>
+                <th>Current</th>
                 <td>
                   {props.lastTemp} (
                   {moment(props.lastTempDate, RAW_DATE_FORMAT).format(
@@ -37,7 +37,7 @@ const Overview = (props: Props) => {
                 </td>
               </tr>
               <tr>
-                <th>Fermentation start</th>
+                <th>Start</th>
                 <td>{startDate}</td>
               </tr>
             </tbody>

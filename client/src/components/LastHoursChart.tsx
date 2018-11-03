@@ -71,6 +71,10 @@ class LastHoursChart extends React.Component<Props, never> {
                 display: true,
                 labelString: 'Temperature',
               },
+              gridLines: {
+                color: '#636363',
+                drawTicks: true,
+              },
               ticks: {
                 suggestedMin: minMax.min - 1,
                 suggestedMax: minMax.max + 1,

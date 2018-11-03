@@ -6,7 +6,20 @@ interface Props {
 }
 
 const App = (props: Props) => {
-  return <Home name="Ben" />
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#eeeeee',
+      }}
+    >
+      <Home name="Ben" />
+    </div>
+  )
 }
 
 export default App
