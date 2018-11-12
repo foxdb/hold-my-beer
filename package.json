@@ -1,0 +1,11 @@
+{
+  "name": "hold-my-beer",
+  "version": "1.0.0",
+  "description": "HMB",
+  "author": "bens.schmitt@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "build": "./scripts/build.sh",
+    "deploy": "./scripts/deploy.sh"
+  }
+}

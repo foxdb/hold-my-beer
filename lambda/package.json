@@ -1,0 +1,26 @@
+{
+  "name": "hold-my-beer-lambda-api",
+  "version": "1.0.0",
+  "description": "HMB API",
+  "main": "index.tsx",
+  "author": "bens.schmitt@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "build": "echo 'implement me!'",
+    "test": "jest",
+    "compile": "tsc --noEmit",
+    "deploy": "echo 'implement me!'"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "testMatch": [
+      "**/__tests__/*.(test|spec).(ts|tsx|js)"
+    ]
+  }
+}
