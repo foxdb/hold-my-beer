@@ -9,10 +9,15 @@
     "build": "echo 'implement me!'",
     "test": "jest",
     "compile": "tsc --noEmit",
-    "deploy": "echo 'implement me!'"
+    "deploy": "serverless deploy",
+    "start": "serverless offline start"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "serverless": "^1.33.1",
+    "serverless-offline": "^3.31.3",
+    "serverless-plugin-typescript": "^1.1.5"
+  },
   "jest": {
     "moduleFileExtensions": [
       "ts",
