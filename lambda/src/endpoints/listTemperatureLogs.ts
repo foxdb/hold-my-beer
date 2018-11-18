@@ -1,3 +1,3 @@
-export const listTemperatureLogs = () = {
+export const listTemperatureLogs = () => {
   console.log('TODO')
 }
