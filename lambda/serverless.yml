@@ -11,6 +11,10 @@ plugins:
 
 functions:
   hello:
-    handler: src/endpoints/hello.hola
+    handler: src/endpoints/hello.hello
     events:
       - http: GET hello
+  temperatureLogs:
+    handler: src/endpoints/getTemperature.getTemperatureLog
+    events:
+      - http: GET temperatureLogs

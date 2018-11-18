@@ -12,3 +12,4 @@ index.old.html
 # Serverless directories
 .serverless
 .build
+.webpack
