@@ -55,8 +55,12 @@ class Home extends React.Component<Props, State> {
         <div
           style={{
             textAlign: 'center',
-            marginTop: 20,
-            height: '100%',
+            backgroundColor: 'white',
+            margin: 0,
+            position: 'absolute',
+            top: 'calc(50% - 25px)',
+            left: 'calc(50% - 25px)',
+            transform: 'translateY(-50%)',
           }}
         >
           <CircularProgress size={50} />
