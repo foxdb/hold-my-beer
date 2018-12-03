@@ -80,7 +80,6 @@ class Home extends React.Component<Props, State> {
       <div
         style={{
           textAlign: 'center',
-          marginTop: '10',
           marginBottom: '10',
         }}
       >
