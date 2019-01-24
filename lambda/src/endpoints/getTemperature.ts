@@ -1,6 +1,5 @@
-import * as AWS from 'aws-sdk'
-const s3 = new AWS.S3()
-
+import { getFile } from '../lib/s3'
+import mockTemperatureLogs from '../testData/mock-temperature'
 const LAST_LINES_NUMBER = 300
 
 const makePoints = lines => {
@@ -14,61 +13,60 @@ const makePoints = lines => {
   }, [])
 }
 
-export const getTemperatureLog = (event, context, callback) => {
-  // TODO: choose file
-  const logFile = '20181028_16-52-35-temperature.log'
-  s3.getObject(
-    {
-      Bucket: 'raspi-chill',
-      Key: 'logs/' + logFile
-    },
-    (err, data) => {
-      if (err) {
-        console.log(err, err.stack)
-        callback(err)
-      } else {
-        const lines = data.Body.toString('ascii')
-          .split('\n')
-          .filter(line => line.length > 0)
+export const getTemperatureLog = async (event, context, callback) => {
+  try {
+    let logFile: string
 
-        let minTemp = 100
-        let maxTemp = 0
-
-        const points = lines.reduce((acc, current) => {
-          const temp = parseFloat(current.split(',')[1])
-
-          if (temp === null || isNaN(temp)) {
-            return acc
-          }
-
-          minTemp = Math.min(minTemp, temp)
-          maxTemp = Math.max(maxTemp, temp)
-
-          acc.push({
-            date: current.split(',')[0],
-            temperature: temp
-          })
-
-          return acc
-        }, [])
-
-        const lastLines = lines.slice(
-          lines.length - Math.min(LAST_LINES_NUMBER, lines.length),
-          lines.length
-        )
-
-        callback(null, {
-          statusCode: 200,
-          body: JSON.stringify({
-            logFile,
-            points,
-            lastHours: makePoints(lastLines),
-            maxTemp,
-            minTemp
-          }),
-          headers: { 'Access-Control-Allow-Origin': '*' }
-        })
-      }
+    if (event.isOffline === true) {
+      logFile = mockTemperatureLogs
+    } else {
+      logFile = await getFile('raspi-chill', 'logs/rushmore-temperature.log')
     }
-  )
+
+    const lines = logFile.split('\n').filter(line => line.length > 0)
+
+    let minTemp = 100
+    let maxTemp = 0
+
+    const points = lines.reduce(
+      (acc, current) => {
+        const temp = parseFloat(current.split(',')[1])
+
+        if (temp === null || isNaN(temp)) {
+          return acc
+        }
+
+        minTemp = Math.min(minTemp, temp)
+        maxTemp = Math.max(maxTemp, temp)
+
+        acc.push({
+          date: current.split(',')[0],
+          temperature: temp
+        })
+
+        return acc
+      },
+      [] as any
+    )
+
+    const lastLines = lines.slice(
+      lines.length - Math.min(LAST_LINES_NUMBER, lines.length),
+      lines.length
+    )
+
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify({
+        logFile,
+        points,
+        lastHours: makePoints(lastLines),
+        maxTemp,
+        minTemp
+      }),
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
+  } catch (error) {
+    console.error(error)
+    callback(error)
+  }
 }

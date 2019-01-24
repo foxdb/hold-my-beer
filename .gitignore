@@ -13,3 +13,4 @@ index.old.html
 .serverless
 .build
 .webpack
+.env*
