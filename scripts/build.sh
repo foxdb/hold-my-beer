@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd client && yarn && yarn build
+cd api && yarn && yarn package
 cd ..
-cd lambda && yarn && yarn build
+cd client && yarn && yarn build
 cd ..

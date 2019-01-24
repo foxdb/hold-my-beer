@@ -6,7 +6,6 @@
   "author": "bens.schmitt@gmail.com",
   "license": "MIT",
   "scripts": {
-    "build": "echo 'implement me!'",
     "test": "jest",
     "compile": "tsc --noEmit",
     "deploy": "serverless deploy",
