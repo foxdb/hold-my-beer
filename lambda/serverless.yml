@@ -12,9 +12,15 @@ plugins:
 functions:
   hello:
     handler: src/endpoints/hello.hello
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logFilePath: ${file(./.env.yml):logFilePath}
     events:
       - http: GET hello
   temperatureLogs:
     handler: src/endpoints/getTemperature.getTemperatureLog
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logFilePath: ${file(./.env.yml):logFilePath}
     events:
       - http: GET temperatureLogs

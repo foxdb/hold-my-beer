@@ -13,14 +13,17 @@ const makePoints = lines => {
   }, [])
 }
 
-export const getTemperatureLog = async (event, context, callback) => {
+export const getTemperatureLog = async (event, context) => {
   try {
     let logFile: string
 
     if (event.isOffline === true) {
       logFile = mockTemperatureLogs
     } else {
-      logFile = await getFile('raspi-chill', 'logs/rushmore-temperature.log')
+      logFile = await getFile(
+        process.env.logsBucketName as string,
+        process.env.logFilePath as string
+      )
     }
 
     const lines = logFile.split('\n').filter(line => line.length > 0)
@@ -54,7 +57,7 @@ export const getTemperatureLog = async (event, context, callback) => {
       lines.length
     )
 
-    callback(null, {
+    return {
       statusCode: 200,
       body: JSON.stringify({
         logFile,
@@ -64,9 +67,9 @@ export const getTemperatureLog = async (event, context, callback) => {
         minTemp
       }),
       headers: { 'Access-Control-Allow-Origin': '*' }
-    })
+    }
   } catch (error) {
     console.error(error)
-    callback(error)
+    throw error
   }
 }
