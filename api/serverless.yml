@@ -24,10 +24,24 @@ functions:
       logFilePath: ${file(./.env.yml):logFilePath}
     events:
       - http: GET recentTemperatureLogs
-  overallTemperatureLogs:
-    handler: src/endpoints/overallTemperatureLogs.overallTemperatureLogs
+  overallTemperatureLTD:
+    handler: src/endpoints/overallTemperatureLogs.downsampledLTD
     environment:
       logsBucketName: ${file(./.env.yml):logsBucketName}
       logFilePath: ${file(./.env.yml):logFilePath}
     events:
-      - http: GET overallTemperatureLogs
+      - http: GET overallTemperatureLTD
+  overallTemperatureLTOB:
+    handler: src/endpoints/overallTemperatureLogs.downsampledLTOB
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logFilePath: ${file(./.env.yml):logFilePath}
+    events:
+      - http: GET overallTemperatureLTOB
+  overallTemperatureLTTB:
+    handler: src/endpoints/overallTemperatureLogs.downsampledLTTB
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logFilePath: ${file(./.env.yml):logFilePath}
+    events:
+      - http: GET overallTemperatureLTTB

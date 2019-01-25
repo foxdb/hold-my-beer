@@ -1932,6 +1932,11 @@ download@^5.0.2:
     mkdirp "^0.5.1"
     pify "^2.3.0"
 
+downsample@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/downsample/-/downsample-1.0.3.tgz#d97a60a4453a34b2157b28cf4416a1be676510df"
+  integrity sha512-/76FHN30cksZ9TlgBp/BYt4tkeSbERxx0k8BG24Z3yzaV/W/fNQEICIWYmn/+nkpE7ZozHi13+mCabMDmXevYw==
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"

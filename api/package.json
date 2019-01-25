@@ -12,7 +12,9 @@
     "package": "serverless package",
     "start": "serverless offline start"
   },
-  "dependencies": {},
+  "dependencies": {
+    "downsample": "^1.0.3"
+  },
   "devDependencies": {
     "@types/node": "^10.12.18",
     "aws-sdk": "^2.358.0",
