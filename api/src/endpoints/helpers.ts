@@ -1,6 +1,8 @@
 interface Metadata {
   minTemp: number
   maxTemp: number
+  inputLines: number
+  validPoints: number
 }
 
 interface Point {
@@ -9,13 +11,22 @@ interface Point {
 }
 
 export const makePoints = (
-  lines: string[]
-): { metadata: Metadata; points: Point[] } => {
+  lines: string[],
+  withIndex: boolean = false
+): {
+  metadata: Metadata
+  points: Point[]
+  indexedPoints: { x: number; y: number }[]
+  dateIndex: { [index: number]: number }
+} => {
   let minTemp = 50000
   let maxTemp = -50000
 
+  let dateIndex = {}
+  const indexedPoints: { x: number; y: number }[] = []
+
   const points = lines.reduce(
-    (acc, current) => {
+    (acc, current, index) => {
       const temp = parseFloat(current.split(',')[1])
 
       if (temp === null || isNaN(temp)) {
@@ -25,8 +36,15 @@ export const makePoints = (
       minTemp = Math.min(minTemp, temp)
       maxTemp = Math.max(maxTemp, temp)
 
+      const date = current.split(',')[0]
+
+      if (withIndex) {
+        dateIndex[index] = date
+        indexedPoints.push({ x: index, y: temp })
+      }
+
       acc.push({
-        date: current.split(',')[0],
+        date,
         temperature: temp
       })
 
@@ -38,8 +56,12 @@ export const makePoints = (
   return {
     metadata: {
       minTemp,
-      maxTemp
+      maxTemp,
+      inputLines: lines.length,
+      validPoints: points.length
     },
-    points
+    points,
+    indexedPoints,
+    dateIndex
   }
 }

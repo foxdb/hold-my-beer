@@ -1,0 +1,630 @@
+{
+	"id": "ef2b4b10-0748-42c3-bd06-522dc783da8a",
+	"name": "HMB API",
+	"allTests": [],
+	"timestamp": "2019-01-25T02:45:30.840Z",
+	"collection_id": "d525e2cb-47fe-4d17-87d1-3bea7ec2fbc7",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "0",
+	"data": [],
+	"delay": 0,
+	"count": 10,
+	"collection": {
+		"id": "d525e2cb-47fe-4d17-87d1-3bea7ec2fbc7",
+		"name": "HMB API",
+		"description": "",
+		"auth": null,
+		"events": null,
+		"variables": [],
+		"order": [
+			"d7c07f4b-3c40-4be9-b8de-d9f0506648f7",
+			"75fd0440-5276-482f-a0c8-a3d02328b45f",
+			"bd5ac824-1c32-43ab-8cb2-184a5d4b0fd0",
+			"2c17c5e5-90c5-40a4-a8b1-0c0f48e923ff"
+		],
+		"folders_order": [],
+		"owner": "3169677",
+		"permissions": {},
+		"favorite": false,
+		"shared": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [],
+	"results": [
+		{
+			"name": "localhost:3000/recentTemperatureLogs",
+			"id": "d7c07f4b-3c40-4be9-b8de-d9f0506648f7",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains points": true,
+				"Response contains metadata": true,
+				"Response contains logFile": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			},
+			"times": [
+				"226",
+				"49",
+				"60",
+				"40",
+				"53",
+				"60",
+				"63",
+				"309",
+				"28",
+				"33"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				}
+			],
+			"time": "33",
+			"totalRequestTime": 921,
+			"iterationResults": {}
+		},
+		{
+			"name": "downsampling - LTD",
+			"id": "75fd0440-5276-482f-a0c8-a3d02328b45f",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains points": true,
+				"Response contains metadata": true,
+				"Response contains logFile": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			},
+			"times": [
+				"1734",
+				"1495",
+				"1451",
+				"1677",
+				"1609",
+				"1489",
+				"1966",
+				"1701",
+				"1466",
+				"1441"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				}
+			],
+			"time": "1441",
+			"totalRequestTime": 16029,
+			"iterationResults": {}
+		},
+		{
+			"name": "downsampling - LTTB",
+			"id": "bd5ac824-1c32-43ab-8cb2-184a5d4b0fd0",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains points": true,
+				"Response contains metadata": true,
+				"Response contains logFile": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			},
+			"times": [
+				"1457",
+				"1329",
+				"1315",
+				"1221",
+				"1369",
+				"1226",
+				"1213",
+				"1403",
+				"1273",
+				"1234"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				}
+			],
+			"time": "1234",
+			"totalRequestTime": 13040,
+			"iterationResults": {}
+		},
+		{
+			"name": "downsampling - LTOB",
+			"id": "2c17c5e5-90c5-40a4-a8b1-0c0f48e923ff",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains points": true,
+				"Response contains metadata": true,
+				"Response contains logFile": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			},
+			"times": [
+				"1347",
+				"1184",
+				"2191",
+				"1327",
+				"1370",
+				"1559",
+				"1252",
+				"1324",
+				"1511",
+				"1223"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				},
+				{
+					"Status code is 200": true,
+					"Response contains points": true,
+					"Response contains metadata": true,
+					"Response contains logFile": true
+				}
+			],
+			"time": "1223",
+			"totalRequestTime": 14288,
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 160,
+	"totalFail": 0,
+	"totalTime": 44278,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "localhost:3000/recentTemperatureLogs",
+			"id": "d7c07f4b-3c40-4be9-b8de-d9f0506648f7",
+			"url": "localhost:3000/recentTemperatureLogs",
+			"time": "33",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "downsampling - LTD",
+			"id": "75fd0440-5276-482f-a0c8-a3d02328b45f",
+			"url": "localhost:3000/overallTemperatureLTD",
+			"time": "1441",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "downsampling - LTTB",
+			"id": "bd5ac824-1c32-43ab-8cb2-184a5d4b0fd0",
+			"url": "localhost:3000/overallTemperatureLTTB",
+			"time": "1234",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "downsampling - LTOB",
+			"id": "2c17c5e5-90c5-40a4-a8b1-0c0f48e923ff",
+			"url": "localhost:3000/overallTemperatureLTOB",
+			"time": "1223",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains points": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains metadata": {
+					"pass": 10,
+					"fail": 0
+				},
+				"Response contains logFile": {
+					"pass": 10,
+					"fail": 0
+				}
+			}
+		}
+	],
+	"synced": false
+}
