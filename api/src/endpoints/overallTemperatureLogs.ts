@@ -6,7 +6,7 @@ export const overallTemperatureLogs = async (event, context) => {
   try {
     let logFile: string
 
-    if (event.isOffline !== true) {
+    if (event.isOffline === true) {
       logFile = mockTemperatureLogs
     } else {
       logFile = await getFile(
