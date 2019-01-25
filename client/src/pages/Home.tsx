@@ -2,6 +2,10 @@ import * as React from 'react'
 
 // import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
+import FormControl from '@material-ui/core/FormControl'
+import Slider from '@material-ui/lab/Slider'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 
 import {
@@ -30,6 +34,7 @@ interface State {
     lastValue: Point
   }
   selectedDownsamplingOption: string
+  dataPointsNumber: number
 }
 
 class Home extends React.Component<Props, State> {
@@ -39,6 +44,7 @@ class Home extends React.Component<Props, State> {
     this.state = {
       overallHash: 123456,
       selectedDownsamplingOption: api.defaultGetOverallLogs,
+      dataPointsNumber: 2500,
     }
   }
 
@@ -84,6 +90,15 @@ class Home extends React.Component<Props, State> {
     })
   }
 
+  private onDataPointsNumberChange = (event, dataPointsNumber: number) => {
+    this.setState({
+      dataPointsNumber,
+    })
+  }
+  private onDataPointsNumberChangeEnd = event => {
+    console.log('fire!', this.state.dataPointsNumber)
+  }
+
   public render() {
     // if (this.state.isLoading) {
     //   return (
@@ -108,12 +123,11 @@ class Home extends React.Component<Props, State> {
     // }
 
     const Radios = api.selectGetOverallLogs.map((option, idx) => (
-      <Radio
+      <FormControlLabel
         key={idx}
         value={option}
-        name={option}
-        checked={this.state.selectedDownsamplingOption === option}
-        onChange={this.handleRadioChange}
+        label={option.replace('overallTemperature', '')}
+        control={<Radio />}
       />
     ))
 
@@ -146,13 +160,37 @@ class Home extends React.Component<Props, State> {
             <LastHoursChart points={this.state.recentPoints} />
           )}
 
-          <div>{Radios}</div>
           {this.state.overallPoints && (
             <MinMaxChart
               points={this.state.overallPoints}
               hash={this.state.overallHash}
             />
           )}
+          <div className="columns is-vcentered" style={{ width: '100%' }}>
+            <div className="column is-half">
+              <FormControl component="fieldset" variant="filled" margin="none">
+                <RadioGroup
+                  row={true}
+                  aria-label="downsampling method"
+                  name="ds1"
+                  value={this.state.selectedDownsamplingOption}
+                  onChange={this.handleRadioChange}
+                >
+                  {Radios}
+                </RadioGroup>
+              </FormControl>
+            </div>
+            <div className="column is-half">
+              <Slider
+                min={100}
+                max={5000}
+                step={100}
+                value={this.state.dataPointsNumber}
+                onChange={this.onDataPointsNumberChange}
+                onDragEnd={this.onDataPointsNumberChangeEnd}
+              />
+            </div>
+          </div>
         </div>
       </div>
     )
