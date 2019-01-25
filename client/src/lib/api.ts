@@ -1,15 +1,11 @@
-import { api, RAW_DATE_FORMAT } from '../config'
+import { api } from '../config'
 
 interface ApiResult {
-  points: Measure[]
-  lastHours: Measure[]
-  minTemp: number
-  maxTemp: number
-}
-
-interface Measure {
-  date: string
-  temperature: number
+  metadata: {
+    minTemp: number
+    maxTemp: number
+  }
+  points: Point[]
 }
 
 export interface Point {
@@ -17,13 +13,11 @@ export interface Point {
   temperature: number
 }
 
-export const findMinMax = (
-  measures: Measure[]
-): { min: number; max: number } => {
+export const findMinMax = (points: Point[]): { min: number; max: number } => {
   let min = 100
   let max = 0
 
-  measures.map(measure => {
+  points.map(measure => {
     max = measure.temperature > max ? measure.temperature : max
     min = measure.temperature < min ? measure.temperature : min
   })
@@ -34,13 +28,11 @@ export const findMinMax = (
   }
 }
 
-export const getTemperatureLogs = async (): Promise<ApiResult> => {
-  const result = await fetch(api.baseUrl + api.getLogs).then(res => res.json())
-  console.log(result)
-  return {
-    minTemp: result.minTemp,
-    maxTemp: result.maxTemp,
-    lastHours: result.lastHours,
-    points: result.points,
-  }
-}
+export const getTemperatureLogs = async (): Promise<ApiResult> =>
+  fetch(api.baseUrl + api.getLogs).then(res => res.json())
+
+export const getRecentTemperatureLogs = async (): Promise<ApiResult> =>
+  fetch(api.baseUrl + api.recentLogs).then(res => res.json())
+
+export const getOverallTemperatureLogs = async (): Promise<ApiResult> =>
+  fetch(api.baseUrl + api.getOverallLogs).then(res => res.json())

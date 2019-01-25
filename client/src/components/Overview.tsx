@@ -5,21 +5,16 @@ import Countdown from 'react-countdown-now'
 
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
+import { Point } from '../lib/api'
 
 interface Props {
-  startDate: string
-  lastTemp: number
-  lastTempDate: string
+  metadata?: {
+    startDate: string
+    lastValue: Point
+  }
 }
 
 const Overview = (props: Props) => {
-  const bottlingDate = moment(props.startDate, RAW_DATE_FORMAT).add(14, 'days')
-  const tastingDate = moment(props.startDate, RAW_DATE_FORMAT).add(28, 'days')
-
-  const startDate = moment(props.startDate, RAW_DATE_FORMAT).format(
-    'DD MMMM - HH:mm'
-  )
-
   return (
     <Paper style={{ margin: 10, padding: 10 }}>
       <div className="columns is-multiline">
@@ -29,16 +24,24 @@ const Overview = (props: Props) => {
               <tr>
                 <th>Current</th>
                 <td>
-                  {props.lastTemp} (
-                  {moment(props.lastTempDate, RAW_DATE_FORMAT).format(
-                    'DD MMMM - HH:mm'
-                  )}
-                  )
+                  {props.metadata &&
+                    props.metadata.lastValue.temperature +
+                      ' (' +
+                      moment(
+                        props.metadata.lastValue.date,
+                        RAW_DATE_FORMAT
+                      ).format('DD MMMM - HH:mm') +
+                      ')'}
                 </td>
               </tr>
               <tr>
                 <th>Start</th>
-                <td>{startDate}</td>
+                <td>
+                  {props.metadata &&
+                    moment(props.metadata.startDate, RAW_DATE_FORMAT).format(
+                      'DD MMMM - HH:mm'
+                    )}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -49,13 +52,25 @@ const Overview = (props: Props) => {
               <tr>
                 <th>Bottling countdown</th>
                 <td>
-                  <Countdown date={bottlingDate.toDate()} />
+                  {props.metadata && (
+                    <Countdown
+                      date={moment(props.metadata.startDate, RAW_DATE_FORMAT)
+                        .add(14, 'days')
+                        .toDate()}
+                    />
+                  )}
                 </td>
               </tr>
               <tr>
                 <th>Tasting countdown</th>
                 <td>
-                  <Countdown date={tastingDate.toDate()} />
+                  {props.metadata && (
+                    <Countdown
+                      date={moment(props.metadata.startDate, RAW_DATE_FORMAT)
+                        .add(28, 'days')
+                        .toDate()}
+                    />
+                  )}
                 </td>
               </tr>
             </tbody>

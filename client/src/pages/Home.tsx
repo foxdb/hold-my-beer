@@ -1,9 +1,13 @@
 import * as React from 'react'
 
-import CircularProgress from '@material-ui/core/CircularProgress'
+// import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 
-import { getTemperatureLogs, Point } from '../lib/api'
+import {
+  Point,
+  getRecentTemperatureLogs,
+  getOverallTemperatureLogs,
+} from '../lib/api'
 
 import Overview from '../components/Overview'
 import MinMaxChart from '../components/MinMaxChart'
@@ -14,31 +18,45 @@ interface Props {
 }
 
 interface State {
-  lastHours?: Point[]
-  points?: Point[]
-  minTemp?: number
-  maxTemp?: number
-  isLoading: boolean
+  recentPoints?: Point[]
+  overallPoints?: Point[]
+  metadata?: {
+    minTemp: number
+    maxTemp: number
+    startDate: string
+    lastValue: Point
+  }
 }
 
 class Home extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    this.state = {
-      isLoading: true,
-    }
+    this.state = {}
   }
 
-  private loadData = async () => {
-    const data = await getTemperatureLogs()
+  private loadRecentPoints = async () => {
+    const data = await getRecentTemperatureLogs()
     this.setState({
-      minTemp: data.minTemp,
-      maxTemp: data.maxTemp,
-      lastHours: data.lastHours,
-      points: data.points,
-      isLoading: false,
+      recentPoints: data.points,
     })
+  }
+
+  private loadOverallPoints = async () => {
+    const data = await getOverallTemperatureLogs()
+    this.setState({
+      metadata: {
+        minTemp: data.metadata.minTemp,
+        maxTemp: data.metadata.maxTemp,
+        startDate: data.points[0].date,
+        lastValue: data.points[data.points.length - 1],
+      },
+      overallPoints: data.points,
+    })
+  }
+
+  public loadData = async () => {
+    await Promise.all([this.loadRecentPoints(), this.loadOverallPoints()])
   }
 
   public async componentDidMount() {
@@ -46,39 +64,31 @@ class Home extends React.Component<Props, State> {
   }
 
   public refresh = async () => {
-    this.setState({ isLoading: true }, () => this.loadData())
+    this.loadData()
   }
 
   public render() {
-    if (this.state.isLoading) {
-      return (
-        <div
-          style={{
-            textAlign: 'center',
-            backgroundColor: 'white',
-            margin: 0,
-            position: 'absolute',
-            top: 'calc(50% - 25px)',
-            left: 'calc(50% - 25px)',
-            transform: 'translateY(-50%)',
-          }}
-        >
-          <CircularProgress size={50} />
-        </div>
-      )
-    }
-
-    if (
-      !this.state.minTemp ||
-      !this.state.maxTemp ||
-      !this.state.lastHours ||
-      !this.state.points
-    ) {
-      return <div />
-    }
-
-    const startDate = this.state.points[0].date
-    const lastPoint = this.state.points[this.state.points.length - 1]
+    // if (this.state.isLoading) {
+    //   return (
+    //     <div
+    //       style={{
+    //         textAlign: 'center',
+    //         backgroundColor: 'white',
+    //         margin: 0,
+    //         position: 'absolute',
+    //         top: 'calc(50% - 25px)',
+    //         left: 'calc(50% - 25px)',
+    //         transform: 'translateY(-50%)',
+    //       }}
+    //     >
+    //       <CircularProgress size={50} />
+    //       <br />
+    //       {this.state.overallPoints && (
+    //         <span>Datapoints: {this.state.overallPoints.length}</span>
+    //       )}
+    //     </div>
+    //   )
+    // }
 
     return (
       <div
@@ -93,24 +103,24 @@ class Home extends React.Component<Props, State> {
             width: '90%',
           }}
         >
-          <Overview
-            startDate={startDate}
-            lastTemp={lastPoint.temperature}
-            lastTempDate={lastPoint.date}
-          />
+          <Overview metadata={this.state.metadata} />
 
           <Button
             variant="contained"
             color="primary"
             onClick={this.refresh}
-            disabled={this.state.isLoading}
+            // disabled={this.state.isLoading}
             style={{ margin: 10, padding: 10 }}
           >
             Refresh
           </Button>
 
-          <MinMaxChart points={this.state.points} />
-          <LastHoursChart points={this.state.lastHours} />
+          {this.state.recentPoints && (
+            <LastHoursChart points={this.state.recentPoints} />
+          )}
+          {this.state.overallPoints && (
+            <MinMaxChart points={this.state.overallPoints} />
+          )}
         </div>
         `
       </div>

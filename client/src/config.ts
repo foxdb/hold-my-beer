@@ -2,6 +2,8 @@ const api = {
   //     'https://8lcv9lzvgk.execute-api.ap-southeast-2.amazonaws.com/default/',
   baseUrl: process.env.API_BASE_URL,
   getLogs: 'temperatureLogs',
+  getOverallLogs: 'overallTemperatureLogs',
+  recentLogs: 'recentTemperatureLogs',
   listLogs: 'listLogs-js',
 }
 
