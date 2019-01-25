@@ -17,10 +17,17 @@ functions:
       logFilePath: ${file(./.env.yml):logFilePath}
     events:
       - http: GET hello
-  temperatureLogs:
-    handler: src/endpoints/getTemperature.getTemperatureLog
+  recentTemperatureLogs:
+    handler: src/endpoints/recentTemperatureLogs.recentTemperatureLogs
     environment:
       logsBucketName: ${file(./.env.yml):logsBucketName}
       logFilePath: ${file(./.env.yml):logFilePath}
     events:
-      - http: GET temperatureLogs
+      - http: GET recentTemperatureLogs
+  overallTemperatureLogs:
+    handler: src/endpoints/overallTemperatureLogs.overallTemperatureLogs
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logFilePath: ${file(./.env.yml):logFilePath}
+    events:
+      - http: GET overallTemperatureLogs
