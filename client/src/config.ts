@@ -1,7 +1,12 @@
 const api = {
   baseUrl: process.env.API_BASE_URL,
   getLogs: 'temperatureLogs',
-  getOverallLogs: 'overallTemperatureLTTB',
+  defaultGetOverallLogs: 'overallTemperatureLTTB',
+  selectGetOverallLogs: [
+    'overallTemperatureLTD',
+    'overallTemperatureLTOB',
+    'overallTemperatureLTTB',
+  ],
   recentLogs: 'recentTemperatureLogs',
   listLogs: 'listLogs-js',
 }

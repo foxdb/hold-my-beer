@@ -2,6 +2,7 @@ import * as React from 'react'
 
 // import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
+import Radio from '@material-ui/core/Radio'
 
 import {
   Point,
@@ -12,6 +13,7 @@ import {
 import Overview from '../components/Overview'
 import MinMaxChart from '../components/MinMaxChart'
 import LastHoursChart from '../components/LastHoursChart'
+import { api } from '../config'
 
 interface Props {
   name: string
@@ -20,19 +22,24 @@ interface Props {
 interface State {
   recentPoints?: Point[]
   overallPoints?: Point[]
+  overallHash: number
   metadata?: {
     minTemp: number
     maxTemp: number
     startDate: string
     lastValue: Point
   }
+  selectedDownsamplingOption: string
 }
 
 class Home extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    this.state = {}
+    this.state = {
+      overallHash: 123456,
+      selectedDownsamplingOption: api.defaultGetOverallLogs,
+    }
   }
 
   private loadRecentPoints = async () => {
@@ -42,8 +49,8 @@ class Home extends React.Component<Props, State> {
     })
   }
 
-  private loadOverallPoints = async () => {
-    const data = await getOverallTemperatureLogs()
+  private loadOverallPoints = async downsamplingOption => {
+    const data = await getOverallTemperatureLogs(downsamplingOption)
     this.setState({
       metadata: {
         minTemp: data.metadata.minTemp,
@@ -52,19 +59,29 @@ class Home extends React.Component<Props, State> {
         lastValue: data.points[data.points.length - 1],
       },
       overallPoints: data.points,
+      overallHash: data.hash,
     })
   }
 
-  public loadData = async () => {
-    await Promise.all([this.loadRecentPoints(), this.loadOverallPoints()])
+  public loadData = async downsamplingOption => {
+    await Promise.all([
+      this.loadRecentPoints(),
+      this.loadOverallPoints(downsamplingOption),
+    ])
   }
 
   public async componentDidMount() {
-    this.loadData()
+    this.loadData(this.state.selectedDownsamplingOption)
   }
 
   public refresh = async () => {
-    this.loadData()
+    this.loadData(this.state.selectedDownsamplingOption)
+  }
+
+  private handleRadioChange = event => {
+    this.setState({ selectedDownsamplingOption: event.target.value }, () => {
+      this.refresh()
+    })
   }
 
   public render() {
@@ -89,6 +106,16 @@ class Home extends React.Component<Props, State> {
     //     </div>
     //   )
     // }
+
+    const Radios = api.selectGetOverallLogs.map((option, idx) => (
+      <Radio
+        key={idx}
+        value={option}
+        name={option}
+        checked={this.state.selectedDownsamplingOption === option}
+        onChange={this.handleRadioChange}
+      />
+    ))
 
     return (
       <div
@@ -118,11 +145,15 @@ class Home extends React.Component<Props, State> {
           {this.state.recentPoints && (
             <LastHoursChart points={this.state.recentPoints} />
           )}
+
+          <div>{Radios}</div>
           {this.state.overallPoints && (
-            <MinMaxChart points={this.state.overallPoints} />
+            <MinMaxChart
+              points={this.state.overallPoints}
+              hash={this.state.overallHash}
+            />
           )}
         </div>
-        `
       </div>
     )
   }

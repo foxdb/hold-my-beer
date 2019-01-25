@@ -8,6 +8,15 @@ interface ApiResult {
   points: Point[]
 }
 
+interface OverallApiResult {
+  metadata: {
+    minTemp: number
+    maxTemp: number
+  }
+  points: Point[]
+  hash: number
+}
+
 export interface Point {
   date: string
   temperature: number
@@ -34,5 +43,15 @@ export const getTemperatureLogs = async (): Promise<ApiResult> =>
 export const getRecentTemperatureLogs = async (): Promise<ApiResult> =>
   fetch(api.baseUrl + api.recentLogs).then(res => res.json())
 
-export const getOverallTemperatureLogs = async (): Promise<ApiResult> =>
-  fetch(api.baseUrl + api.getOverallLogs).then(res => res.json())
+export const getOverallTemperatureLogs = async (
+  downsamplingMethod: string = api.defaultGetOverallLogs
+): Promise<OverallApiResult> => {
+  const result = await fetch(api.baseUrl + downsamplingMethod).then(res =>
+    res.json()
+  )
+
+  return {
+    hash: Math.floor(Math.random() * 10000),
+    ...result,
+  }
+}

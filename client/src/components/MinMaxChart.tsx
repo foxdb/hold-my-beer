@@ -10,6 +10,7 @@ import { RAW_DATE_FORMAT } from '../config'
 
 interface Props {
   points: Point[]
+  hash: number
 }
 
 class MinMaxChart extends React.Component<Props, never> {
@@ -19,6 +20,12 @@ class MinMaxChart extends React.Component<Props, never> {
 
   componentDidMount() {
     this.renderChart()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.hash !== this.props.hash) {
+      this.renderChart()
+    }
   }
 
   private renderChart = () => {
