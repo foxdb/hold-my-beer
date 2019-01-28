@@ -14,21 +14,86 @@ interface Props {
 }
 
 class MinMaxChart extends React.Component<Props, never> {
+  private chart
   constructor(props: Props) {
     super(props)
   }
 
   componentDidMount() {
-    this.renderChart()
+    this.buildChart()
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.hash !== this.props.hash) {
-      this.renderChart()
+      if (!this.chart) {
+        throw new Error('Cannot update chart, chart not found.')
+      }
+
+      const data = nextProps.points
+
+      let minPoints: any = []
+      let maxPoints: any = []
+      let absoluteMin = 100
+      let absoluteMax = 0
+      let labels: any = []
+
+      for (let i = 0; i < data.length; i = i + 100) {
+        const subArray = data.slice(i, i + 100)
+
+        let min = {
+          x: '',
+          y: 100,
+        }
+        let max = {
+          x: '',
+          y: 0,
+        }
+
+        subArray.map(entry => {
+          if (entry.temperature > max.y) {
+            max = { x: entry.date, y: entry.temperature }
+            if (entry.temperature > absoluteMax) {
+              absoluteMax = entry.temperature
+            }
+          }
+
+          if (entry.temperature < min.y) {
+            min = { x: entry.date, y: entry.temperature }
+            if (entry.temperature < absoluteMin) {
+              absoluteMin = entry.temperature
+            }
+          }
+        })
+
+        minPoints.push(min)
+        maxPoints.push(max)
+        labels.push(
+          moment(subArray[0].date, RAW_DATE_FORMAT).format('MM-DD HH:mm')
+        )
+      }
+
+      // update data sets and labels
+      this.chart.data.datasets[0].data = minPoints
+      this.chart.data.datasets[1].data = maxPoints
+      this.chart.data.labels = labels
+
+      // update options
+      this.chart.options.title.text =
+        moment(data[0].date, RAW_DATE_FORMAT).format('D MMMM HH:mm') +
+        ' - ' +
+        moment(data.slice(-1)[0].date, RAW_DATE_FORMAT).format('D MMMM HH:mm')
+      this.chart.options.scales.yAxes[0].ticks = {
+        suggestedMin: absoluteMin - 3,
+        suggestedMax: absoluteMax + 3,
+      }
+
+      // update options
+      console.log('updating chart: datasets, labels, options')
+      this.chart.update()
     }
   }
 
-  private renderChart = () => {
+  private buildChart = () => {
     const ctx = this.context
     if (!ctx) {
       console.error('Cannot render min max chart - canvas not found')
@@ -76,7 +141,7 @@ class MinMaxChart extends React.Component<Props, never> {
       )
     }
 
-    new Chart(ctx, {
+    this.chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
