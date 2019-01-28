@@ -31,6 +31,7 @@ interface State {
   }
   selectedDownsamplingOption: string
   dataPointsNumber: number
+  isFetching: boolean
 }
 
 class Home extends React.Component<Props, State> {
@@ -41,6 +42,7 @@ class Home extends React.Component<Props, State> {
       overallHash: 123456,
       selectedDownsamplingOption: api.defaultGetOverallLogs,
       dataPointsNumber: 2500,
+      isFetching: false,
     }
   }
 
@@ -66,13 +68,23 @@ class Home extends React.Component<Props, State> {
   }
 
   public loadData = async () => {
-    await Promise.all([
-      this.loadRecentPoints(),
-      this.loadOverallPoints(
-        this.state.selectedDownsamplingOption,
-        this.state.dataPointsNumber
-      ),
-    ])
+    this.setState(
+      {
+        isFetching: true,
+      },
+      async () => {
+        await Promise.all([
+          this.loadRecentPoints(),
+          this.loadOverallPoints(
+            this.state.selectedDownsamplingOption,
+            this.state.dataPointsNumber
+          ),
+        ])
+        this.setState({
+          isFetching: false,
+        })
+      }
+    )
   }
 
   public async componentDidMount() {
@@ -168,7 +180,12 @@ class Home extends React.Component<Props, State> {
           )}
           <div className="columns is-vcentered" style={{ width: '100%' }}>
             <div className="column is-half">
-              <FormControl component="fieldset" variant="filled" margin="none">
+              <FormControl
+                component="fieldset"
+                variant="filled"
+                margin="none"
+                disabled={this.state.isFetching}
+              >
                 <RadioGroup
                   row={true}
                   aria-label="downsampling method"
@@ -182,6 +199,7 @@ class Home extends React.Component<Props, State> {
             </div>
             <div className="column is-half">
               <Slider
+                disabled={this.state.isFetching}
                 min={100}
                 max={5000}
                 step={100}
