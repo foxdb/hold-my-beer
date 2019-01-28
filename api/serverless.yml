@@ -12,11 +12,11 @@ plugins:
 functions:
   hello:
     handler: src/endpoints/hello.hello
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logFilePath: ${file(./.env.yml):logFilePath}
     events:
-      - http: GET hello
+      - http:
+          method: get
+          path: hello
+
   recentTemperatureLogs:
     handler: src/endpoints/recentTemperatureLogs.recentTemperatureLogs
     environment:
@@ -24,24 +24,18 @@ functions:
       logFilePath: ${file(./.env.yml):logFilePath}
     events:
       - http: GET recentTemperatureLogs
-  overallTemperatureLTD:
-    handler: src/endpoints/overallTemperatureLogs.downsampledLTD
+
+  temperature:
+    handler: src/endpoints/downsampledTemperatureLogs.downsample
     environment:
       logsBucketName: ${file(./.env.yml):logsBucketName}
       logFilePath: ${file(./.env.yml):logFilePath}
     events:
-      - http: GET overallTemperatureLTD
-  overallTemperatureLTOB:
-    handler: src/endpoints/overallTemperatureLogs.downsampledLTOB
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logFilePath: ${file(./.env.yml):logFilePath}
-    events:
-      - http: GET overallTemperatureLTOB
-  overallTemperatureLTTB:
-    handler: src/endpoints/overallTemperatureLogs.downsampledLTTB
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logFilePath: ${file(./.env.yml):logFilePath}
-    events:
-      - http: GET overallTemperatureLTTB
+      - http:
+          method: get
+          path: temperature
+          request:
+            parameters:
+              querystrings:
+                pointsCount: false
+                downsamplingMethod: false

@@ -8,11 +8,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 
-import {
-  Point,
-  getRecentTemperatureLogs,
-  getOverallTemperatureLogs,
-} from '../lib/api'
+import { Point, getRecentTemperatureLogs, getTemperatureLogs } from '../lib/api'
 
 import Overview from '../components/Overview'
 import MinMaxChart from '../components/MinMaxChart'
@@ -55,8 +51,8 @@ class Home extends React.Component<Props, State> {
     })
   }
 
-  private loadOverallPoints = async downsamplingOption => {
-    const data = await getOverallTemperatureLogs(downsamplingOption)
+  private loadOverallPoints = async (downsamplingOption, dataPointsNumber) => {
+    const data = await getTemperatureLogs(downsamplingOption, dataPointsNumber)
     this.setState({
       metadata: {
         minTemp: data.metadata.minTemp,
@@ -69,19 +65,22 @@ class Home extends React.Component<Props, State> {
     })
   }
 
-  public loadData = async downsamplingOption => {
+  public loadData = async () => {
     await Promise.all([
       this.loadRecentPoints(),
-      this.loadOverallPoints(downsamplingOption),
+      this.loadOverallPoints(
+        this.state.selectedDownsamplingOption,
+        this.state.dataPointsNumber
+      ),
     ])
   }
 
   public async componentDidMount() {
-    this.loadData(this.state.selectedDownsamplingOption)
+    this.loadData()
   }
 
   public refresh = async () => {
-    this.loadData(this.state.selectedDownsamplingOption)
+    this.loadData()
   }
 
   private handleRadioChange = event => {
@@ -97,6 +96,7 @@ class Home extends React.Component<Props, State> {
   }
   private onDataPointsNumberChangeEnd = event => {
     console.log('fire!', this.state.dataPointsNumber)
+    this.loadData()
   }
 
   public render() {
