@@ -199,7 +199,10 @@ class Home extends React.Component<Props, State> {
             </div>
             <div className="column is-half">
               <Slider
-                disabled={this.state.isFetching}
+                disabled={
+                  this.state.isFetching ||
+                  this.state.selectedDownsamplingOption === 'raw'
+                }
                 min={100}
                 max={5000}
                 step={100}

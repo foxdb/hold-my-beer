@@ -6,7 +6,8 @@ import { LTD, LTTB, LTOB } from 'downsample'
 const methodMap = {
   LTD: LTD,
   LTTB: LTTB,
-  LTOB: LTOB
+  LTOB: LTOB,
+  raw: 'raw'
 }
 
 export const downsample = async (event, context) => {
@@ -36,6 +37,7 @@ export const downsample = async (event, context) => {
 
   try {
     let logFile: string
+    let logFileName = event.isOffline ? 'mock' : process.env.logFilePath
 
     if (event.isOffline !== true) {
       logFile = mockTemperatureLogs
@@ -47,6 +49,24 @@ export const downsample = async (event, context) => {
     }
 
     const lines = logFile.split('\n').filter(line => line.length > 0)
+
+    if (downsamplingMethod === 'raw') {
+      const { metadata: pointsMetadata, points } = makePoints(lines)
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          logFile: logFileName,
+          metadata: {
+            ...pointsMetadata,
+            downsamplingPointsCount: null,
+            downsamplingMethod: null
+          },
+          points
+        }),
+        headers: { 'Access-Control-Allow-Origin': '*' }
+      }
+    }
 
     const { metadata: pointsMetadata, indexedPoints, dateIndex } = makePoints(
       lines,
@@ -65,7 +85,7 @@ export const downsample = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        logFile: event.isOffline ? 'mock' : process.env.logFilePath,
+        logFile: logFileName,
         metadata: {
           ...pointsMetadata,
           downsamplingPointsCount: pointsCount,
