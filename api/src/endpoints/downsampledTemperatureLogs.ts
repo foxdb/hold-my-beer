@@ -39,7 +39,7 @@ export const downsample = async (event, context) => {
     let logFile: string
     let logFileName = event.isOffline ? 'mock' : process.env.logFilePath
 
-    if (event.isOffline !== true) {
+    if (event.isOffline === true) {
       logFile = mockTemperatureLogs
     } else {
       logFile = await getFile(
