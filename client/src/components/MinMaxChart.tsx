@@ -87,8 +87,7 @@ class MinMaxChart extends React.Component<Props, never> {
         suggestedMax: absoluteMax + 3,
       }
 
-      // update options
-      console.log('updating chart: datasets, labels, options')
+      // action the update
       this.chart.update()
     }
   }
@@ -98,6 +97,7 @@ class MinMaxChart extends React.Component<Props, never> {
     if (!ctx) {
       console.error('Cannot render min max chart - canvas not found')
     }
+
     const data = this.props.points
 
     let minPoints: any = []
