@@ -1,5 +1,4 @@
 node_modules/
-public/
 dist/
 .cache/
 .vscode/
@@ -14,3 +13,4 @@ index.old.html
 .build
 .webpack
 .env*
+!.env.yml

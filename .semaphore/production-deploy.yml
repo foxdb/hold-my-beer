@@ -1,0 +1,25 @@
+version: v1.0
+name: Deploy HMB
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Deploy
+    task:
+      secrets:
+        - name: aws-hold-my-beer
+      jobs:
+        - name: Deploy client to S3
+          commands:
+            - checkout
+            - cd ./client/
+            - cache restore client-dist
+            - ./scripts/deploy.sh
+        - name: Deploy API
+          commands:
+            - checkout
+            - cd ./api/
+            - cache restore serverless-build
+            - cache restore api-node-modules
+            - yarn deploy
