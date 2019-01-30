@@ -21,4 +21,5 @@ blocks:
             - checkout
             - cd ./api/
             - cache restore serverless-build
+            - cache restore api-node-modules
             - yarn deploy
