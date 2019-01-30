@@ -13,4 +13,5 @@ index.old.html
 .build
 .webpack
 .env*
+.semaphore/secrets.yml
 !.env.yml

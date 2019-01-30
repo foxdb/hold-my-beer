@@ -5,6 +5,15 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
+  - name: Release
+    task:
+      secrets:
+        - name: hmb-github
+      jobs:
+        - name: Release a new version
+          commands:
+            - checkout
+            - npx semantic-release
   - name: Deploy
     task:
       secrets:

@@ -7,5 +7,8 @@
   "scripts": {
     "build": "./scripts/build.sh",
     "deploy": "./scripts/deploy.sh"
+  },
+  "devDependencies": {
+    "semantic-release": "^15.13.3"
   }
 }
