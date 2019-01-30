@@ -7,6 +7,9 @@ agent:
 blocks:
   - name: Release
     task:
+      prologue:
+        commands:
+          - yarn install --production=false
       secrets:
         - name: hmb-github
       jobs:
