@@ -9,8 +9,8 @@ blocks:
   - name: 'Compile'
     task:
       prologue:
-        commands:
-          - yarn global add typescript
+      # commands:
+      #   - yarn global add typescript
       env_vars:
         - name: API_BASE_URL
           value: https://xqksrj7oo8.execute-api.ap-southeast-2.amazonaws.com/dev/
