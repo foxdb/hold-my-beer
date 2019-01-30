@@ -28,8 +28,10 @@ blocks:
           commands:
             - checkout
             - echo "Building api"
-            - cd client
+            - cd api
+            # - cache restore node-modules-$(checksum yarn.lock)
             - yarn
+            # - cache store node-modules-$(checksum yarn.lock) node_modules
             - yarn package
   # - name: 'Test'
   #   task:

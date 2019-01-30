@@ -9,7 +9,7 @@
     "start": "NODE_ENV=development && parcel ./src/index.html --open",
     "build": "NODE_ENV=production && rm -r dist || true && yarn compile && parcel build ./src/index.html --no-source-maps --detailed-report --public-url 'http://hold-my-beer.smitchdigital.com/'",
     "test": "jest",
-    "compile": "tsc --noEmit",
+    "compile": "./node_modules/typescript/bin/tsc --noEmit",
     "deploy": "aws s3 sync dist/ s3://hold-my-beer.smitchdigital.com"
   },
   "dependencies": {
