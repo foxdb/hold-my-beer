@@ -8,7 +8,7 @@ agent:
 blocks:
   - name: 'Compile'
     task:
-      prologue:
+      # prologue:
       # commands:
       #   - yarn global add typescript
       env_vars:
