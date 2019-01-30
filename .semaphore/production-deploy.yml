@@ -7,9 +7,6 @@ agent:
 blocks:
   - name: Deploy
     task:
-      prologue:
-        commands:
-          - yarn global add serverless
       secrets:
         - name: aws-hold-my-beer
       jobs:

@@ -39,7 +39,7 @@ blocks:
             - cache store node-modules-$(checksum yarn.lock) node_modules
             - yarn package
             # used in production-deploy pipeline, use serverless-state as source of state?
-            - cache store serverless-build .serverless node_modules
+            - cache store serverless-build .serverless,node_modules
 
 # why not different pipelines: deploy portal, deploy api, deploy all
 promotions:
