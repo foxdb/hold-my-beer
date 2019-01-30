@@ -43,7 +43,7 @@ blocks:
 
 # why not different pipelines: deploy portal, deploy api, deploy all
 promotions:
-  - name: Deploy PRODUCTION
+  - name: Deploy production
     pipeline_file: production-deploy.yml
     auto_promote_on:
       - result: passed
