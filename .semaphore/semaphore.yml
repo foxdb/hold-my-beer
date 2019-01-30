@@ -21,44 +21,24 @@ blocks:
           commands:
             - echo "Building client"
             - checkout
-            # Reuse dependencies from cache and avoid installing them from scratch:
             - cd client
-            # - cache restore node-modules-$(checksum yarn.lock)
+            # For speed: cache restore/store node modules
+            - cache restore node-modules-$(checksum yarn.lock)
             - yarn --production=false # don't ignore the dev dependencies
             - yarn build
-            # - cache store node-modules-$(checksum yarn.lock) node_modules
-            # - cache store client-dist dist
+            - cache store node-modules-$(checksum yarn.lock) node_modules
+            # used in production-deploy pipeline
+            - cache store client-dist dist
         # - name: api
         #   commands:
         #     - echo "Building api"
         #     - checkout
         #     - cd api
-        #     # - cache restore node-modules-$(checksum yarn.lock)
+        #     - cache restore node-modules-$(checksum yarn.lock)
         #     - yarn --production=false
-        #     # - cache store node-modules-$(checksum yarn.lock) node_modules
+        #     - cache store node-modules-$(checksum yarn.lock) node_modules
         #     - yarn package
-  # - name: 'Test'
-  #   task:
-  #     jobs:
-  #       - name: Smoke
-  #         commands:
-  #           - checkout
-  #           - echo "make smoke"
-  # - name: 'Deploy'
-  #   task:
-  #     jobs:
-  #       - name: RSpec
-  #         commands:
-  #           - checkout
-  #           - echo "make rspec"
-  #       - name: Lint code
-  #         commands:
-  #           - checkout
-  #           - echo "make lint"
-  #       - name: Check security
-  #         commands:
-  #           - checkout
-  #           - echo "make security"
+
 promotions:
   - name: Deploy PRODUCTION
     pipeline_file: production-deploy.yml
