@@ -9,3 +9,8 @@ React app, bundled with Parcel.
 ## API
 
 Lambdas
+
+## Tooling
+
+CI/CD: Semaphore 2
+Versioning management and changelogs: semantic-release
