@@ -39,6 +39,7 @@ blocks:
         #     - cache store node-modules-$(checksum yarn.lock) node_modules
         #     - yarn package
 
+# why not different pipelines: deploy portal, deploy api, deploy all
 promotions:
   - name: Deploy PRODUCTION
     pipeline_file: production-deploy.yml

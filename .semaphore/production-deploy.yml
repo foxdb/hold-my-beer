@@ -10,12 +10,12 @@ blocks:
       secrets:
         - name: aws-hold-my-beer
       jobs:
-        # - name: Copy client code to S3
-        #   commands:
-        #     - checkout
-        #     - cd ./client/scripts/deploy
-        #     - cache restore client-dist
-        #     - yarn deploy
+        - name: Deploy client to S3
+          commands:
+            - checkout
+            - cd ./client/
+            - cache restore client-dist
+            - ./scripts/deploy.sh
         # - name: Deploy API
         #   commands:
         #     - checkout
