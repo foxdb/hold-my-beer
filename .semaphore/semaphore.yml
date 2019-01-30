@@ -17,6 +17,7 @@ blocks:
         - name: client
           commands:
             - echo "Building client"
+            - ls -l
             - cd client
             - yarn
             - yarn build
