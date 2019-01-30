@@ -26,10 +26,11 @@ blocks:
             # - cache store client-dist dist
         - name: api
           commands:
+            - checkout
             - echo "Building api"
             - cd client
             - yarn
-            - yarn build
+            - yarn package
   # - name: 'Test'
   #   task:
   #     jobs:
