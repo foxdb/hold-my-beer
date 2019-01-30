@@ -16,8 +16,9 @@ blocks:
             - cd ./client/
             - cache restore client-dist
             - ./scripts/deploy.sh
-        # - name: Deploy API
-        #   commands:
-        #     - checkout
-        #     - cache restore website-build
-        #     - ./scripts/deploy
+        - name: Deploy API
+          commands:
+            - checkout
+            - cd ./api/
+            - cache restore serverless-build
+            - yarn deploy

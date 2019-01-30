@@ -27,17 +27,19 @@ blocks:
             - yarn --production=false # don't ignore the dev dependencies
             - yarn build
             - cache store node-modules-$(checksum yarn.lock) node_modules
-            # used in production-deploy pipeline
+            # used in production-deploy pipeline, use yarn lock as source of state
             - cache store client-dist dist
-        # - name: api
-        #   commands:
-        #     - echo "Building api"
-        #     - checkout
-        #     - cd api
-        #     - cache restore node-modules-$(checksum yarn.lock)
-        #     - yarn --production=false
-        #     - cache store node-modules-$(checksum yarn.lock) node_modules
-        #     - yarn package
+        - name: api
+          commands:
+            - echo "Building api"
+            - checkout
+            - cd api
+            - cache restore node-modules-$(checksum yarn.lock)
+            - yarn --production=false
+            - cache store node-modules-$(checksum yarn.lock) node_modules
+            - yarn package
+            # used in production-deploy pipeline, use serverless-state as source of state?
+            - cache store serverless-build .serverless
 
 # why not different pipelines: deploy portal, deploy api, deploy all
 promotions:
