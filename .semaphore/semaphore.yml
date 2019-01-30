@@ -27,15 +27,15 @@ blocks:
             - yarn build
             # - cache store node-modules-$(checksum yarn.lock) node_modules
             # - cache store client-dist dist
-        - name: api
-          commands:
-            - checkout
-            - echo "Building api"
-            - cd api
-            # - cache restore node-modules-$(checksum yarn.lock)
-            - yarn
-            # - cache store node-modules-$(checksum yarn.lock) node_modules
-            - yarn package
+        # - name: api
+        #   commands:
+        #     - checkout
+        #     - echo "Building api"
+        #     - cd api
+        #     # - cache restore node-modules-$(checksum yarn.lock)
+        #     - yarn
+        #     # - cache store node-modules-$(checksum yarn.lock) node_modules
+        #     - yarn package
   # - name: 'Test'
   #   task:
   #     jobs:
