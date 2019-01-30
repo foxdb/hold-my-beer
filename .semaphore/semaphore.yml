@@ -19,6 +19,9 @@ blocks:
             - echo "Building client"
             - ls -l
             - echo $PWD
+            - cd ..
+            - ls -l
+            - echo $PWD
             - cd client
             - yarn
             - yarn build
