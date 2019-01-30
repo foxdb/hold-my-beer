@@ -9,7 +9,6 @@
     "deploy": "./scripts/deploy.sh"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.2",
     "semantic-release": "^15.13.3"
   },
   "release": {
@@ -17,7 +16,6 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
       "@semantic-release/github"
     ]
   }

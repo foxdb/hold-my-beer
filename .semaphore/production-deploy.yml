@@ -7,15 +7,12 @@ agent:
 blocks:
   - name: Release
     task:
-      prologue:
-        commands:
-          - checkout
-          - yarn install --production=false
       secrets:
         - name: hmb-github
       jobs:
         - name: Release a new version
           commands:
+            - checkout
             - BRANCH_NAME=master npx semantic-release
   - name: Deploy
     task:
