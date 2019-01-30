@@ -13,7 +13,7 @@ blocks:
         - name: Release a new version
           commands:
             - checkout
-            - npx semantic-release
+            - TRAVIS_BRANCH=master npx semantic-release
   - name: Deploy
     task:
       secrets:
