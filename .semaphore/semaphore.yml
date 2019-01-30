@@ -16,15 +16,14 @@ blocks:
       jobs:
         - name: client
           commands:
+            - checkout
             - echo "Building client"
-            - ls -l
-            - echo $PWD
-            - cd ..
-            - ls -l
-            - echo $PWD
-            - cd client
+            # Reuse dependencies from cache and avoid installing them from scratch:
+            # - cache restore node-modules-$(checksum yarn.lock)
             - yarn
             - yarn build
+            # - cache store node-modules-$(checksum yarn.lock) node_modules
+            # - cache store client-dist dist
         - name: api
           commands:
             - echo "Building api"
@@ -53,3 +52,10 @@ blocks:
   #         commands:
   #           - checkout
   #           - echo "make security"
+promotions:
+  - name: Production deploy
+    pipeline_file: production-deploy.yml
+    auto_promote_on:
+      - result: passed
+        branch:
+          - master
