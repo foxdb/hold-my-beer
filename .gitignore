@@ -13,3 +13,4 @@ index.old.html
 .build
 .webpack
 .env*
+!.env.yml
