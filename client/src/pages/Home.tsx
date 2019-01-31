@@ -29,6 +29,7 @@ interface State {
   recentPoints?: Point[]
   overallPoints?: Point[]
   overallHash: number
+  recentHash: number
   metadata?: {
     minTemp: number
     maxTemp: number
@@ -48,6 +49,7 @@ class Home extends React.Component<Props, State> {
 
     this.state = {
       overallHash: 123456,
+      recentHash: 123456,
       selectedDownsamplingOption: api.defaultGetOverallLogs,
       dataPointsNumber: 2500,
       isFetching: false,
@@ -60,6 +62,7 @@ class Home extends React.Component<Props, State> {
     const data = await getRecentTemperatureLogs(fileName)
     this.setState({
       recentPoints: data.points,
+      recentHash: data.hash,
     })
   }
 
@@ -87,15 +90,16 @@ class Home extends React.Component<Props, State> {
 
   private loadLogFileOptions = async () => {
     const data = await getLogFiles()
-    console.log(data)
+    const logFiles = data.logFiles
+      .map(lf => ({
+        fileName: lf.fileName,
+        lastModified: new Date(lf.lastModified),
+      }))
+      .sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime())
     this.setState({
-      logFiles: data.logFiles
-        .map(lf => ({
-          fileName: lf.fileName,
-          lastModified: new Date(lf.lastModified),
-        }))
-        .sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime()),
+      logFiles,
     })
+    return logFiles
   }
 
   public loadData = async () => {
@@ -104,9 +108,9 @@ class Home extends React.Component<Props, State> {
         isFetching: true,
       },
       async () => {
-        await this.loadLogFileOptions()
+        const logFileOptions = await this.loadLogFileOptions()
         // TODO: clean up in there
-        let loadLogFile = this.state.logFiles[0].fileName // default
+        let loadLogFile = logFileOptions[0].fileName // default
         if (this.state.selectedLogFile) {
           loadLogFile = this.state.selectedLogFile
         }
@@ -209,7 +213,10 @@ class Home extends React.Component<Props, State> {
           </Select>
 
           {this.state.recentPoints && (
-            <LastHoursChart points={this.state.recentPoints} />
+            <LastHoursChart
+              points={this.state.recentPoints}
+              hash={this.state.recentHash}
+            />
           )}
 
           {this.state.overallPoints && (
