@@ -10,29 +10,62 @@ import { RAW_DATE_FORMAT } from '../config'
 
 interface Props {
   points: Point[]
+  hash: number
 }
 
+// TODO: make both charts use the same component, code is very similar
+
 class LastHoursChart extends React.Component<Props, never> {
+  private chart
   constructor(props: Props) {
     super(props)
   }
 
   componentDidMount() {
-    this.renderChart()
+    this.buildChart()
   }
 
-  private renderChart = () => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.hash !== this.props.hash) {
+      if (!this.chart) {
+        throw new Error('Cannot update chart, chart not found.')
+      }
+
+      const data = nextProps.points.map(point => ({
+        x: moment(point.date, RAW_DATE_FORMAT).format('HH:mm:ss'),
+        y: point.temperature,
+      }))
+
+      const minMax = findMinMax(nextProps.points)
+
+      this.chart.data.datasets[0].data = data
+      this.chart.data.labels = data.map(point => point.x)
+
+      this.chart.options.scales.yAxes[0].ticks = {
+        suggestedMin: minMax.min - 1,
+        suggestedMax: minMax.max + 1,
+      }
+
+      this.chart.options.title.text =
+        'Latest 300 points ' + data[0].x + ' - ' + data[data.length - 1].x
+      this.chart.update()
+    }
+  }
+
+  private buildChart = () => {
     const ctx = this.context
     if (!ctx) {
       console.error('Cannot render min max chart - canvas not found')
     }
+
     const data = this.props.points.map(point => ({
       x: moment(point.date, RAW_DATE_FORMAT).format('HH:mm:ss'),
       y: point.temperature,
     }))
+
     const minMax = findMinMax(this.props.points)
 
-    new Chart(ctx, {
+    this.chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: data.map(point => point.x),

@@ -6,14 +6,6 @@ interface ApiResult {
     maxTemp: number
   }
   points: Point[]
-}
-
-interface OverallApiResult {
-  metadata: {
-    minTemp: number
-    maxTemp: number
-  }
-  points: Point[]
   hash: number
 }
 
@@ -39,14 +31,21 @@ export const findMinMax = (points: Point[]): { min: number; max: number } => {
 
 export const getRecentTemperatureLogs = async (
   fileName: string
-): Promise<ApiResult> =>
-  fetch(api.baseUrl + api.recentLogs + '/' + fileName).then(res => res.json())
+): Promise<ApiResult> => {
+  const result = await fetch(
+    api.baseUrl + api.recentLogs + '/' + fileName
+  ).then(res => res.json())
+  return {
+    ...result,
+    hash: Math.floor(Math.random() * 10000),
+  }
+}
 
 export const getTemperatureLogs = async (
   fileName: string,
   downsamplingMethod: string = api.defaultGetOverallLogs,
   pointsCount: number = 500
-): Promise<OverallApiResult> => {
+): Promise<ApiResult> => {
   const result = await fetch(
     api.baseUrl +
       'temperature/' +
