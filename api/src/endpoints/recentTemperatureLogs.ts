@@ -14,7 +14,7 @@ export const recentTemperatureLogs = async (event, context) => {
 
       const matchingFile = authorizedLogFiles.filter(
         file =>
-          file.path === requestedLogFile.replace(process.env.logsPath + '/', '')
+          file.path.replace(process.env.logsPath + '/', '') === requestedLogFile
       )[0]
 
       if (!matchingFile) {

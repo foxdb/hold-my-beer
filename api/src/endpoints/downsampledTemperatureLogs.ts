@@ -18,8 +18,6 @@ export const downsample = async (event, context) => {
       const requestedLogFile = event.pathParameters.logFile
       const authorizedLogFiles = await getLogFilesList()
 
-      console.log(authorizedLogFiles)
-      console.log(requestedLogFile)
       const matchingFile = authorizedLogFiles.filter(
         file =>
           file.path.replace(process.env.logsPath + '/', '') === requestedLogFile
