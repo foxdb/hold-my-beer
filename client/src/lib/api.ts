@@ -37,16 +37,20 @@ export const findMinMax = (points: Point[]): { min: number; max: number } => {
   }
 }
 
-export const getRecentTemperatureLogs = async (): Promise<ApiResult> =>
-  fetch(api.baseUrl + api.recentLogs).then(res => res.json())
+export const getRecentTemperatureLogs = async (
+  fileName: string
+): Promise<ApiResult> =>
+  fetch(api.baseUrl + api.recentLogs + '/' + fileName).then(res => res.json())
 
 export const getTemperatureLogs = async (
+  fileName: string,
   downsamplingMethod: string = api.defaultGetOverallLogs,
   pointsCount: number = 500
 ): Promise<OverallApiResult> => {
   const result = await fetch(
     api.baseUrl +
-      'temperature' +
+      'temperature/' +
+      fileName +
       '?downsamplingMethod=' +
       downsamplingMethod +
       '&pointsCount=' +
@@ -58,3 +62,6 @@ export const getTemperatureLogs = async (
     ...result,
   }
 }
+
+export const getLogFiles = () =>
+  fetch(api.baseUrl + api.logFiles).then(res => res.json())

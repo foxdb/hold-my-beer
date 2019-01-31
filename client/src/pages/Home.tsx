@@ -1,14 +1,20 @@
 import * as React from 'react'
 
-// import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 import Slider from '@material-ui/lab/Slider'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 
-import { Point, getRecentTemperatureLogs, getTemperatureLogs } from '../lib/api'
+import {
+  Point,
+  getRecentTemperatureLogs,
+  getTemperatureLogs,
+  getLogFiles,
+} from '../lib/api'
 
 import Overview from '../components/Overview'
 import MinMaxChart from '../components/MinMaxChart'
@@ -30,8 +36,10 @@ interface State {
     lastValue: Point
   }
   selectedDownsamplingOption: string
+  selectedLogFile: string | undefined
   dataPointsNumber: number
   isFetching: boolean
+  logFiles: { fileName: string; lastModified: Date }[] // TODO: use lastModified everywhere
 }
 
 class Home extends React.Component<Props, State> {
@@ -43,18 +51,28 @@ class Home extends React.Component<Props, State> {
       selectedDownsamplingOption: api.defaultGetOverallLogs,
       dataPointsNumber: 2500,
       isFetching: false,
+      logFiles: [],
+      selectedLogFile: undefined,
     }
   }
 
-  private loadRecentPoints = async () => {
-    const data = await getRecentTemperatureLogs()
+  private loadRecentPoints = async (fileName: string) => {
+    const data = await getRecentTemperatureLogs(fileName)
     this.setState({
       recentPoints: data.points,
     })
   }
 
-  private loadOverallPoints = async (downsamplingOption, dataPointsNumber) => {
-    const data = await getTemperatureLogs(downsamplingOption, dataPointsNumber)
+  private loadOverallPoints = async (
+    fileName: string,
+    downsamplingOption,
+    dataPointsNumber
+  ) => {
+    const data = await getTemperatureLogs(
+      fileName,
+      downsamplingOption,
+      dataPointsNumber
+    )
     this.setState({
       metadata: {
         minTemp: data.metadata.minTemp,
@@ -67,21 +85,42 @@ class Home extends React.Component<Props, State> {
     })
   }
 
+  private loadLogFileOptions = async () => {
+    const data = await getLogFiles()
+    console.log(data)
+    this.setState({
+      logFiles: data.logFiles
+        .map(lf => ({
+          fileName: lf.fileName,
+          lastModified: new Date(lf.lastModified),
+        }))
+        .sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime()),
+    })
+  }
+
   public loadData = async () => {
     this.setState(
       {
         isFetching: true,
       },
       async () => {
+        await this.loadLogFileOptions()
+        // TODO: clean up in there
+        let loadLogFile = this.state.logFiles[0].fileName // default
+        if (this.state.selectedLogFile) {
+          loadLogFile = this.state.selectedLogFile
+        }
         await Promise.all([
-          this.loadRecentPoints(),
+          this.loadRecentPoints(loadLogFile),
           this.loadOverallPoints(
+            loadLogFile,
             this.state.selectedDownsamplingOption,
             this.state.dataPointsNumber
           ),
         ])
         this.setState({
           isFetching: false,
+          selectedLogFile: loadLogFile,
         })
       }
     )
@@ -111,29 +150,18 @@ class Home extends React.Component<Props, State> {
     this.loadData()
   }
 
-  public render() {
-    // if (this.state.isLoading) {
-    //   return (
-    //     <div
-    //       style={{
-    //         textAlign: 'center',
-    //         backgroundColor: 'white',
-    //         margin: 0,
-    //         position: 'absolute',
-    //         top: 'calc(50% - 25px)',
-    //         left: 'calc(50% - 25px)',
-    //         transform: 'translateY(-50%)',
-    //       }}
-    //     >
-    //       <CircularProgress size={50} />
-    //       <br />
-    //       {this.state.overallPoints && (
-    //         <span>Datapoints: {this.state.overallPoints.length}</span>
-    //       )}
-    //     </div>
-    //   )
-    // }
+  private onLogFileChange = event => {
+    this.setState(
+      {
+        selectedLogFile: event.target.value,
+      },
+      () => {
+        this.loadData()
+      }
+    )
+  }
 
+  public render() {
     const Radios = api.selectGetOverallLogs.map((option, idx) => (
       <FormControlLabel
         key={idx}
@@ -141,6 +169,12 @@ class Home extends React.Component<Props, State> {
         label={option.replace('overallTemperature', '')}
         control={<Radio />}
       />
+    ))
+
+    const LogFileOptions = this.state.logFiles.map((logFile, idx) => (
+      <MenuItem key={idx} value={logFile.fileName}>
+        {logFile.fileName}
+      </MenuItem>
     ))
 
     return (
@@ -167,6 +201,12 @@ class Home extends React.Component<Props, State> {
           >
             Refresh
           </Button>
+          <Select
+            value={this.state.selectedLogFile}
+            onChange={this.onLogFileChange}
+          >
+            {LogFileOptions}
+          </Select>
 
           {this.state.recentPoints && (
             <LastHoursChart points={this.state.recentPoints} />

@@ -4,7 +4,7 @@ const api = {
   defaultGetOverallLogs: 'LTTB',
   selectGetOverallLogs: ['LTD', 'LTOB', 'LTTB', 'raw'],
   recentLogs: 'recentTemperatureLogs',
-  listLogs: 'listLogs-js',
+  logFiles: 'logFiles',
 }
 
 const RAW_DATE_FORMAT = 'YYYYMMDD_HH-mm-ss'
