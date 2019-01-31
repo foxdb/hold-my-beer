@@ -25,6 +25,16 @@ functions:
     events:
       - http: GET recentTemperatureLogs
 
+  listLogFiles:
+    handler: src/endpoints/listTemperatureLogs.listLogFiles
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logsPath: ${file(./.env.yml):logsPath}
+    events:
+      - http:
+          method: get
+          path: logFiles
+
   temperature:
     handler: src/endpoints/downsampledTemperatureLogs.downsample
     environment:
