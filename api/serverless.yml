@@ -21,9 +21,15 @@ functions:
     handler: src/endpoints/recentTemperatureLogs.recentTemperatureLogs
     environment:
       logsBucketName: ${file(./.env.yml):logsBucketName}
-      logFilePath: ${file(./.env.yml):logFilePath}
+      logsPath: ${file(./.env.yml):logsPath}
     events:
-      - http: GET recentTemperatureLogs
+      - http:
+          method: get
+          path: recentTemperatureLogs/{logFile}
+          request:
+            parameters:
+              paths:
+                logFile: true
 
   listLogFiles:
     handler: src/endpoints/listTemperatureLogs.listLogFiles
@@ -39,13 +45,15 @@ functions:
     handler: src/endpoints/downsampledTemperatureLogs.downsample
     environment:
       logsBucketName: ${file(./.env.yml):logsBucketName}
-      logFilePath: ${file(./.env.yml):logFilePath}
+      logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
-          path: temperature
+          path: temperature/{logFile}
           request:
             parameters:
+              paths:
+                logFile: true
               querystrings:
                 pointsCount: false
                 downsamplingMethod: false
