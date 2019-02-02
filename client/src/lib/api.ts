@@ -29,6 +29,17 @@ export const findMinMax = (points: Point[]): { min: number; max: number } => {
   }
 }
 
+// @CleanUp rename that bit it's confusing with the other metadata
+interface MetadataResults {
+  metadata: {
+    start: Point
+    last: Point
+  }
+}
+
+export const getMetadata = async (fileName: string): Promise<MetadataResults> =>
+  fetch(api.baseUrl + api.getMetadata + '/' + fileName).then(res => res.json())
+
 export const getRecentTemperatureLogs = async (
   fileName: string
 ): Promise<ApiResult> => {

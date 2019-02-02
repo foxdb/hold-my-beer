@@ -104,14 +104,12 @@ class Home extends React.Component<{}, State> {
             {LogFileOptions}
           </Select>
 
-          <Overview metadata={this.state.metadata} />
-
           {this.state.selectedLogFile && (
-            <LastHoursChart logFileName={this.state.selectedLogFile} />
-          )}
-
-          {this.state.selectedLogFile && (
-            <OverallChart logFileName={this.state.selectedLogFile} />
+            <>
+              <Overview logFileName={this.state.selectedLogFile} />
+              <LastHoursChart logFileName={this.state.selectedLogFile} />
+              <OverallChart logFileName={this.state.selectedLogFile} />
+            </>
           )}
         </div>
       </div>

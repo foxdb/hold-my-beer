@@ -5,80 +5,122 @@ import Countdown from 'react-countdown-now'
 
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
-import { Point } from '../lib/api'
+import { Point, getMetadata } from '../lib/api'
 
 interface Props {
+  logFileName: string
+}
+
+interface State {
   metadata?: {
-    startDate: string
-    lastValue: Point
+    start: Point
+    last: Point
   }
 }
 
-const Overview = (props: Props) => {
-  return (
-    <Paper style={{ margin: 10, padding: 10 }}>
-      <div className="columns is-multiline">
-        <div className="column is-half">
-          <table className="table">
-            <tbody>
-              <tr>
-                <th>Current</th>
-                <td>
-                  {props.metadata &&
-                    props.metadata.lastValue.temperature +
-                      ' (' +
+class Overview extends React.Component<Props, State> {
+  constructor(props) {
+    super(props)
+
+    this.state = {}
+  }
+
+  componentDidMount() {
+    this.loadData(this.props.logFileName)
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.logFileName !== this.props.logFileName) {
+      this.loadData(nextProps.logFileName)
+    }
+  }
+
+  private loadData = async logFileName => {
+    const result = await getMetadata(logFileName)
+    this.setState({
+      metadata: {
+        start: result.metadata.start,
+        last: result.metadata.last
+      }
+    })
+  }
+
+  render() {
+    return (
+      <Paper style={{ margin: 10, padding: 10 }}>
+        <div className="columns is-multiline">
+          <div className="column is-half">
+            <table className="table">
+              <tbody>
+                <tr>
+                  <th>Start</th>
+                  <td>
+                    {this.state.metadata &&
                       moment(
-                        props.metadata.lastValue.date,
+                        this.state.metadata.start.date,
                         RAW_DATE_FORMAT
                       ).format('DD MMMM - HH:mm') +
-                      ')'}
-                </td>
-              </tr>
-              <tr>
-                <th>Start</th>
-                <td>
-                  {props.metadata &&
-                    moment(props.metadata.startDate, RAW_DATE_FORMAT).format(
-                      'DD MMMM - HH:mm'
+                        ' @ ' +
+                        this.state.metadata.start.temperature +
+                        ' °C'}
+                  </td>
+                </tr>
+                <tr>
+                  <th>Last</th>
+                  <td>
+                    {this.state.metadata &&
+                      moment(
+                        this.state.metadata.last.date,
+                        RAW_DATE_FORMAT
+                      ).format('DD MMMM - HH:mm') +
+                        ' @ ' +
+                        this.state.metadata.last.temperature +
+                        ' °C'}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="column is-half">
+            <table className="table">
+              <tbody>
+                <tr>
+                  <th>Bottling countdown</th>
+                  <td>
+                    {this.state.metadata && (
+                      <Countdown
+                        date={moment(
+                          this.state.metadata.start.date,
+                          RAW_DATE_FORMAT
+                        )
+                          .add(14, 'days')
+                          .toDate()}
+                      />
                     )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Tasting countdown</th>
+                  <td>
+                    {this.state.metadata && (
+                      <Countdown
+                        date={moment(
+                          this.state.metadata.start.date,
+                          RAW_DATE_FORMAT
+                        )
+                          .add(28, 'days')
+                          .toDate()}
+                      />
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="column is-half">
-          <table className="table">
-            <tbody>
-              <tr>
-                <th>Bottling countdown</th>
-                <td>
-                  {props.metadata && (
-                    <Countdown
-                      date={moment(props.metadata.startDate, RAW_DATE_FORMAT)
-                        .add(14, 'days')
-                        .toDate()}
-                    />
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th>Tasting countdown</th>
-                <td>
-                  {props.metadata && (
-                    <Countdown
-                      date={moment(props.metadata.startDate, RAW_DATE_FORMAT)
-                        .add(28, 'days')
-                        .toDate()}
-                    />
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </Paper>
-  )
+      </Paper>
+    )
+  }
 }
 
 export default Overview

@@ -5,6 +5,7 @@ const api = {
   selectGetOverallLogs: ['LTD', 'LTOB', 'LTTB', 'raw'],
   recentLogs: 'recentTemperatureLogs',
   logFiles: 'logFiles',
+  getMetadata: 'getMetadata'
 }
 
 const RAW_DATE_FORMAT = 'YYYYMMDD_HH-mm-ss'
