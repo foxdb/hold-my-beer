@@ -46,10 +46,20 @@ class Overview extends React.Component<Props, State> {
   }
 
   render() {
+    const showFermentingFor =
+      this.state.metadata &&
+      moment
+        .duration(
+          moment(new Date()).diff(
+            moment(this.state.metadata.start.date, RAW_DATE_FORMAT)
+          )
+        )
+        .asDays() < 14
+
     return (
       <Paper style={{ margin: 10, padding: 10 }}>
         <div className="columns is-multiline">
-          <div className="column is-half">
+          <div className="column is-4">
             <table className="table">
               <tbody>
                 <tr>
@@ -81,7 +91,32 @@ class Overview extends React.Component<Props, State> {
               </tbody>
             </table>
           </div>
-          <div className="column is-half">
+          {showFermentingFor && (
+            <div className="column is-4">
+              <table className="table">
+                <tbody>
+                  <tr>
+                    <th>Fermenting for</th>
+                    <td>
+                      {this.state.metadata &&
+                        moment
+                          .duration(
+                            moment(new Date()).diff(
+                              moment(
+                                this.state.metadata.start.date,
+                                RAW_DATE_FORMAT
+                              )
+                            )
+                          )
+                          .asDays()
+                          .toFixed(2) + ' days'}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+          <div className="column is-4">
             <table className="table">
               <tbody>
                 <tr>
