@@ -10,6 +10,13 @@ interface Point {
   date: string
 }
 
+// @CleanUp: make makePoints use makePoint.
+
+export const makePoint = (line: string): Point => ({
+  date: line.split(',')[0],
+  temperature: parseFloat(line.split(',')[1])
+})
+
 export const makePoints = (
   lines: string[],
   withIndex: boolean = false
