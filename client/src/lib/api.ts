@@ -1,6 +1,6 @@
 import { api } from '../config'
 
-interface ApiResult {
+export interface ApiResult {
   metadata: {
     minTemp: number
     maxTemp: number
@@ -25,7 +25,7 @@ export const findMinMax = (points: Point[]): { min: number; max: number } => {
 
   return {
     min,
-    max,
+    max
   }
 }
 
@@ -37,7 +37,7 @@ export const getRecentTemperatureLogs = async (
   ).then(res => res.json())
   return {
     ...result,
-    hash: Math.floor(Math.random() * 10000),
+    hash: Math.floor(Math.random() * 10000)
   }
 }
 
@@ -58,7 +58,7 @@ export const getTemperatureLogs = async (
 
   return {
     hash: Math.floor(Math.random() * 10000),
-    ...result,
+    ...result
   }
 }
 

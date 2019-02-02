@@ -10,9 +10,11 @@ const App = (props: Props) => {
     <div
       style={{
         backgroundColor: '#eeeeee',
+        paddingTop: 30,
+        paddingBottom: 30
       }}
     >
-      <Home name="Ben" />
+      <Home />
     </div>
   )
 }
