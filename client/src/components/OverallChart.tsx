@@ -195,7 +195,10 @@ class OverallChart extends React.Component<Props, State> {
           }}
         />
         <div className="columns is-vcentered" style={{ margin: 10 }}>
-          <div className="column is-half">
+          <div className="column is-2">
+            <span>Downsampling algorithm</span>
+          </div>
+          <div className="column is-4">
             <FormControl
               component="fieldset"
               variant="filled"
@@ -213,7 +216,10 @@ class OverallChart extends React.Component<Props, State> {
               </RadioGroup>
             </FormControl>
           </div>
-          <div className="column is-half">
+          <div className="column is-2">
+            <span>Number of points: {this.state.dataPointsNumber}</span>
+          </div>
+          <div className="column is-4">
             <Slider
               disabled={
                 this.state.isFetching ||
