@@ -2,15 +2,29 @@
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-## Front end
+It's alive [here](http://hold-my-beer.smitchdigital.com/)
 
-React app, bundled with Parcel.
+## Why
 
-## API
+Homebrewing in Australia raises some challenges. One of them is temperature management. During fermentation weeks, controlling the temperature is critical.
 
-Lambdas
+While [raspi-chill](https://github.com/foxdb/raspi-chill) regulates the temperature and collects data, `hold-my-beer` is in charge of data visualisation and alerts.
 
-## Tooling
+## Architecture
 
-CI/CD: Semaphore 2
-Versioning management and changelogs: semantic-release
+### Front end
+
+- Typescript
+- React.js
+- Material UI
+- Bundled with Parcel
+- Deployed in AWS S3
+
+### API
+
+- Typescript functions deployed to AWS Lambda - API Gateway (via serverless)
+
+### Pipeline
+
+- CI/CD: Semaphore 2
+- Versioning management and changelogs: semantic-release
