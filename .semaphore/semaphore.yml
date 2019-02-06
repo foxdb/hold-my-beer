@@ -29,7 +29,7 @@ blocks:
             - yarn build
             - cache store node-modules-$(checksum yarn.lock) node_modules
             # used in production-deploy pipeline, use yarn lock as source of state
-            - cache store client-dist dist
+            - cache store client-dist-$SEMAPHORE_WORKFLOW_ID dist
         - name: api
           commands:
             - echo "Building api"
@@ -40,8 +40,8 @@ blocks:
             - cache store node-modules-$(checksum yarn.lock) node_modules
             - yarn package
             # used in production-deploy pipeline, use serverless-state as source of state?
-            - cache store serverless-build .serverless
-            - cache store api-node-modules node_modules
+            - cache store serverless-build-$SEMAPHORE_WORKFLOW_ID .serverless
+            - cache store api-node-modules-$SEMAPHORE_WORKFLOW_ID node_modules
 
 # why not different pipelines: deploy portal, deploy api, deploy all
 promotions:

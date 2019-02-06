@@ -23,12 +23,12 @@ blocks:
           commands:
             - checkout
             - cd ./client/
-            - cache restore client-dist
+            - cache restore client-dist-$SEMAPHORE_WORKFLOW_ID
             - ./scripts/deploy.sh
         - name: Deploy API
           commands:
             - checkout
             - cd ./api/
-            - cache restore serverless-build
-            - cache restore api-node-modules
+            - cache restore serverless-build-$SEMAPHORE_WORKFLOW_ID
+            - cache restore api-node-modules-$SEMAPHORE_WORKFLOW_ID
             - yarn deploy
