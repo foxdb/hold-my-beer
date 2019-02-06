@@ -38,7 +38,7 @@ class OverallChart extends React.Component<Props, State> {
       hash: 123456,
       metadata: null,
       selectedDownsamplingOption: api.defaultGetOverallLogs,
-      dataPointsNumber: 200,
+      dataPointsNumber: 2500,
       isFetching: false
     }
   }
@@ -77,22 +77,64 @@ class OverallChart extends React.Component<Props, State> {
           dataPointsNumber
         )
 
-        const points = rawData.points.map(point => ({
-          x: moment(point.date, RAW_DATE_FORMAT).format('HH:mm:ss'),
-          y: point.temperature
-        }))
+        let minPoints: any = []
+        let maxPoints: any = []
+        let absoluteMin = 100
+        let absoluteMax = 0
+        let labels: any = []
+
+        for (let i = 0; i < rawData.points.length; i = i + 100) {
+          const subArray = rawData.points.slice(i, i + 100)
+
+          let min = {
+            x: '',
+            y: 100
+          }
+          let max = {
+            x: '',
+            y: 0
+          }
+
+          subArray.map(entry => {
+            if (entry.temperature > max.y) {
+              max = { x: entry.date, y: entry.temperature }
+              if (entry.temperature > absoluteMax) {
+                absoluteMax = entry.temperature
+              }
+            }
+
+            if (entry.temperature < min.y) {
+              min = { x: entry.date, y: entry.temperature }
+              if (entry.temperature < absoluteMin) {
+                absoluteMin = entry.temperature
+              }
+            }
+          })
+
+          minPoints.push(min)
+          maxPoints.push(max)
+          labels.push(
+            moment(subArray[0].date, RAW_DATE_FORMAT).format('MM-DD HH:mm')
+          )
+        }
 
         this.setState({
           data: [
             {
-              points: points,
-              label: 'Temperature'
-              // borderColor: '#4070FF',
-              // backgroundColor: '#3D8CFF'
+              points: minPoints,
+              label: 'Min',
+              borderColor: '#4070FF',
+              backgroundColor: '#3D8CFF'
+            },
+            {
+              points: maxPoints,
+              label: 'Max',
+              borderColor: '#FF7E9D',
+              backgroundColor: '#FFABBF'
             }
           ],
           hash: rawData.hash,
-          labels: points.map(point => point.x),
+          labels,
           metadata: rawData.metadata,
           isFetching: false
         })
@@ -129,24 +171,22 @@ class OverallChart extends React.Component<Props, State> {
       return null
     }
 
-    const Radios = api.selectGetOverallLogs
-      .filter(option => option !== 'raw')
-      .map((option, idx) => (
-        <FormControlLabel
-          key={idx}
-          value={option}
-          label={option.replace('overallTemperature', '')}
-          control={<Radio />}
-        />
-      ))
+    const Radios = api.selectGetOverallLogs.map((option, idx) => (
+      <FormControlLabel
+        key={idx}
+        value={option}
+        label={option.replace('overallTemperature', '')}
+        control={<Radio />}
+      />
+    ))
 
     return (
       <>
         <Chart
           data={this.state.data}
           labels={this.state.labels}
-          showPoints={false}
-          title={'Overall temperature (downsampled)'}
+          showPoints={true}
+          title={'Overall temperature min/max'}
           hash={this.state.hash}
           yAxis={{
             label: 'Temperature',
@@ -186,7 +226,7 @@ class OverallChart extends React.Component<Props, State> {
                 this.state.selectedDownsamplingOption === 'raw'
               }
               min={100}
-              max={1000}
+              max={5000}
               step={100}
               value={this.state.dataPointsNumber}
               onChange={this.onDataPointsNumberChange}

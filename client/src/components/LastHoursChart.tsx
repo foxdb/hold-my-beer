@@ -18,7 +18,7 @@ interface State {
   } | null
 }
 
-class NewLastHoursChart extends React.Component<Props, State> {
+class LastHoursChart extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
@@ -82,4 +82,4 @@ class NewLastHoursChart extends React.Component<Props, State> {
   }
 }
 
-export default NewLastHoursChart
+export default LastHoursChart
