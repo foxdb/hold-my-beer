@@ -7,7 +7,7 @@ It's alive [here](http://hold-my-beer.smitchdigital.com/)
 
 ## Why
 
-Homebrewing in Australia raises some challenges. One of them is temperature management. During fermentation weeks, controlling the temperature is critical.
+Homebrewing in a hot environment raises challenges. One of them is **temperature management**. During fermentation weeks, controlling the temperature is critical.
 
 While [raspi-chill](https://github.com/foxdb/raspi-chill) regulates the temperature and collects data, `hold-my-beer` is in charge of data visualisation and alerts.
 
