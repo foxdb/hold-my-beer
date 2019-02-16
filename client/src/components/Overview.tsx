@@ -96,7 +96,7 @@ class Overview extends React.Component<Props, State> {
               <table className="table">
                 <tbody>
                   <tr>
-                    <th>Fermenting for</th>
+                    <th>Started </th>
                     <td>
                       {this.state.metadata &&
                         moment
@@ -109,7 +109,7 @@ class Overview extends React.Component<Props, State> {
                             )
                           )
                           .asDays()
-                          .toFixed(2) + ' days'}
+                          .toFixed(2) + ' days ago'}
                     </td>
                   </tr>
                 </tbody>
