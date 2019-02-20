@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Paper from '@material-ui/core/Paper'
-import Countdown from 'react-countdown-now'
+// import Countdown from 'react-countdown-now'
 
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
@@ -49,7 +49,7 @@ class Overview extends React.Component<Props, State> {
     return (
       <Paper style={{ margin: 10, padding: 10 }}>
         <div className="columns is-multiline">
-          <div className="column is-4">
+          <div className="column is-6">
             <table className="table">
               <tbody>
                 <tr>
@@ -82,7 +82,7 @@ class Overview extends React.Component<Props, State> {
             </table>
           </div>
           {
-            <div className="column is-4">
+            <div className="column is-6">
               <table className="table">
                 <tbody>
                   <tr>
@@ -106,7 +106,7 @@ class Overview extends React.Component<Props, State> {
               </table>
             </div>
           }
-          <div className="column is-4">
+          {/* <div className="column is-4">
             <table className="table">
               <tbody>
                 <tr>
@@ -141,7 +141,7 @@ class Overview extends React.Component<Props, State> {
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> */}
         </div>
       </Paper>
     )
