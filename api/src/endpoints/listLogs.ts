@@ -1,11 +1,14 @@
 import { lsDirectory } from '../lib/s3'
+import { validatePathParam } from './helpers'
 
 export const listLogFiles = async (event, context) => {
   try {
+    const requestedLogsType = validatePathParam('type', event)
+
     return {
       statusCode: 200,
       body: JSON.stringify({
-        logFiles: (await getLogFilesList()).map(logFile => ({
+        logFiles: (await getLogFilesList(requestedLogsType)).map(logFile => ({
           fileName: logFile.path.replace(process.env.logsPath + '/', ''),
           lastModified: logFile.lastModified
         }))
@@ -18,7 +21,16 @@ export const listLogFiles = async (event, context) => {
   }
 }
 
-export const getLogFilesList = async () => {
+export const getLogFilesList = async (type: string) => {
+  const typeMap = {
+    temperature: 'temperature.log',
+    internalTemperature: 'internal-temperature.log',
+    externalTemperature: 'external-temperature.log',
+    gravity: 'gravity.log'
+    // angle: ''
+    // spindel: ''
+  }
+
   const logsDirContent = await lsDirectory(
     process.env.logsBucketName as string,
     process.env.logsPath as string
@@ -27,7 +39,7 @@ export const getLogFilesList = async () => {
   return logsDirContent.filter(
     file =>
       file.path &&
-      file.path.includes('temperature.log') &&
+      file.path.includes(typeMap[type]) &&
       !file.path.includes('.bak')
   )
 }

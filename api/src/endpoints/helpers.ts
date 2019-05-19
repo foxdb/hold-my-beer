@@ -72,3 +72,11 @@ export const makePoints = (
     dateIndex
   }
 }
+
+export const validatePathParam = (name, event): string => {
+  if (event.pathParameters && event.pathParameters[name]) {
+    return event.pathParameters[name]
+  } else {
+    throw new Error('Missing path param: ' + name)
+  }
+}

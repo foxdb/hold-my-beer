@@ -3,7 +3,7 @@ import * as React from 'react'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import { Point, getLogFiles } from '../lib/api'
+import { Point, getTemperatureLogFiles } from '../lib/api'
 
 import Overview from '../components/Overview'
 import LastHoursChart from '../components/LastHoursChart'
@@ -31,7 +31,7 @@ class Home extends React.Component<{}, State> {
   }
 
   private loadLogFileOptions = async () => {
-    const data = await getLogFiles()
+    const data = await getTemperatureLogFiles()
 
     const logFiles = data.logFiles
       .map(lf => ({

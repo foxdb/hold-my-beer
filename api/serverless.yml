@@ -17,15 +17,35 @@ functions:
           method: get
           path: hello
 
+  getProjects:
+    handler: src/endpoints/getProjects.getProjects
+    environment:
+      projectsFileName: ${file(./.env.yml):projectsFileName}
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+    events:
+      - http:
+          method: get
+          path: projects
+
+  getProject:
+    handler: src/endpoints/getProjects.getProject
+    environment:
+      projectsFileName: ${file(./.env.yml):projectsFileName}
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+    events:
+      - http:
+          method: get
+          path: projects/{projectName}
+
   listLogFiles:
-    handler: src/endpoints/listTemperatureLogs.listLogFiles
+    handler: src/endpoints/listLogs.listLogFiles
     environment:
       logsBucketName: ${file(./.env.yml):logsBucketName}
       logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
-          path: logFiles
+          path: logFiles/{type}
 
   recentTemperatureLogs:
     handler: src/endpoints/recentTemperatureLogs.recentTemperatureLogs

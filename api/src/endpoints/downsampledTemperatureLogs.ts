@@ -1,7 +1,7 @@
 import { getFile } from '../lib/s3'
-import { makePoints } from './helpers'
+import { makePoints, validatePathParam } from './helpers'
 import { LTD, LTTB, LTOB } from 'downsample'
-import { getLogFilesList } from './listTemperatureLogs'
+import { getLogFilesList } from './listLogs'
 
 const methodMap = {
   LTD: LTD,
@@ -14,23 +14,20 @@ export const downsample = async (event, context) => {
   try {
     let logFilePath: string
 
-    if (event.pathParameters && event.pathParameters.logFile) {
-      const requestedLogFile = event.pathParameters.logFile
-      const authorizedLogFiles = await getLogFilesList()
+    const requestedLogFile = validatePathParam('logFile', event)
 
-      const matchingFile = authorizedLogFiles.filter(
-        file =>
-          file.path.replace(process.env.logsPath + '/', '') === requestedLogFile
-      )[0]
+    const authorizedLogFiles = await getLogFilesList('temperature')
 
-      if (!matchingFile) {
-        throw new Error('Log file not found')
-      }
+    const matchingFile = authorizedLogFiles.filter(
+      file =>
+        file.path.replace(process.env.logsPath + '/', '') === requestedLogFile
+    )[0]
 
-      logFilePath = matchingFile.path
-    } else {
-      throw new Error('Missing path param: logFile')
+    if (!matchingFile) {
+      throw new Error('Log file not found')
     }
+
+    logFilePath = matchingFile.path
 
     // parse points count, should be between 100 and 5000 and default to 500
     let pointsCount: number = 500

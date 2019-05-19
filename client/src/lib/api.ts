@@ -73,5 +73,5 @@ export const getTemperatureLogs = async (
   }
 }
 
-export const getLogFiles = () =>
-  fetch(api.baseUrl + api.logFiles).then(res => res.json())
+export const getTemperatureLogFiles = () =>
+  fetch(api.baseUrl + api.logFiles + '/temperature').then(res => res.json())

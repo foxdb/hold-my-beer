@@ -1,28 +1,25 @@
 import { getFile } from '../lib/s3'
 import { makePoint } from './helpers'
-import { getLogFilesList } from './listTemperatureLogs'
+import { getLogFilesList } from './listLogs'
+import { validatePathParam } from './helpers'
 
 export const getMetadata = async (event, context) => {
   try {
     let logFilePath: string
 
-    if (event.pathParameters && event.pathParameters.logFile) {
-      const requestedLogFile = event.pathParameters.logFile
-      const authorizedLogFiles = await getLogFilesList()
+    const requestedLogFile = validatePathParam('logFile', event)
+    const authorizedLogFiles = await getLogFilesList('temperature')
 
-      const matchingFile = authorizedLogFiles.filter(
-        file =>
-          file.path.replace(process.env.logsPath + '/', '') === requestedLogFile
-      )[0]
+    const matchingFile = authorizedLogFiles.filter(
+      file =>
+        file.path.replace(process.env.logsPath + '/', '') === requestedLogFile
+    )[0]
 
-      if (!matchingFile) {
-        throw new Error('Log file not found')
-      }
-
-      logFilePath = matchingFile.path
-    } else {
-      throw new Error('Missing path param: logFile')
+    if (!matchingFile) {
+      throw new Error('Log file not found')
     }
+
+    logFilePath = matchingFile.path
 
     let logFileContent: string
 
