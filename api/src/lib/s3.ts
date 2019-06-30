@@ -1,7 +1,26 @@
 import * as AWS from 'aws-sdk'
-const s3 = new AWS.S3()
 
-export const getFile = async (bucket: string, path: string): Promise<string> =>
+let s3
+
+// for testing purposes only
+export const setS3 = (s3instance: AWS.S3 | undefined) => {
+  s3 = s3instance
+}
+
+export const getS3 = () => {
+  if (s3) {
+    return s3
+  } else {
+    s3 = new AWS.S3()
+    return s3
+  }
+}
+
+export const getFile = async (
+  s3: AWS.S3,
+  bucket: string,
+  path: string
+): Promise<string> =>
   new Promise<string>((resolve, reject) => {
     s3.getObject(
       {
@@ -25,6 +44,7 @@ interface BucketFile {
 }
 
 export const lsDirectory = async (
+  s3: AWS.S3,
   bucket: string,
   path: string
 ): Promise<BucketFile[]> =>

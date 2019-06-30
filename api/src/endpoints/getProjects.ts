@@ -1,4 +1,4 @@
-import { getFile, lsDirectory } from '../lib/s3'
+import { getFile, lsDirectory, getS3 } from '../lib/s3'
 import { validatePathParam } from './helpers'
 
 export const getProjects = async (event, context) => {
@@ -39,7 +39,10 @@ export const getProject = async (event, context) => {
 }
 
 export const getProjectLogs = async (name: string): Promise<string[]> => {
+  const s3 = getS3()
+
   const logsDirContent = await lsDirectory(
+    s3,
     process.env.logsBucketName as string,
     process.env.logsPath as string
   )
@@ -54,7 +57,9 @@ export const getProjectLogs = async (name: string): Promise<string[]> => {
 }
 
 export const getProjectsList = async () => {
+  const s3 = getS3()
   const rawProjects = await getFile(
+    s3,
     process.env.logsBucketName as string,
     process.env.projectsFileName as string
   )

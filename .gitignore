@@ -15,3 +15,6 @@ index.old.html
 .env*
 .semaphore/secrets.yml
 !.env.yml
+
+# test / coverage related
+api/coverage/**

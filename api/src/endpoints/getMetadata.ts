@@ -1,4 +1,4 @@
-import { getFile } from '../lib/s3'
+import { getFile, getS3 } from '../lib/s3'
 import { makePoint } from './helpers'
 import { getLogFilesList } from './listLogs'
 import { validatePathParam } from './helpers'
@@ -23,7 +23,9 @@ export const getMetadata = async (event, context) => {
 
     let logFileContent: string
 
+    const s3 = getS3()
     logFileContent = await getFile(
+      s3,
       process.env.logsBucketName as string,
       logFilePath
     )

@@ -39,6 +39,7 @@ blocks:
             - cache restore node-modules-$(checksum yarn.lock)
             - yarn --production=false
             - cache store node-modules-$(checksum yarn.lock) node_modules
+            - yarn test
             - yarn package
             # used in production-deploy pipeline, use serverless-state as source of state?
             - cache store serverless-build-$SEMAPHORE_WORKFLOW_ID .serverless

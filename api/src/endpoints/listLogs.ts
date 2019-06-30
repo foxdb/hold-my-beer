@@ -1,4 +1,4 @@
-import { lsDirectory } from '../lib/s3'
+import { lsDirectory, getS3 } from '../lib/s3'
 import { validatePathParam } from './helpers'
 
 export const listLogFiles = async (event, context) => {
@@ -16,7 +16,6 @@ export const listLogFiles = async (event, context) => {
       headers: { 'Access-Control-Allow-Origin': '*' }
     }
   } catch (error) {
-    console.error(error)
     throw error
   }
 }
@@ -31,7 +30,10 @@ export const getLogFilesList = async (type: string) => {
     // spindel: ''
   }
 
+  const s3 = getS3()
+
   const logsDirContent = await lsDirectory(
+    s3,
     process.env.logsBucketName as string,
     process.env.logsPath as string
   )

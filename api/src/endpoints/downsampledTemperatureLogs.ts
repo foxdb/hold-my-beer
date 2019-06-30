@@ -1,4 +1,4 @@
-import { getFile } from '../lib/s3'
+import { getFile, getS3 } from '../lib/s3'
 import { makePoints, validatePathParam } from './helpers'
 import { LTD, LTTB, LTOB } from 'downsample'
 import { getLogFilesList } from './listLogs'
@@ -58,15 +58,12 @@ export const downsample = async (event, context) => {
 
     let logFileContent: string
 
-    // if (event.isOffline === true) {
-    //   logFileContent = mockTemperatureLogs
-    //   logFilePath = 'mock'
-    // } else {
+    const s3 = getS3()
     logFileContent = await getFile(
+      s3,
       process.env.logsBucketName as string,
       logFilePath
     )
-    // }
 
     const lines = logFileContent.split('\n').filter(line => line.length > 0)
 

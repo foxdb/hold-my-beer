@@ -1,4 +1,4 @@
-import { getFile } from '../lib/s3'
+import { getFile, getS3 } from '../lib/s3'
 import { makePoints, validatePathParam } from './helpers'
 import { getLogFilesList } from './listLogs'
 
@@ -29,7 +29,9 @@ export const recentTemperatureLogs = async (event, context) => {
     //   logFileContent = mockTemperatureLogs
     //   logFilePath = 'mock'
     // } else {
+    const s3 = getS3()
     logFileContent = await getFile(
+      s3,
       process.env.logsBucketName as string,
       logFilePath
     )
