@@ -38,7 +38,7 @@ export const getProject = async (event, context) => {
   }
 }
 
-export const getProjectLogs = async (name: string): Promise<string[]> => {
+const getProjectLogs = async (name: string): Promise<string[]> => {
   const s3 = getS3()
 
   const logsDirContent = await lsDirectory(
