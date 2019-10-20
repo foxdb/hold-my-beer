@@ -7,6 +7,10 @@ agent:
 blocks:
   - name: Release
     task:
+      prologue:
+        commands:
+          - nvm install 10
+          - nvm use 10
       secrets:
         - name: hmb-github
       jobs:

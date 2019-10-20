@@ -8,9 +8,10 @@ agent:
 blocks:
   - name: 'Compile'
     task:
-      # prologue:
-      #   commands:
-      #     -
+      prologue:
+        commands:
+          - nvm install 10
+          - nvm use 10
       env_vars:
         - name: API_BASE_URL
           value: https://xqksrj7oo8.execute-api.ap-southeast-2.amazonaws.com/dev/
