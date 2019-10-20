@@ -9,7 +9,8 @@ import {
   RadioGroup,
   FormControl
 } from '@material-ui/core'
-import Slider from '@material-ui/lab/Slider'
+
+import Slider from '@material-ui/core/Slider'
 
 interface Props {
   logFileName: string
