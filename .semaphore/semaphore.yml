@@ -24,10 +24,10 @@ blocks:
             - checkout
             - cd client
             # For speed: cache restore/store node modules
-            - cache restore node-modules-$(checksum yarn.lock)
-            - yarn --production=false # don't ignore the dev dependencies
-            - yarn build
-            - cache store node-modules-$(checksum yarn.lock) node_modules
+            - cache restore node-modules-$(checksum package-json.lock)
+            - npm i --production=false # don't ignore the dev dependencies
+            - npm run build
+            - cache store node-modules-$(checksum package-json.lock) node_modules
             # used in production-deploy pipeline, use yarn lock as source of state
             - cache store client-dist-$SEMAPHORE_WORKFLOW_ID dist
             - cache store client-scripts-$SEMAPHORE_WORKFLOW_ID scripts
