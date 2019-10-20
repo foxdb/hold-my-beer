@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
 
 interface Props {
   name: string
@@ -7,14 +7,8 @@ interface Props {
 
 const App = (props: Props) => {
   return (
-    <div
-      style={{
-        backgroundColor: '#eeeeee',
-        paddingTop: 30,
-        paddingBottom: 30
-      }}
-    >
-      <Home />
+    <div>
+      <Dashboard />
     </div>
   )
 }
