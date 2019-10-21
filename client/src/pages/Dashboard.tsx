@@ -154,7 +154,9 @@ export default function Dashboard() {
   const classes = useStyles()
 
   const [open] = React.useState(false)
-  const [selectedLogFile, setSelectedLogFile] = React.useState(null)
+  const [selectedLogFile, setSelectedLogFile] = React.useState<string | null>(
+    null
+  )
   const [availableLogFiles, setAvailableLogFiles] = React.useState([])
 
   const loadLogFiles = async () => {
@@ -274,29 +276,20 @@ export default function Dashboard() {
             </Grid>
             <Grid item xs={8}>
               <Paper className={classes.paper}>
+                {selectedLogFile && <Overview logFileName={selectedLogFile} />}
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
                 {selectedLogFile && (
-                  <Overview
-                    logFileName={(selectedLogFile as unknown) as string}
-                  />
+                  <LastHoursChart logFileName={selectedLogFile} />
                 )}
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                {selectedLogFile && selectedLogFile !== null && (
-                  // eeeek TODO
-                  <LastHoursChart
-                    logFileName={(selectedLogFile as unknown) as string}
-                  />
-                )}
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {selectedLogFile && selectedLogFile !== null && (
-                  <OverallChart
-                    logFileName={(selectedLogFile as unknown) as string}
-                  />
+                {selectedLogFile && (
+                  <OverallChart logFileName={selectedLogFile} />
                 )}
               </Paper>
             </Grid>
