@@ -25,7 +25,7 @@ blocks:
             - checkout
             - cd client
             # For speed: cache restore/store node modules
-            - cache restore node-modules-$(checksum package-lock.json)
+            # - cache restore node-modules-$(checksum package-lock.json)
             - npm i --production=false # don't ignore the dev dependencies
             - npm run build
             - cache store node-modules-$(checksum package-lock.json) node_modules
