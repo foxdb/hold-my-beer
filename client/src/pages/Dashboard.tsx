@@ -34,11 +34,13 @@ import LatestValues from '../components/LatestValues'
 // import Orders from './Orders'
 
 function Copyright() {
+  // https://github.com/foxdb/hold-my-beer
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       Hold My Beer {new Date().getFullYear()}
-      {'.'}
+      {'  '}
+      <a href=" https://github.com/foxdb/hold-my-beer">Github</a>
     </Typography>
   )
 }
