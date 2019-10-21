@@ -1,8 +1,5 @@
 import * as React from 'react'
 
-import Paper from '@material-ui/core/Paper'
-// import Countdown from 'react-countdown-now'
-
 import moment = require('moment')
 import { RAW_DATE_FORMAT } from '../config'
 import { Point, getMetadata } from '../lib/api'
@@ -47,66 +44,65 @@ class Overview extends React.Component<Props, State> {
 
   render() {
     return (
-      <Paper style={{ margin: 10, padding: 10 }}>
-        <div className="columns is-multiline">
+      <div className="columns is-multiline">
+        <div className="column is-6">
+          <table className="table">
+            <tbody>
+              <tr>
+                <th>Start</th>
+                <td>
+                  {this.state.metadata &&
+                    moment(
+                      this.state.metadata.start.date,
+                      RAW_DATE_FORMAT
+                    ).format('DD MMMM - HH:mm') +
+                      ' @ ' +
+                      this.state.metadata.start.temperature +
+                      ' °C'}
+                </td>
+              </tr>
+              <tr>
+                <th>Last</th>
+                <td>
+                  {this.state.metadata &&
+                    moment(
+                      this.state.metadata.last.date,
+                      RAW_DATE_FORMAT
+                    ).format('DD MMMM - HH:mm') +
+                      ' @ ' +
+                      this.state.metadata.last.temperature +
+                      ' °C'}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {
           <div className="column is-6">
             <table className="table">
               <tbody>
                 <tr>
-                  <th>Start</th>
+                  <th>Started </th>
                   <td>
                     {this.state.metadata &&
-                      moment(
-                        this.state.metadata.start.date,
-                        RAW_DATE_FORMAT
-                      ).format('DD MMMM - HH:mm') +
-                        ' @ ' +
-                        this.state.metadata.start.temperature +
-                        ' °C'}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Last</th>
-                  <td>
-                    {this.state.metadata &&
-                      moment(
-                        this.state.metadata.last.date,
-                        RAW_DATE_FORMAT
-                      ).format('DD MMMM - HH:mm') +
-                        ' @ ' +
-                        this.state.metadata.last.temperature +
-                        ' °C'}
+                      moment
+                        .duration(
+                          moment(new Date()).diff(
+                            moment(
+                              this.state.metadata.start.date,
+                              RAW_DATE_FORMAT
+                            )
+                          )
+                        )
+                        .asDays()
+                        .toFixed(2) + ' days ago'}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          {
-            <div className="column is-6">
-              <table className="table">
-                <tbody>
-                  <tr>
-                    <th>Started </th>
-                    <td>
-                      {this.state.metadata &&
-                        moment
-                          .duration(
-                            moment(new Date()).diff(
-                              moment(
-                                this.state.metadata.start.date,
-                                RAW_DATE_FORMAT
-                              )
-                            )
-                          )
-                          .asDays()
-                          .toFixed(2) + ' days ago'}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          }
-          {/* <div className="column is-4">
+        }
+        {/* <div className="column is-4">
             <table className="table">
               <tbody>
                 <tr>
@@ -142,8 +138,7 @@ class Overview extends React.Component<Props, State> {
               </tbody>
             </table>
           </div> */}
-        </div>
-      </Paper>
+      </div>
     )
   }
 }

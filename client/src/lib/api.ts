@@ -37,12 +37,26 @@ interface MetadataResults {
   }
 }
 
-export const getMetadata = async (fileName: string): Promise<MetadataResults> =>
-  fetch(api.baseUrl + api.getMetadata + '/' + fileName).then(res => res.json())
+const validateFilename = fileName => {
+  if (!fileName) {
+    throw new Error(`api connector: invalid filename:  ${fileName}`)
+  }
+}
+
+export const getMetadata = async (
+  fileName: string
+): Promise<MetadataResults> => {
+  validateFilename(fileName)
+  return fetch(api.baseUrl + api.getMetadata + '/' + fileName).then(res =>
+    res.json()
+  )
+}
 
 export const getRecentTemperatureLogs = async (
   fileName: string
 ): Promise<ApiResult> => {
+  validateFilename(fileName)
+
   const result = await fetch(
     api.baseUrl + api.recentLogs + '/' + fileName
   ).then(res => res.json())
@@ -57,6 +71,8 @@ export const getTemperatureLogs = async (
   downsamplingMethod: string = api.defaultGetOverallLogs,
   pointsCount: number = 500
 ): Promise<ApiResult> => {
+  validateFilename(fileName)
+
   const result = await fetch(
     api.baseUrl +
       'temperature/' +

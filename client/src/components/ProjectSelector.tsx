@@ -348,8 +348,8 @@ export default function ProjectSelector({
 
   // }
 
-  const handleLogFileSelect = value => {
-    setSelectedLogFile(value)
+  const handleLogFileSelect = option => {
+    setSelectedLogFile(option.value)
   }
 
   return (

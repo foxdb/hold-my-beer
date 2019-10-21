@@ -2,8 +2,6 @@ import * as React from 'react'
 
 const ChartJS = require('chart.js')
 
-import Paper from '@material-ui/core/Paper'
-
 export interface Data {
   points: { x; y }[]
   label: string
@@ -138,13 +136,11 @@ class Chart extends React.Component<Props, never> {
 
   render() {
     return (
-      <Paper style={{ margin: 10, padding: 10 }}>
-        <canvas
-          height="400"
-          width="800"
-          ref={c => (this.context = c && c.getContext('2d'))}
-        />
-      </Paper>
+      <canvas
+        height="400"
+        width="800"
+        ref={c => (this.context = c && c.getContext('2d'))}
+      />
     )
   }
 }

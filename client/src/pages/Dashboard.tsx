@@ -3,28 +3,34 @@ import clsx from 'clsx'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-import Drawer from '@material-ui/core/Drawer'
+// import Drawer from '@material-ui/core/Drawer'
 
 import AppBar from '@material-ui/core/AppBar'
 
 import Toolbar from '@material-ui/core/Toolbar'
 // import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
+// import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 // import Badge from '@material-ui/core/Badge'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+
+import Overview from '../components/Overview'
+import LastHoursChart from '../components/LastHoursChart'
+import OverallChart from '../components/OverallChart'
+
+import { getTemperatureLogFiles } from '../lib/api'
 
 import ProjectSelector from '../components/ProjectSelector'
 // import InputBase from '@material-ui/core/InputBase'
 // import NotificationsIcon from '@material-ui/icons/Notifications'
 // import { mainListItems, secondaryListItems } from './listItems'
 // import Chart from './Chart'
-// import Deposits from './Deposits'
+import LatestValues from '../components/LatestValues'
 // import Orders from './Orders'
 
 function Copyright() {
@@ -147,18 +153,37 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard() {
   const classes = useStyles()
 
-  const logFiles = ['test 1 ben', 'manon', 'another test']
+  const [open] = React.useState(false)
+  const [selectedLogFile, setSelectedLogFile] = React.useState(null)
+  const [availableLogFiles, setAvailableLogFiles] = React.useState([])
 
-  const [open, setOpen] = React.useState(false)
-  const [selectedLogFile, setSelectedLogfile] = React.useState(null)
+  const loadLogFiles = async () => {
+    const data = await getTemperatureLogFiles()
+
+    const logFiles = data.logFiles
+      .map(lf => ({
+        fileName: lf.fileName,
+        lastModified: new Date(lf.lastModified)
+      }))
+      .sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime())
+      // hack, undo when ProjectSelector handles objects, not strings
+      .map(file => file.fileName)
+
+    setAvailableLogFiles(logFiles)
+  }
+
+  React.useEffect(() => {
+    loadLogFiles()
+  }, [])
 
   const handleDrawerOpen = () => {
-    setOpen(true)
+    console.log('nope!')
+    // setOpen(true)
   }
 
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
+  // const handleDrawerClose = () => {
+  //   setOpen(false)
+  // }
 
   // public loadData = async () => {
   //   const logFileOptions = await this.loadLogFileOptions()
@@ -215,13 +240,13 @@ export default function Dashboard() {
             Hold my Beer
           </Typography>
           <ProjectSelector
-            logFiles={logFiles}
+            logFiles={availableLogFiles}
             selectedLogFile={selectedLogFile}
-            setSelectedLogFile={setSelectedLogfile}
+            setSelectedLogFile={setSelectedLogFile}
           />
         </Toolbar>
       </AppBar>
-      <Drawer
+      {/* <Drawer
         variant="permanent"
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
@@ -234,23 +259,51 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        {/* <List>{mainListItems}</List> */}
+        {<List>{mainListItems}</List>}
         <Divider />
-        {/* <List>{secondaryListItems}</List> */}
-      </Drawer>
+        {<List>{secondaryListItems}</List>}
+      </Drawer> */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <LatestValues date="2019-10-21" externalTemperature="25" />
+              </Paper>
+            </Grid>
+            <Grid item xs={8}>
+              <Paper className={classes.paper}>
+                {selectedLogFile && (
+                  <Overview
+                    logFileName={(selectedLogFile as unknown) as string}
+                  />
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {selectedLogFile && selectedLogFile !== null && (
+                  // eeeek TODO
+                  <LastHoursChart
+                    logFileName={(selectedLogFile as unknown) as string}
+                  />
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {selectedLogFile && selectedLogFile !== null && (
+                  <OverallChart
+                    logFileName={(selectedLogFile as unknown) as string}
+                  />
+                )}
+              </Paper>
+            </Grid>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>{/* <Chart /> */}</Paper>
             </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>{/* <Deposits /> */}</Paper>
-            </Grid>
-            {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>{/* <Orders /> */}</Paper>
             </Grid>

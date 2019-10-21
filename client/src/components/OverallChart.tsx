@@ -111,11 +111,12 @@ class OverallChart extends React.Component<Props, State> {
     })
   }
 
-  private onDataPointsNumberChange = (event, dataPointsNumber: number) => {
-    this.setState({
-      dataPointsNumber
-    })
-  }
+  // TODO: fix the slider
+  // private onDataPointsNumberChange = (event, dataPointsNumber: number) => {
+  //   this.setState({
+  //     dataPointsNumber
+  //   })
+  // }
   private onDataPointsNumberChangeEnd = event => {
     console.log('fire!', this.state.dataPointsNumber)
     this.loadData(
@@ -190,7 +191,7 @@ class OverallChart extends React.Component<Props, State> {
               max={1000}
               step={100}
               value={this.state.dataPointsNumber}
-              onChange={this.onDataPointsNumberChange}
+              // onChange={this.onDataPointsNumberChange}
               onDragEnd={this.onDataPointsNumberChangeEnd}
             />
           </div>
