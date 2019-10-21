@@ -2,5 +2,5 @@
 
 cd api && yarn && yarn deploy
 cd ..
-cd client && npm i && npm run deploy
+cd client && yarn i && yarn deploy
 cd ..
