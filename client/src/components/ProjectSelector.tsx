@@ -50,8 +50,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 2)
   },
   singleValue: {
-    fontSize: 16,
+    fontSize: 14,
     color: 'white',
+    fontWeight: 'bold',
     maxWidth: 200
   },
   fixedHeight: {

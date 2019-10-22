@@ -281,14 +281,14 @@ export default function Dashboard() {
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 {selectedLogFile && (
                   <LastHoursChart logFileName={selectedLogFile} />
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 {selectedLogFile && (
                   <OverallChart logFileName={selectedLogFile} />
@@ -296,12 +296,12 @@ export default function Dashboard() {
               </Paper>
             </Grid>
             {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{/* <Chart /> */}</Paper>
+            {/* <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>{<Chart />}</Paper>
             </Grid>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>{/* <Orders /> */}</Paper>
-            </Grid>
+              <Paper className={classes.paper}>{<Orders />}</Paper>
+            </Grid> */}
           </Grid>
         </Container>
         <Copyright />

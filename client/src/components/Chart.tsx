@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Title from './Title'
 
 const ChartJS = require('chart.js')
 
@@ -98,8 +99,7 @@ class Chart extends React.Component<Props, never> {
         elements: props.showPoints ? {} : { point: { radius: 0 } },
         maintainAspectRatio: false,
         title: {
-          display: true,
-          text: props.title
+          display: false
         },
         tooltips: {
           mode: 'index',
@@ -136,11 +136,14 @@ class Chart extends React.Component<Props, never> {
 
   render() {
     return (
-      <canvas
-        height="400"
-        width="800"
-        ref={c => (this.context = c && c.getContext('2d'))}
-      />
+      <React.Fragment>
+        <Title>{this.props.title}</Title>
+        <canvas
+          height="400"
+          width="800"
+          ref={c => (this.context = c && c.getContext('2d'))}
+        />
+      </React.Fragment>
     )
   }
 }
