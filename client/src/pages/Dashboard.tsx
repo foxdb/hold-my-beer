@@ -19,7 +19,6 @@ import Paper from '@material-ui/core/Paper'
 import MenuIcon from '@material-ui/icons/Menu'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import Overview from '../components/Overview'
 import LastHoursChart from '../components/LastHoursChart'
 import OverallChart from '../components/OverallChart'
 
@@ -277,7 +276,9 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <LatestValues date="2019-10-21" externalTemperature="25" />
+                {selectedLogFile && (
+                  <LatestValues logFileName={selectedLogFile} />
+                )}
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
@@ -285,11 +286,6 @@ export default function Dashboard() {
                 {selectedLogFile && (
                   <LastHoursChart logFileName={selectedLogFile} />
                 )}
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {selectedLogFile && <Overview logFileName={selectedLogFile} />}
               </Paper>
             </Grid>
             <Grid item xs={12}>
