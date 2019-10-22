@@ -51,7 +51,8 @@ const useStyles = makeStyles(theme => ({
   },
   singleValue: {
     fontSize: 16,
-    color: 'white'
+    color: 'white',
+    maxWidth: 200
   },
   fixedHeight: {
     height: 240
@@ -230,6 +231,7 @@ Placeholder.propTypes = {
 function SingleValue(props) {
   return (
     <Typography
+      noWrap={true}
       className={props.selectProps.classes.singleValue}
       {...props.innerProps}
     >
