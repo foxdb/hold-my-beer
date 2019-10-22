@@ -323,31 +323,6 @@ export default function ProjectSelector({
     label: file
   }))
 
-  // const [logFiles, setLogFiles] = React.useState([])
-
-  // public loadData = async () => {
-  //   const logFileOptions = await this.loadLogFileOptions()
-  //   const favoriteProject = await this.getFavoriteProject()
-
-  //   let initialLogFile
-
-  //   if (favoriteProject) {
-  //     initialLogFile = favoriteProject
-  //   } else if (this.state.selectedLogFile) {
-  //     initialLogFile = this.state.selectedLogFile
-  //   } else {
-  //     initialLogFile = logFileOptions[0].fileName // default
-  //   }
-
-  //   this.setState({
-  //     selectedLogFile: initialLogFile
-  //   })
-  // }
-
-  // public componentDidMount() {
-
-  // }
-
   const handleLogFileSelect = option => {
     setSelectedLogFile(option.value)
   }
@@ -366,7 +341,7 @@ export default function ProjectSelector({
           }}
           classes={classes}
           styles={selectStyles}
-          value={selectedLogFile}
+          value={{ value: selectedLogFile, label: selectedLogFile }}
           onChange={handleLogFileSelect}
           options={logFileOptions}
           components={components}

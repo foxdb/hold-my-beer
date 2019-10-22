@@ -174,6 +174,10 @@ export default function Dashboard() {
       .map(file => file.fileName)
 
     setAvailableLogFiles(logFiles)
+
+    if (selectedLogFile === null) {
+      setSelectedLogFile(logFiles[0])
+    }
   }
 
   React.useEffect(() => {
@@ -276,16 +280,16 @@ export default function Dashboard() {
                 <LatestValues date="2019-10-21" externalTemperature="25" />
               </Paper>
             </Grid>
-            <Grid item xs={8}>
-              <Paper className={classes.paper}>
-                {selectedLogFile && <Overview logFileName={selectedLogFile} />}
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={4} lg={3}>
               <Paper className={classes.paper}>
                 {selectedLogFile && (
                   <LastHoursChart logFileName={selectedLogFile} />
                 )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {selectedLogFile && <Overview logFileName={selectedLogFile} />}
               </Paper>
             </Grid>
             <Grid item xs={12}>
