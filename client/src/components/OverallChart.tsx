@@ -10,7 +10,7 @@ import {
   FormControl
 } from '@material-ui/core'
 
-import Slider from '@material-ui/core/Slider'
+import { Slider } from '@material-ui/core'
 
 interface Props {
   logFileName: string
@@ -111,12 +111,14 @@ class OverallChart extends React.Component<Props, State> {
     })
   }
 
-  // TODO: fix the slider
-  // private onDataPointsNumberChange = (event, dataPointsNumber: number) => {
-  //   this.setState({
-  //     dataPointsNumber
-  //   })
-  // }
+  private onDataPointsNumberChange = (
+    event: React.ChangeEvent<{}>,
+    dataPointsNumber: number
+  ) => {
+    this.setState({
+      dataPointsNumber
+    })
+  }
   private onDataPointsNumberChangeEnd = event => {
     console.log('fire!', this.state.dataPointsNumber)
     this.loadData(
@@ -191,8 +193,8 @@ class OverallChart extends React.Component<Props, State> {
               max={1000}
               step={100}
               value={this.state.dataPointsNumber}
-              // onChange={this.onDataPointsNumberChange}
-              onDragEnd={this.onDataPointsNumberChangeEnd}
+              onChange={this.onDataPointsNumberChange as any}
+              onChangeCommitted={this.onDataPointsNumberChangeEnd}
             />
           </div>
         </div>
