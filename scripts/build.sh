@@ -2,5 +2,5 @@
 
 cd api && yarn && yarn package
 cd ..
-cd client && yarn i && yarn build
+cd client && yarn && yarn build
 cd ..

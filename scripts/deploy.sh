@@ -2,5 +2,5 @@
 
 cd api && yarn && yarn deploy
 cd ..
-cd client && yarn i && yarn deploy
+cd client && yarn && yarn deploy
 cd ..
