@@ -23,8 +23,7 @@
     "react-countdown-now": "^1.3.0",
     "react-dom": "^16.10.2",
     "react-select": "^3.0.8",
-    "recharts": "^1.8.5",
-    "typeface-roboto": "^0.0.75"
+    "recharts": "^1.8.5"
   },
   "devDependencies": {
     "@types/jest": "^23.3.7",
