@@ -19,8 +19,8 @@ import Paper from '@material-ui/core/Paper'
 import MenuIcon from '@material-ui/icons/Menu'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import NewLastHoursChart from '../components/NewLastHoursChart'
-import NewOverallChart from '../components/NewOverallChart'
+import LastHoursChart from '../components/LastHoursChart'
+import OverallChart from '../components/OverallChart'
 
 import { getTemperatureLogFiles } from '../lib/api'
 
@@ -288,14 +288,14 @@ export default function Dashboard() {
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 {selectedLogFile && (
-                  <NewLastHoursChart logFileName={selectedLogFile} />
+                  <LastHoursChart logFileName={selectedLogFile} />
                 )}
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={doubleHeightPaper}>
                 {selectedLogFile && (
-                  <NewOverallChart logFileName={selectedLogFile} />
+                  <OverallChart logFileName={selectedLogFile} />
                 )}
               </Paper>
             </Grid>

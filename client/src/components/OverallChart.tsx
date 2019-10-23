@@ -1,206 +1,167 @@
 import * as React from 'react'
-import moment = require('moment')
-import Chart, { Data } from './Chart'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer
+} from 'recharts'
+import Title from './Title'
 import { getTemperatureLogs } from '../lib/api'
 import { RAW_DATE_FORMAT, api } from '../config'
+import moment = require('moment')
 import {
-  FormControlLabel,
-  Radio,
+  Slider,
+  FormControl,
   RadioGroup,
-  FormControl
+  FormControlLabel,
+  Radio
 } from '@material-ui/core'
-
-import { Slider } from '@material-ui/core'
 
 interface Props {
   logFileName: string
 }
 
-interface State {
-  data: Data[] | null
-  labels: string[] | null
-  hash: number
-  metadata: {
-    minTemp: number
-    maxTemp: number
-  } | null
-  selectedDownsamplingOption: string
-  dataPointsNumber: number
-  isFetching: boolean
+interface Point {
+  date: string
+  temperature: number
 }
 
-class OverallChart extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
+export default function NewOverallChart(props: Props) {
+  const defaultDsOption = api.selectGetOverallLogs.filter(
+    option => option !== 'raw'
+  )[0]
 
-    this.state = {
-      data: null,
-      labels: null,
-      hash: 123456,
-      metadata: null,
-      selectedDownsamplingOption: api.defaultGetOverallLogs,
-      dataPointsNumber: 200,
-      isFetching: false
-    }
-  }
+  const [points, setPoints] = React.useState<Point[]>([])
+  const [isFetching, setFetching] = React.useState<boolean>(false)
 
-  componentDidMount() {
-    this.loadData(
-      this.props.logFileName,
-      this.state.selectedDownsamplingOption,
-      this.state.dataPointsNumber
-    )
-  }
+  const [selectedDownsamplingOption, setDownsamplingOption] = React.useState<
+    string
+  >(defaultDsOption)
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.logFileName !== this.props.logFileName) {
-      this.loadData(
-        nextProps.logFileName,
-        this.state.selectedDownsamplingOption,
-        this.state.dataPointsNumber
-      )
-    }
-  }
+  const [sliderDataPoints, setSliderDataPoints] = React.useState<number>(400)
+  const [requiredDataPoints, setRequiredDataPoints] = React.useState<number>(
+    100
+  )
 
-  private loadData = async (
+  const getPoints = async (
     fileName: string,
-    downsamplingOption: string,
-    dataPointsNumber: number
+    dsOption: string,
+    dataPoints: number
   ) => {
-    this.setState(
-      {
-        isFetching: true
-      },
-      async () => {
-        const rawData = await getTemperatureLogs(
-          fileName,
-          downsamplingOption,
-          dataPointsNumber
-        )
+    setFetching(true)
+    const rawData = await getTemperatureLogs(fileName, dsOption, dataPoints)
 
-        const points = rawData.points.map(point => ({
-          x: moment(point.date, RAW_DATE_FORMAT).format('HH:mm:ss'),
-          y: point.temperature
-        }))
+    const points: Point[] = rawData.points.map(point => ({
+      date: moment(point.date, RAW_DATE_FORMAT).format('YYYY-MM-DD HH:mm'),
+      temperature: point.temperature
+    }))
 
-        this.setState({
-          data: [
-            {
-              points: points,
-              label: 'Temperature'
-              // borderColor: '#4070FF',
-              // backgroundColor: '#3D8CFF'
-            }
-          ],
-          hash: rawData.hash,
-          labels: points.map(point => point.x),
-          metadata: rawData.metadata,
-          isFetching: false
-        })
-      }
-    )
+    setPoints(points)
+    setFetching(false)
   }
 
-  private handleRadioChange = event => {
-    this.setState({ selectedDownsamplingOption: event.target.value }, () => {
-      this.loadData(
-        this.props.logFileName,
-        this.state.selectedDownsamplingOption,
-        this.state.dataPointsNumber
-      )
-    })
+  React.useEffect(() => {
+    getPoints(props.logFileName, selectedDownsamplingOption, requiredDataPoints)
+  }, [props.logFileName, selectedDownsamplingOption, requiredDataPoints])
+
+  const Radios = api.selectGetOverallLogs
+    .filter(option => option !== 'raw')
+    .map((option, idx) => (
+      <FormControlLabel
+        key={idx}
+        value={option}
+        label={option.replace('overallTemperature', '')}
+        control={<Radio />}
+      />
+    ))
+
+  const onRadioChange = event => {
+    setDownsamplingOption(event.target.value)
   }
 
-  private onDataPointsNumberChange = (
+  const onSliderChange = (
     event: React.ChangeEvent<{}>,
     dataPointsNumber: number
   ) => {
-    this.setState({
-      dataPointsNumber
-    })
-  }
-  private onDataPointsNumberChangeEnd = event => {
-    console.log('fire!', this.state.dataPointsNumber)
-    this.loadData(
-      this.props.logFileName,
-      this.state.selectedDownsamplingOption,
-      this.state.dataPointsNumber
-    )
+    setSliderDataPoints(dataPointsNumber)
   }
 
-  render() {
-    if (!this.state.data || !this.state.labels || !this.state.metadata) {
-      return null
-    }
+  const onSliderChangeCommited = event => {
+    setRequiredDataPoints(sliderDataPoints)
+  }
 
-    const Radios = api.selectGetOverallLogs
-      .filter(option => option !== 'raw')
-      .map((option, idx) => (
-        <FormControlLabel
-          key={idx}
-          value={option}
-          label={option.replace('overallTemperature', '')}
-          control={<Radio />}
-        />
-      ))
-
-    return (
-      <>
-        <Chart
-          data={this.state.data}
-          labels={this.state.labels}
-          showPoints={false}
-          title={'Overall temperature (downsampled)'}
-          hash={this.state.hash}
-          yAxis={{
-            label: 'Temperature',
-            maxValue: this.state.metadata.maxTemp + 3,
-            minValue: this.state.metadata.minTemp - 3
+  return (
+    <React.Fragment>
+      <Title>From the beginning</Title>
+      <ResponsiveContainer height={350}>
+        <LineChart
+          data={points}
+          margin={{
+            top: 16,
+            right: 16,
+            bottom: 0,
+            left: 24
           }}
-        />
-        <div className="columns is-vcentered" style={{ margin: 10 }}>
-          <div className="column is-2">
-            <span>Downsampling algorithm</span>
-          </div>
-          <div className="column is-4">
-            <FormControl
-              component="fieldset"
-              variant="filled"
-              margin="none"
-              disabled={this.state.isFetching}
-            >
-              <RadioGroup
-                row={true}
-                aria-label="downsampling method"
-                name="ds1"
-                value={this.state.selectedDownsamplingOption}
-                onChange={this.handleRadioChange}
-              >
-                {Radios}
-              </RadioGroup>
-            </FormControl>
-          </div>
-          <div className="column is-2">
-            <span>Number of points: {this.state.dataPointsNumber}</span>
-          </div>
-          <div className="column is-4">
-            <Slider
-              disabled={
-                this.state.isFetching ||
-                this.state.selectedDownsamplingOption === 'raw'
-              }
-              min={100}
-              max={1000}
-              step={100}
-              value={this.state.dataPointsNumber}
-              onChange={this.onDataPointsNumberChange as any}
-              onChangeCommitted={this.onDataPointsNumberChangeEnd}
-            />
-          </div>
+        >
+          <XAxis dataKey="date" />
+          <YAxis
+            unit="°C"
+            domain={[
+              dataMin => Math.round(dataMin) - 2,
+              dataMax => Math.round(dataMax) + 1
+            ]}
+          >
+            <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
+              Temp. (°C)
+            </Label>
+          </YAxis>
+          <Line
+            type="monotone"
+            dataKey="temperature"
+            stroke="#556CD6"
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+      <div className="columns is-vcentered" style={{ margin: 10 }}>
+        <div className="column is-2">
+          <span>Downsampling</span>
         </div>
-      </>
-    )
-  }
+        <div className="column is-4">
+          <FormControl
+            component="fieldset"
+            variant="filled"
+            margin="none"
+            disabled={isFetching}
+          >
+            <RadioGroup
+              row={true}
+              aria-label="downsampling method"
+              name="ds1"
+              value={selectedDownsamplingOption}
+              onChange={onRadioChange}
+            >
+              {Radios}
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div className="column is-2">
+          <span>Number of points: {sliderDataPoints}</span>
+        </div>
+        <div className="column is-4">
+          <Slider
+            disabled={isFetching || selectedDownsamplingOption === 'raw'}
+            min={100}
+            max={1000}
+            step={100}
+            value={sliderDataPoints}
+            onChange={onSliderChange as any}
+            onChangeCommitted={onSliderChangeCommited}
+          />
+        </div>
+      </div>
+    </React.Fragment>
+  )
 }
-
-export default OverallChart

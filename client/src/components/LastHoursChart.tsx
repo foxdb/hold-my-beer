@@ -1,85 +1,77 @@
 import * as React from 'react'
-import moment = require('moment')
-import Chart, { Data } from './Chart'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer
+} from 'recharts'
+import Title from './Title'
 import { getRecentTemperatureLogs } from '../lib/api'
 import { RAW_DATE_FORMAT } from '../config'
+import moment = require('moment')
 
 interface Props {
   logFileName: string
 }
 
-interface State {
-  data: Data[] | null
-  labels: string[] | null
-  hash: number
-  metadata: {
-    minTemp: number
-    maxTemp: number
-  } | null
+interface Point {
+  date: string
+  temperature: number
 }
 
-class LastHoursChart extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
+export default function Chart(props: Props) {
+  const [points, setPoints] = React.useState<Point[]>([])
 
-    this.state = {
-      data: null,
-      labels: null,
-      hash: 123456,
-      metadata: null
-    }
-  }
-
-  componentDidMount() {
-    this.loadData(this.props.logFileName)
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.logFileName !== this.props.logFileName) {
-      this.loadData(nextProps.logFileName)
-    }
-  }
-
-  private loadData = async fileName => {
+  const getPoints = async (fileName: string) => {
     const rawData = await getRecentTemperatureLogs(fileName)
 
-    const points = rawData.points.map(point => ({
-      x: moment(point.date, RAW_DATE_FORMAT).format('HH:mm:ss'),
-      y: point.temperature
+    const points: Point[] = rawData.points.map(point => ({
+      date: moment(point.date, RAW_DATE_FORMAT).format('HH:mm'),
+      temperature: point.temperature
     }))
 
-    this.setState({
-      data: [
-        {
-          points,
-          label: 'Temperature'
-        }
-      ],
-      hash: rawData.hash,
-      labels: points.map(point => point.x),
-      metadata: rawData.metadata
-    })
+    setPoints(points)
   }
 
-  render() {
-    if (!this.state.data || !this.state.labels || !this.state.metadata) {
-      return null
-    }
+  React.useEffect(() => {
+    getPoints(props.logFileName)
+  }, [props.logFileName])
 
-    return (
-      <Chart
-        data={this.state.data}
-        labels={this.state.labels}
-        title={'Latest 300 points'}
-        hash={this.state.hash}
-        yAxis={{
-          label: 'Temperature',
-          maxValue: this.state.metadata.maxTemp + 1,
-          minValue: this.state.metadata.minTemp - 1
-        }}
-      />
-    )
-  }
+  return (
+    <React.Fragment>
+      <Title>Latest hours</Title>
+      <ResponsiveContainer>
+        <LineChart
+          data={points}
+          margin={{
+            top: 16,
+            right: 16,
+            bottom: 0,
+            left: 24
+          }}
+        >
+          <XAxis dataKey="date" />
+          <YAxis
+            unit="°C"
+            domain={[
+              dataMin => Math.round(dataMin) - 2,
+              dataMax => Math.round(dataMax) + 1
+            ]}
+          >
+            <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
+              Temp. (°C)
+            </Label>
+          </YAxis>
+          <Line
+            type="monotone"
+            dataKey="temperature"
+            stroke="#556CD6"
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </React.Fragment>
+  )
 }
-
-export default LastHoursChart
