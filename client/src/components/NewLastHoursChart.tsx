@@ -61,7 +61,7 @@ export default function Chart(props: Props) {
             ]}
           >
             <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
-              Temperature (°C)
+              Temp. (°C)
             </Label>
           </YAxis>
           <Line

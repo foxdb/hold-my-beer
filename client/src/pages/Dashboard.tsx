@@ -20,7 +20,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 import NewLastHoursChart from '../components/NewLastHoursChart'
-import OverallChart from '../components/OverallChart'
+import NewOverallChart from '../components/NewOverallChart'
 
 import { getTemperatureLogFiles } from '../lib/api'
 
@@ -68,7 +68,10 @@ const useStyles = makeStyles(theme => ({
     })
   },
   fixedHeight: {
-    height: 240
+    height: 250
+  },
+  doubleHeight: {
+    height: 500
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -216,6 +219,7 @@ export default function Dashboard() {
   // }
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+  const doubleHeightPaper = clsx(classes.paper, classes.doubleHeight)
 
   return (
     <div className={classes.root}>
@@ -288,6 +292,13 @@ export default function Dashboard() {
                 )}
               </Paper>
             </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={doubleHeightPaper}>
+                {selectedLogFile && (
+                  <NewOverallChart logFileName={selectedLogFile} />
+                )}
+              </Paper>
+            </Grid>
             {/* <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 {selectedLogFile && (
@@ -295,13 +306,6 @@ export default function Dashboard() {
                 )}
               </Paper>
             </Grid> */}
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={classes.paper}>
-                {selectedLogFile && (
-                  <OverallChart logFileName={selectedLogFile} />
-                )}
-              </Paper>
-            </Grid>
             {/* Chart */}
             {/* <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>{<Chart />}</Paper>
