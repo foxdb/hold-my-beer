@@ -19,7 +19,7 @@ import Paper from '@material-ui/core/Paper'
 import MenuIcon from '@material-ui/icons/Menu'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import LastHoursChart from '../components/LastHoursChart'
+import NewLastHoursChart from '../components/NewLastHoursChart'
 import OverallChart from '../components/OverallChart'
 
 import { getTemperatureLogFiles } from '../lib/api'
@@ -259,11 +259,11 @@ export default function Dashboard() {
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
         }}
         open={open}
-      >
+        >
         <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
+        <IconButton onClick={handleDrawerClose}>
+        <ChevronLeftIcon />
+        </IconButton>
         </div>
         <Divider />
         {<List>{mainListItems}</List>}
@@ -281,13 +281,20 @@ export default function Dashboard() {
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                {selectedLogFile && (
+                  <NewLastHoursChart logFileName={selectedLogFile} />
+                )}
+              </Paper>
+            </Grid>
+            {/* <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 {selectedLogFile && (
                   <LastHoursChart logFileName={selectedLogFile} />
                 )}
               </Paper>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 {selectedLogFile && (
