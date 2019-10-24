@@ -40,9 +40,11 @@ export default function NewOverallChart(props: Props) {
     string
   >(defaultDsOption)
 
-  const [sliderDataPoints, setSliderDataPoints] = React.useState<number>(400)
+  const [sliderDataPoints, setSliderDataPoints] = React.useState<number>(
+    api.defaultDownsamplingPoints
+  )
   const [requiredDataPoints, setRequiredDataPoints] = React.useState<number>(
-    400
+    api.defaultDownsamplingPoints
   )
 
   const getPoints = async (

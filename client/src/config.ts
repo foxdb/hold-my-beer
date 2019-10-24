@@ -3,6 +3,7 @@ const api = {
   getLogs: 'temperatureLogs',
   defaultGetOverallLogs: 'LTD',
   selectGetOverallLogs: ['LTD', 'LTOB', 'LTTB', 'raw'],
+  defaultDownsamplingPoints: 300,
   recentLogs: 'recentTemperatureLogs',
   logFiles: 'logFiles',
   getMetadata: 'getMetadata'
