@@ -37,6 +37,23 @@ interface MetadataResults {
   }
 }
 
+export const getProjects = async (): Promise<string[]> => {
+  const result = await fetch(`${api.baseUrl}projects`).then(res => res.json())
+  return result.projects
+}
+
+export const getProject = async (
+  projectName: string
+): Promise<{
+  name: string
+  logs: string[]
+}> => {
+  const project = (await fetch(`${api.baseUrl}projects/${projectName}`).then(
+    res => res.json()
+  )).project
+  return project
+}
+
 const validateFilename = fileName => {
   if (!fileName) {
     throw new Error(`api connector: invalid filename:  ${fileName}`)

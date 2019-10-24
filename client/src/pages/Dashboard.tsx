@@ -22,7 +22,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import LastHoursChart from '../components/LastHoursChart'
 import OverallChart from '../components/OverallChart'
 
-import { getTemperatureLogFiles } from '../lib/api'
+import { getProjects, getProject } from '../lib/api'
 
 import ProjectSelector from '../components/ProjectSelector'
 // import InputBase from '@material-ui/core/InputBase'
@@ -158,33 +158,43 @@ export default function Dashboard() {
   const classes = useStyles()
 
   const [open] = React.useState(false)
-  const [selectedLogFile, setSelectedLogFile] = React.useState<string | null>(
+
+  const [availableProjects, setAvailableProjects] = React.useState<
+    string[] | null
+  >([])
+  const [extTempLogFile, setExtTempLogFile] = React.useState<string | null>(
     null
   )
-  const [availableLogFiles, setAvailableLogFiles] = React.useState([])
+
+  const [selectedProject, setSelectedProject] = React.useState<string | null>(
+    null
+  )
 
   const loadLogFiles = async () => {
-    const data = await getTemperatureLogFiles()
+    const projects = await getProjects()
+    setAvailableProjects(projects)
 
-    const logFiles = data.logFiles
-      .map(lf => ({
-        fileName: lf.fileName,
-        lastModified: new Date(lf.lastModified)
-      }))
-      .sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime())
-      // hack, undo when ProjectSelector handles objects, not strings
-      .map(file => file.fileName)
-
-    setAvailableLogFiles(logFiles)
-
-    if (selectedLogFile === null) {
-      setSelectedLogFile(logFiles[0])
+    if (selectedProject === null) {
+      setSelectedProject(projects[0])
     }
   }
 
   React.useEffect(() => {
     loadLogFiles()
   }, [])
+
+  React.useEffect(() => {
+    if (selectedProject !== null) {
+      getProject(selectedProject).then(project => {
+        const externalTemperatureLogFile =
+          project.logs.find(log => log.includes('external-temperature')) ||
+          project.logs.find(log => log.includes('temperature'))
+        if (externalTemperatureLogFile) {
+          setExtTempLogFile(externalTemperatureLogFile)
+        }
+      })
+    }
+  }, [selectedProject])
 
   const handleDrawerOpen = () => {
     console.log('nope!')
@@ -203,14 +213,14 @@ export default function Dashboard() {
 
   //   if (favoriteProject) {
   //     initialLogFile = favoriteProject
-  //   } else if (this.state.selectedLogFile) {
-  //     initialLogFile = this.state.selectedLogFile
+  //   } else if (this.state.selectedProject) {
+  //     initialLogFile = this.state.selectedProject
   //   } else {
   //     initialLogFile = logFileOptions[0].fileName // default
   //   }
 
   //   this.setState({
-  //     selectedLogFile: initialLogFile
+  //     selectedProject: initialLogFile
   //   })
   // }
 
@@ -251,9 +261,9 @@ export default function Dashboard() {
             Hold my Beer
           </Typography>
           <ProjectSelector
-            logFiles={availableLogFiles}
-            selectedLogFile={selectedLogFile}
-            setSelectedLogFile={setSelectedLogFile}
+            projects={availableProjects}
+            selectedProject={selectedProject}
+            setSelectedProject={setSelectedProject}
           />
         </Toolbar>
       </AppBar>
@@ -280,29 +290,29 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                {selectedLogFile && (
-                  <LatestValues logFileName={selectedLogFile} />
+                {extTempLogFile && (
+                  <LatestValues logFileName={extTempLogFile} />
                 )}
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                {selectedLogFile && (
-                  <LastHoursChart logFileName={selectedLogFile} />
+                {extTempLogFile && (
+                  <LastHoursChart logFileName={extTempLogFile} />
                 )}
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={doubleHeightPaper}>
-                {selectedLogFile && (
-                  <OverallChart logFileName={selectedLogFile} />
+                {extTempLogFile && (
+                  <OverallChart logFileName={extTempLogFile} />
                 )}
               </Paper>
             </Grid>
             {/* <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
-                {selectedLogFile && (
-                  <LastHoursChart logFileName={selectedLogFile} />
+                {extTempLogFile && (
+                  <LastHoursChart logFileName={extTempLogFile} />
                 )}
               </Paper>
             </Grid> */}

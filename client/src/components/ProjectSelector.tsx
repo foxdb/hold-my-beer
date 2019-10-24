@@ -304,9 +304,9 @@ const components = {
 }
 
 export default function ProjectSelector({
-  logFiles,
-  selectedLogFile,
-  setSelectedLogFile
+  projects,
+  selectedProject,
+  setSelectedProject
 }) {
   const classes = useStyles()
   const theme = useTheme()
@@ -321,13 +321,13 @@ export default function ProjectSelector({
     })
   }
 
-  const logFileOptions = logFiles.map(file => ({
+  const logFileOptions = projects.map(file => ({
     value: file,
     label: file
   }))
 
   const handleLogFileSelect = option => {
-    setSelectedLogFile(option.value)
+    setSelectedProject(option.value)
   }
 
   return (
@@ -344,7 +344,7 @@ export default function ProjectSelector({
           }}
           classes={classes}
           styles={selectStyles}
-          value={{ value: selectedLogFile, label: selectedLogFile }}
+          value={{ value: selectedProject, label: selectedProject }}
           onChange={handleLogFileSelect}
           options={logFileOptions}
           components={components}
