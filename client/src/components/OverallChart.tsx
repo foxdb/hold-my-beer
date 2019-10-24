@@ -42,7 +42,7 @@ export default function NewOverallChart(props: Props) {
 
   const [sliderDataPoints, setSliderDataPoints] = React.useState<number>(400)
   const [requiredDataPoints, setRequiredDataPoints] = React.useState<number>(
-    100
+    400
   )
 
   const getPoints = async (
