@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "./scripts/build.sh",
-    "deploy": "./scripts/deploy.sh"
+    "deploy": "./scripts/deploy.sh",
+    "syncProjects": "aws s3 cp ./projects s3://raspi-chill/"
   },
   "devDependencies": {
     "semantic-release": "15"

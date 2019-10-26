@@ -72,6 +72,10 @@ export const downsample = async (event, context) => {
 
       return {
         statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
         body: JSON.stringify({
           logFile: logFilePath.split('/')[1],
           metadata: {
@@ -80,8 +84,7 @@ export const downsample = async (event, context) => {
             downsamplingMethod: null
           },
           points
-        }),
-        headers: { 'Access-Control-Allow-Origin': '*' }
+        })
       }
     }
 
@@ -110,7 +113,10 @@ export const downsample = async (event, context) => {
         },
         points: downsampledPoints
       }),
-      headers: { 'Access-Control-Allow-Origin': '*' }
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
     }
   } catch (error) {
     console.error(error)

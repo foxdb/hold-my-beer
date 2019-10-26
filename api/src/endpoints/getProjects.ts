@@ -30,7 +30,10 @@ export const getProject = async (event, context) => {
           logs: projectLogs
         }
       }),
-      headers: { 'Access-Control-Allow-Origin': '*' }
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
     }
   } catch (error) {
     console.error(error)

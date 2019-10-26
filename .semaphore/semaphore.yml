@@ -14,7 +14,7 @@ blocks:
           - nvm use 10
       env_vars:
         - name: API_BASE_URL
-          value: https://xqksrj7oo8.execute-api.ap-southeast-2.amazonaws.com/dev/
+          value: https://wt5tn7alb9.execute-api.ap-southeast-2.amazonaws.com/dev/
         - name: NODE_ENV
           value: production
       jobs:

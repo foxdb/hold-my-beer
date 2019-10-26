@@ -13,7 +13,10 @@ export const listLogFiles = async (event, context) => {
           lastModified: logFile.lastModified
         }))
       }),
-      headers: { 'Access-Control-Allow-Origin': '*' }
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
     }
   } catch (error) {
     throw error

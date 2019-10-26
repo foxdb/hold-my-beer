@@ -41,7 +41,10 @@ export const getMetadata = async (event, context) => {
           last: makePoint(lines[lines.length - 1])
         }
       }),
-      headers: { 'Access-Control-Allow-Origin': '*' }
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
     }
   } catch (error) {
     console.error(error)
