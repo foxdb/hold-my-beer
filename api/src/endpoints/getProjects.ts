@@ -56,7 +56,10 @@ const getProjectLogs = async (name: string): Promise<string[]> => {
       file =>
         file.path && file.path.includes(name) && !file.path.includes('.bak')
     )
-    .map(file => file.path.replace(process.env.logsPath + '/', ''))
+    .map(file => {
+      const parts = file.path.split('/')
+      return parts[parts.length - 1]
+    })
 }
 
 export const getProjectsList = async () => {
