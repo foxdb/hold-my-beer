@@ -10,7 +10,7 @@
     "syncProjects": "aws s3 cp ./projects s3://raspi-chill/"
   },
   "devDependencies": {
-    "semantic-release": "15"
+    "semantic-release": "^15.13.31"
   },
   "release": {
     "branch": "master",
