@@ -7,7 +7,7 @@
   "scripts": {
     "build": "./scripts/build.sh",
     "deploy": "./scripts/deploy.sh",
-    "syncProjects": "aws s3 cp ./projects s3://raspi-chill/"
+    "syncProjects": "aws s3 cp ./data/projects s3://raspi-chill/"
   },
   "devDependencies": {
     "semantic-release": "^15.13.31"

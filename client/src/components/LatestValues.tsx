@@ -33,12 +33,17 @@ export default function LatestValues(props: Props) {
   const [latestDate, setLatestDate] = React.useState<string | null>(null)
   const [startDate, setStartDate] = React.useState<string | null>(null)
 
-  const duration = startDate
-    ? moment
-        .duration(moment(new Date()).diff(moment(startDate, RAW_DATE_FORMAT)))
-        .asDays()
-        .toFixed(2)
-    : 0
+  const duration =
+    startDate && latestDate
+      ? moment
+          .duration(
+            moment(latestDate, RAW_DATE_FORMAT).diff(
+              moment(startDate, RAW_DATE_FORMAT)
+            )
+          )
+          .asDays()
+          .toFixed(2)
+      : 0
 
   const loadLogMetadata = async () => {
     const result = await getMetadata(props.logFileName)
