@@ -98,3 +98,20 @@ functions:
               querystrings:
                 pointsCount: false
                 downsamplingMethod: false
+
+  gravity:
+    handler: src/endpoints/gravityLogs.getGravityLog
+    environment:
+      logsBucketName: ${file(./.env.yml):logsBucketName}
+      logsPath: ${file(./.env.yml):logsPath}
+    events:
+      - http:
+          method: get
+          cors: true
+          path: gravity/{logFile}
+          request:
+            parameters:
+              paths:
+                logFile: true
+              querystrings:
+                last: false

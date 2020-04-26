@@ -14,7 +14,7 @@ interface Point {
 
 export const makePoint = (line: string): Point => ({
   date: line.split(',')[0],
-  temperature: parseFloat(line.split(',')[1])
+  temperature: parseFloat(line.split(',')[1]),
 })
 
 export const makePoints = (
@@ -32,44 +32,106 @@ export const makePoints = (
   let dateIndex = {}
   const indexedPoints: { x: number; y: number }[] = []
 
-  const points = lines.reduce(
-    (acc, current, index) => {
-      const temp = parseFloat(current.split(',')[1])
+  const points = lines.reduce((acc, current, index) => {
+    const temp = parseFloat(current.split(',')[1])
 
-      if (temp === null || isNaN(temp)) {
-        return acc
-      }
-
-      minTemp = Math.min(minTemp, temp)
-      maxTemp = Math.max(maxTemp, temp)
-
-      const date = current.split(',')[0]
-
-      if (withIndex) {
-        dateIndex[index] = date
-        indexedPoints.push({ x: index, y: temp })
-      }
-
-      acc.push({
-        date,
-        temperature: temp
-      })
-
+    if (temp === null || isNaN(temp)) {
       return acc
-    },
-    [] as Point[]
-  )
+    }
+
+    minTemp = Math.min(minTemp, temp)
+    maxTemp = Math.max(maxTemp, temp)
+
+    const date = current.split(',')[0]
+
+    if (withIndex) {
+      dateIndex[index] = date
+      indexedPoints.push({ x: index, y: temp })
+    }
+
+    acc.push({
+      date,
+      temperature: temp,
+    })
+
+    return acc
+  }, [] as Point[])
 
   return {
     metadata: {
       minTemp,
       maxTemp,
       inputLines: lines.length,
-      validPoints: points.length
+      validPoints: points.length,
     },
     points,
     indexedPoints,
-    dateIndex
+    dateIndex,
+  }
+}
+
+interface GenericMetadata {
+  min: number
+  max: number
+  inputLinesCount: number
+  validPointsCount: number
+}
+
+interface GravityPoint {
+  gravity: number
+  date: string
+}
+
+export const makeGravityPoints = (
+  lines: string[],
+  withIndex: boolean = false
+): {
+  metadata: GenericMetadata
+  points: GravityPoint[]
+  indexedPoints: { x: number; y: number }[]
+  dateIndex: { [index: number]: number }
+} => {
+  let min = 50000
+  let max = -50000
+
+  let dateIndex = {}
+  const indexedPoints: { x: number; y: number }[] = []
+
+  const points = lines.reduce((acc, current, index) => {
+    const gravity = parseFloat(current.split(',')[1])
+
+    if (gravity === null || isNaN(gravity)) {
+      return acc
+    }
+
+    min = Math.min(min, gravity)
+    max = Math.max(max, gravity)
+
+    const date = current.split(',')[0]
+
+    if (withIndex) {
+      dateIndex[index] = date
+      indexedPoints.push({ x: index, y: gravity })
+    }
+
+    acc.push({
+      date,
+      gravity: gravity,
+    })
+
+    return acc
+  }, [] as GravityPoint[])
+
+  return {
+    metadata: {
+      min,
+      max,
+      inputLinesCount: lines.length,
+      validPointsCount: points.length,
+    },
+    points,
+    indexedPoints,
+    dateIndex,
   }
 }
 

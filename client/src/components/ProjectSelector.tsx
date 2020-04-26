@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { emphasize, makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import * as PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
 
@@ -9,6 +9,8 @@ import NoSsr from '@material-ui/core/NoSsr'
 import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
+
+// TODO: rafactor - proper theming
 
 const useStyles = makeStyles(theme => ({
   menuPaper: {
@@ -35,17 +37,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     overflow: 'hidden'
   },
-  chip: {
-    margin: theme.spacing(0.5, 0.25)
-  },
-  chipFocused: {
-    backgroundColor: emphasize(
-      theme.palette.type === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-      0.08
-    )
-  },
   noOptionsMessage: {
     padding: theme.spacing(1, 2)
   },
@@ -55,17 +46,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     maxWidth: 200
   },
-  fixedHeight: {
-    height: 240
-  },
   placeholder: {
     position: 'absolute',
     left: 2,
     bottom: 6,
     fontSize: 16
-  },
-  divider: {
-    height: theme.spacing(2)
   }
 }))
 

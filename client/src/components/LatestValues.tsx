@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider'
 import Title from './Title'
 
 import { RAW_DATE_FORMAT } from '../config'
-import { getMetadata } from '../lib/api'
+import { getMetadata, getGravityLog } from '../lib/api'
 
 const useStyles = makeStyles({
   divider: {
@@ -21,7 +21,8 @@ const useStyles = makeStyles({
 })
 
 interface Props {
-  logFileName: string
+  tempLogFileName: string | null
+  gravityLogFileName: string | null
 }
 
 export default function LatestValues(props: Props) {
@@ -30,14 +31,20 @@ export default function LatestValues(props: Props) {
   const [latestTemperature, setLatestTemperature] = React.useState<
     number | null
   >(null)
-  const [latestDate, setLatestDate] = React.useState<string | null>(null)
+  const [latestTemperatureDate, setLatestTemperatureDate] = React.useState<
+    string | null
+  >(null)
+  const [latestGravity, setLatestGravity] = React.useState<number | null>(null)
+  const [latestGravityDate, setLatestGravityDate] = React.useState<
+    string | null
+  >(null)
   const [startDate, setStartDate] = React.useState<string | null>(null)
 
   const duration =
-    startDate && latestDate
+    startDate && latestTemperatureDate
       ? moment
           .duration(
-            moment(latestDate, RAW_DATE_FORMAT).diff(
+            moment(latestTemperatureDate, RAW_DATE_FORMAT).diff(
               moment(startDate, RAW_DATE_FORMAT)
             )
           )
@@ -45,21 +52,42 @@ export default function LatestValues(props: Props) {
           .toFixed(2)
       : 0
 
-  const loadLogMetadata = async () => {
-    const result = await getMetadata(props.logFileName)
+  const loadLatestTemperature = async () => {
+    if (props.tempLogFileName) {
+      const result = await getMetadata(props.tempLogFileName)
 
-    setStartDate(result.metadata.start.date)
-    setLatestDate(result.metadata.last.date)
-    setLatestTemperature(result.metadata.last.temperature)
+      setStartDate(result.metadata.start.date)
+      setLatestTemperatureDate(result.metadata.last.date)
+      setLatestTemperature(result.metadata.last.temperature)
+    } else {
+      setStartDate(null)
+      setLatestTemperatureDate(null)
+      setLatestTemperature(null)
+    }
+  }
+
+  const loadLatestGravity = async () => {
+    if (props.gravityLogFileName) {
+      const result = await getGravityLog(props.gravityLogFileName, 1)
+
+      setLatestGravityDate(result.points[0] ? result.points[0].date : null)
+      setLatestGravity(result.points[0] ? result.points[0].gravity : null)
+    } else {
+      setLatestGravityDate(null)
+      setLatestGravity(null)
+    }
   }
 
   React.useEffect(() => {
-    loadLogMetadata()
-  }, [props.logFileName])
+    loadLatestTemperature()
+  }, [props.tempLogFileName])
+
+  React.useEffect(() => {
+    loadLatestGravity()
+  }, [props.gravityLogFileName])
 
   return (
     <React.Fragment>
-      <Title>Total duration</Title>
       <Typography component="p" variant="h4">
         {`${duration} days`}
       </Typography>
@@ -72,14 +100,27 @@ export default function LatestValues(props: Props) {
       </Typography>
       <Divider className={classes.divider} />
 
-      <Title>Latest reading</Title>
       <Typography component="p" variant="h4">
         {`${latestTemperature ? latestTemperature : '-'}°C`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         {`on ${
-          latestDate
-            ? moment(latestDate, RAW_DATE_FORMAT).format('DD MMMM - HH:mm')
+          latestTemperatureDate
+            ? moment(latestTemperatureDate, RAW_DATE_FORMAT).format(
+                'DD MMMM - HH:mm'
+              )
+            : '-'
+        }`}
+      </Typography>
+      <Typography component="p" variant="h4">
+        {`SG: ${latestGravity ? latestGravity : '-'}`}
+      </Typography>
+      <Typography color="textSecondary" className={classes.depositContext}>
+        {`on ${
+          latestGravityDate
+            ? moment(latestGravityDate, RAW_DATE_FORMAT).format(
+                'DD MMMM - HH:mm'
+              )
             : '-'
         }`}
       </Typography>

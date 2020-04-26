@@ -106,5 +106,35 @@ export const getTemperatureLogs = async (
   }
 }
 
+interface GravityPoint {
+  gravity: number
+  date: string
+}
+
+export interface GenericApiResult {
+  metadata: {
+    min: number
+    max: number
+  }
+  points: GravityPoint[]
+  hash: number
+}
+
+export const getGravityLog = async (
+  fileName: string,
+  last?: number
+): Promise<GenericApiResult> => {
+  validateFilename(fileName)
+
+  const result = await fetch(
+    `${api.baseUrl}gravity/${fileName}${last ? `?last=${last}` : ''}`
+  ).then(res => res.json())
+
+  return {
+    hash: Math.floor(Math.random() * 10000),
+    ...result
+  }
+}
+
 export const getTemperatureLogFiles = () =>
   fetch(api.baseUrl + api.logFiles + '/temperature').then(res => res.json())

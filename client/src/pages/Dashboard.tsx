@@ -11,15 +11,17 @@ import Toolbar from '@material-ui/core/Toolbar'
 // import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 // import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
+// import IconButton from '@material-ui/core/IconButton'
 // import Badge from '@material-ui/core/Badge'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
-import MenuIcon from '@material-ui/icons/Menu'
+// import MenuIcon from '@material-ui/icons/Menu'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 import LastHoursChart from '../components/LastHoursChart'
+import GravityChart from '../components/GravityChart'
+import Copyright from '../components/Copyright'
 import OverallChart from '../components/OverallChart'
 
 import { getProjects, getProject } from '../lib/api'
@@ -31,18 +33,6 @@ import ProjectSelector from '../components/ProjectSelector'
 // import Chart from './Chart'
 import LatestValues from '../components/LatestValues'
 // import Orders from './Orders'
-
-function Copyright() {
-  // https://github.com/foxdb/hold-my-beer
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      Hold My Beer {new Date().getFullYear()}
-      {'  '}
-      <a href=" https://github.com/foxdb/hold-my-beer">Github</a>
-    </Typography>
-  )
-}
 
 const drawerWidth = 240
 
@@ -165,6 +155,14 @@ export default function Dashboard() {
   const [extTempLogFile, setExtTempLogFile] = React.useState<string | null>(
     null
   )
+  const [internalTempLogFile, setInternalTempLogFile] = React.useState<
+    string | null
+  >(null)
+
+  const [gravityLogFile, setGravityLogFile] = React.useState<string | null>(
+    null
+  )
+  const [eventsLogFile, setEventsLogFile] = React.useState<string | null>(null)
 
   const [selectedProject, setSelectedProject] = React.useState<string | null>(
     null
@@ -186,47 +184,50 @@ export default function Dashboard() {
   React.useEffect(() => {
     if (selectedProject !== null) {
       getProject(selectedProject).then(project => {
-        const externalTemperatureLogFile =
-          project.logs.find(log => log.includes('external-temperature')) ||
-          project.logs.find(log => log.includes('temperature'))
-        if (externalTemperatureLogFile) {
-          setExtTempLogFile(externalTemperatureLogFile)
+        const projectExtTempLog = project.logs.find(
+          log =>
+            log.includes('external-temperature') ||
+            (log.includes('temperature') &&
+              !log.includes('internal-temperature'))
+        )
+        if (projectExtTempLog) {
+          console.log(`Found external temp log: ${projectExtTempLog}`)
+          setExtTempLogFile(projectExtTempLog)
+        } else {
+          setExtTempLogFile(null)
+        }
+
+        const projectInternalTemp = project.logs.find(log =>
+          log.includes('internal-temperature')
+        )
+        if (projectInternalTemp) {
+          console.log(`Found internal temp log: ${projectInternalTemp}
+          `)
+          setInternalTempLogFile(projectInternalTemp)
+        } else {
+          setInternalTempLogFile(null)
+        }
+
+        const projectGravity = project.logs.find(log => log.includes('gravity'))
+        if (projectGravity) {
+          setGravityLogFile(projectGravity)
+          console.log(`Found gravity log: ${projectGravity}
+          `)
+        } else {
+          setGravityLogFile(null)
+        }
+
+        const projectEvents = project.logs.find(log => log.includes('events'))
+        if (projectEvents) {
+          console.log(`Found events log: ${projectEvents}
+          `)
+          setEventsLogFile(projectEvents)
+        } else {
+          setEventsLogFile(null)
         }
       })
     }
   }, [selectedProject])
-
-  const handleDrawerOpen = () => {
-    console.log('nope!')
-    // setOpen(true)
-  }
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false)
-  // }
-
-  // public loadData = async () => {
-  //   const logFileOptions = await this.loadLogFileOptions()
-  //   const favoriteProject = await this.getFavoriteProject()
-
-  //   let initialLogFile
-
-  //   if (favoriteProject) {
-  //     initialLogFile = favoriteProject
-  //   } else if (this.state.selectedProject) {
-  //     initialLogFile = this.state.selectedProject
-  //   } else {
-  //     initialLogFile = logFileOptions[0].fileName // default
-  //   }
-
-  //   this.setState({
-  //     selectedProject: initialLogFile
-  //   })
-  // }
-
-  // public componentDidMount() {
-
-  // }
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
   const doubleHeightPaper = clsx(classes.paper, classes.doubleHeight)
@@ -239,7 +240,7 @@ export default function Dashboard() {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
@@ -250,7 +251,7 @@ export default function Dashboard() {
             )}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography
             component="h1"
             variant="h6"
@@ -291,7 +292,10 @@ export default function Dashboard() {
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 {extTempLogFile && (
-                  <LatestValues logFileName={extTempLogFile} />
+                  <LatestValues
+                    tempLogFileName={extTempLogFile}
+                    gravityLogFileName={gravityLogFile}
+                  />
                 )}
               </Paper>
             </Grid>
@@ -299,6 +303,13 @@ export default function Dashboard() {
               <Paper className={fixedHeightPaper}>
                 {extTempLogFile && (
                   <LastHoursChart logFileName={extTempLogFile} />
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={doubleHeightPaper}>
+                {gravityLogFile && (
+                  <GravityChart logFileName={gravityLogFile} />
                 )}
               </Paper>
             </Grid>
