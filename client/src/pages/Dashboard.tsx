@@ -155,14 +155,14 @@ export default function Dashboard() {
   const [extTempLogFile, setExtTempLogFile] = React.useState<string | null>(
     null
   )
-  const [internalTempLogFile, setInternalTempLogFile] = React.useState<
-    string | null
-  >(null)
+  // const [internalTempLogFile, setInternalTempLogFile] = React.useState<
+  //   string | null
+  // >(null)
 
   const [gravityLogFile, setGravityLogFile] = React.useState<string | null>(
     null
   )
-  const [eventsLogFile, setEventsLogFile] = React.useState<string | null>(null)
+  // const [eventsLogFile, setEventsLogFile] = React.useState<string | null>(null)
 
   const [selectedProject, setSelectedProject] = React.useState<string | null>(
     null
@@ -197,16 +197,16 @@ export default function Dashboard() {
           setExtTempLogFile(null)
         }
 
-        const projectInternalTemp = project.logs.find(log =>
-          log.includes('internal-temperature')
-        )
-        if (projectInternalTemp) {
-          console.log(`Found internal temp log: ${projectInternalTemp}
-          `)
-          setInternalTempLogFile(projectInternalTemp)
-        } else {
-          setInternalTempLogFile(null)
-        }
+        // const projectInternalTemp = project.logs.find(log =>
+        //   log.includes('internal-temperature')
+        // )
+        // if (projectInternalTemp) {
+        //   console.log(`Found internal temp log: ${projectInternalTemp}
+        //   `)
+        //   setInternalTempLogFile(projectInternalTemp)
+        // } else {
+        //   setInternalTempLogFile(null)
+        // }
 
         const projectGravity = project.logs.find(log => log.includes('gravity'))
         if (projectGravity) {
@@ -217,14 +217,14 @@ export default function Dashboard() {
           setGravityLogFile(null)
         }
 
-        const projectEvents = project.logs.find(log => log.includes('events'))
-        if (projectEvents) {
-          console.log(`Found events log: ${projectEvents}
-          `)
-          setEventsLogFile(projectEvents)
-        } else {
-          setEventsLogFile(null)
-        }
+        // const projectEvents = project.logs.find(log => log.includes('events'))
+        // if (projectEvents) {
+        //   console.log(`Found events log: ${projectEvents}
+        //   `)
+        //   setEventsLogFile(projectEvents)
+        // } else {
+        //   setEventsLogFile(null)
+        // }
       })
     }
   }, [selectedProject])
