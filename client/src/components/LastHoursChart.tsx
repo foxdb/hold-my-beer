@@ -5,6 +5,7 @@ import {
   XAxis,
   YAxis,
   Label,
+  Tooltip,
   ResponsiveContainer
 } from 'recharts'
 import Title from './Title'
@@ -14,6 +15,7 @@ import moment = require('moment')
 
 interface Props {
   logFileName: string
+  title?: string
 }
 
 interface Point {
@@ -41,7 +43,7 @@ export default function Chart(props: Props) {
 
   return (
     <React.Fragment>
-      <Title>Latest hours</Title>
+      <Title>{`Latest - ${props.title}`}</Title>
       <ResponsiveContainer>
         <LineChart
           data={points}
@@ -64,6 +66,7 @@ export default function Chart(props: Props) {
               Temp. (°C)
             </Label>
           </YAxis>
+          <Tooltip />
           <Line
             type="monotone"
             dataKey="temperature"

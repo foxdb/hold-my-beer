@@ -5,7 +5,8 @@ import {
   XAxis,
   YAxis,
   Label,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Tooltip
 } from 'recharts'
 import Title from './Title'
 import { getGravityLog } from '../lib/api'
@@ -64,6 +65,7 @@ export default function Chart(props: Props) {
               SG
             </Label>
           </YAxis>
+          <Tooltip />
           <Line
             type="monotone"
             dataKey="gravity"

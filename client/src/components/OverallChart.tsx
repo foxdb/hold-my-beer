@@ -5,7 +5,8 @@ import {
   XAxis,
   YAxis,
   Label,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Tooltip
 } from 'recharts'
 import Title from './Title'
 import { getTemperatureLogs } from '../lib/api'
@@ -21,6 +22,7 @@ import {
 
 interface Props {
   logFileName: string
+  title?: string
 }
 
 interface Point {
@@ -96,7 +98,7 @@ export default function NewOverallChart(props: Props) {
 
   return (
     <React.Fragment>
-      <Title>From the beginning</Title>
+      <Title>{props.title}</Title>
       <ResponsiveContainer height={350}>
         <LineChart
           data={points}
@@ -119,6 +121,7 @@ export default function NewOverallChart(props: Props) {
               Temp. (°C)
             </Label>
           </YAxis>
+          <Tooltip />
           <Line
             type="monotone"
             dataKey="temperature"

@@ -155,9 +155,9 @@ export default function Dashboard() {
   const [extTempLogFile, setExtTempLogFile] = React.useState<string | null>(
     null
   )
-  // const [internalTempLogFile, setInternalTempLogFile] = React.useState<
-  //   string | null
-  // >(null)
+  const [internalTempLogFile, setInternalTempLogFile] = React.useState<
+    string | null
+  >(null)
 
   const [gravityLogFile, setGravityLogFile] = React.useState<string | null>(
     null
@@ -197,16 +197,16 @@ export default function Dashboard() {
           setExtTempLogFile(null)
         }
 
-        // const projectInternalTemp = project.logs.find(log =>
-        //   log.includes('internal-temperature')
-        // )
-        // if (projectInternalTemp) {
-        //   console.log(`Found internal temp log: ${projectInternalTemp}
-        //   `)
-        //   setInternalTempLogFile(projectInternalTemp)
-        // } else {
-        //   setInternalTempLogFile(null)
-        // }
+        const projectInternalTemp = project.logs.find(log =>
+          log.includes('internal-temperature')
+        )
+        if (projectInternalTemp) {
+          console.log(`Found internal temp log: ${projectInternalTemp}
+          `)
+          setInternalTempLogFile(projectInternalTemp)
+        } else {
+          setInternalTempLogFile(null)
+        }
 
         const projectGravity = project.logs.find(log => log.includes('gravity'))
         if (projectGravity) {
@@ -299,10 +299,23 @@ export default function Dashboard() {
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
                 {extTempLogFile && (
-                  <LastHoursChart logFileName={extTempLogFile} />
+                  <LastHoursChart
+                    logFileName={extTempLogFile}
+                    title="External Temp"
+                  />
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                {internalTempLogFile && (
+                  <LastHoursChart
+                    logFileName={internalTempLogFile}
+                    title="Internal Temp"
+                  />
                 )}
               </Paper>
             </Grid>
@@ -316,7 +329,20 @@ export default function Dashboard() {
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={doubleHeightPaper}>
                 {extTempLogFile && (
-                  <OverallChart logFileName={extTempLogFile} />
+                  <OverallChart
+                    logFileName={extTempLogFile}
+                    title="External Temp"
+                  />
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={doubleHeightPaper}>
+                {internalTempLogFile && (
+                  <OverallChart
+                    logFileName={internalTempLogFile}
+                    title="Internal Temp"
+                  />
                 )}
               </Paper>
             </Grid>
