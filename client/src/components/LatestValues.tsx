@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider'
 
 import { RAW_DATE_FORMAT } from '../config'
 import { getMetadata, getGravityLog } from '../lib/api'
+import { round } from '../lib/numbers'
 
 const useStyles = makeStyles({
   divider: {
@@ -99,7 +100,7 @@ export default function LatestValues(props: Props) {
       <Divider className={classes.divider} />
 
       <Typography component="p" variant="h4">
-        {`${latestTemperature ? latestTemperature : '-'}°C`}
+        {`${latestTemperature ? round(latestTemperature, 1) : '-'}°C`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         {`on ${
@@ -111,7 +112,7 @@ export default function LatestValues(props: Props) {
         }`}
       </Typography>
       <Typography component="p" variant="h4">
-        {`SG: ${latestGravity ? latestGravity : '-'}`}
+        {`SG: ${latestGravity ? round(latestGravity, 3) : '-'}`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         {`on ${
