@@ -57,8 +57,10 @@ export default function Chart(props: Props) {
           <YAxis
             unit=""
             domain={[
-              dataMin => Math.round(dataMin) - 0.1,
-              dataMax => Math.round(dataMax) + 0.1
+              //   // dataMin => Math.round(dataMin) - 0.1,
+              //   // dataMax => Math.round(dataMax) + 0.1
+              dataMin => 1.0,
+              dataMax => 1.09
             ]}
           >
             <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
