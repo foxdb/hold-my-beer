@@ -108,7 +108,7 @@ export default function LatestValues(props: Props) {
         {`${latestTemperature ? round(latestTemperature, 1) : '-'}°C`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {`external temperature on ${
+        {`ext. temp. on ${
           latestTemperatureDate
             ? moment(latestTemperatureDate, RAW_DATE_FORMAT).format(
                 'DD MMMM - HH:mm'
@@ -122,7 +122,7 @@ export default function LatestValues(props: Props) {
         }°C`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {`internal temperature on ${
+        {`int. temp. on ${
           latestInternalTemperatureDate
             ? moment(latestInternalTemperatureDate, RAW_DATE_FORMAT).format(
                 'DD MMMM - HH:mm'

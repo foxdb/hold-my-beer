@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider'
 
 import { RAW_DATE_FORMAT } from '../config'
 import { getGravityLog } from '../lib/api'
-import { round } from '../lib/numbers'
+import { round, roundAndFormat } from '../lib/numbers'
 
 const useStyles = makeStyles({
   divider: {
@@ -85,17 +85,17 @@ export default function GravitySummary(props: Props) {
   return (
     <React.Fragment>
       <Typography component="p" variant="h4">
-        {`${latestGravity ? round(latestGravity, 3) : '-'}`}
+        {`${latestGravity ? roundAndFormat(latestGravity, 3) : '-'}`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {`specific gravity on ${latestGravityDateText}`}
+        {`sg on ${latestGravityDateText}`}
       </Typography>
       <Divider className={classes.divider} />
       <Typography component="p" variant="h4">
-        {`${firstGravity ? round(firstGravity, 3) : '-'}`}
+        {`${firstGravity ? roundAndFormat(firstGravity, 3) : '-'}`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {`original gravity on ${firstGravityDateText}`}
+        {`og on ${firstGravityDateText}`}
       </Typography>
 
       <Typography component="p" variant="h4">
