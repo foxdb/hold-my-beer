@@ -11,16 +11,15 @@ import Toolbar from '@material-ui/core/Toolbar'
 // import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 // import Divider from '@material-ui/core/Divider'
-// import IconButton from '@material-ui/core/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 // import Badge from '@material-ui/core/Badge'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
-// import MenuIcon from '@material-ui/icons/Menu'
+import RefreshIcon from '@material-ui/icons/Refresh'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import LastHoursChart from '../components/LastHoursChart'
-import GravityChart from '../components/GravityChart'
+import ConsolidatedChart from '../components/ConsolidatedChart'
 import Copyright from '../components/Copyright'
 import OverallChart from '../components/OverallChart'
 
@@ -32,6 +31,7 @@ import ProjectSelector from '../components/ProjectSelector'
 // import { mainListItems, secondaryListItems } from './listItems'
 // import Chart from './Chart'
 import LatestValues from '../components/LatestValues'
+import GravitySummary from '../components/GravitySummary'
 // import Orders from './Orders'
 
 const drawerWidth = 240
@@ -72,10 +72,8 @@ const useStyles = makeStyles(theme => ({
     })
   },
   menuButton: {
-    marginRight: 36
-  },
-  menuButtonHidden: {
-    display: 'none'
+    marginLeft: 10,
+    paddingRight: 10
   },
   title: {
     flexGrow: 1
@@ -168,6 +166,12 @@ export default function Dashboard() {
     null
   )
 
+  const [hash, setHash] = React.useState<number>(Math.random() * 10000)
+
+  const handleReload = () => {
+    setHash(Math.random() * 10000)
+  }
+
   const loadLogFiles = async () => {
     const projects = await getProjects()
     setAvailableProjects(projects)
@@ -227,7 +231,7 @@ export default function Dashboard() {
         // }
       })
     }
-  }, [selectedProject])
+  }, [selectedProject, hash])
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
   const doubleHeightPaper = clsx(classes.paper, classes.doubleHeight)
@@ -240,18 +244,6 @@ export default function Dashboard() {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          {/* <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography
             component="h1"
             variant="h6"
@@ -266,25 +258,17 @@ export default function Dashboard() {
             selectedProject={selectedProject}
             setSelectedProject={setSelectedProject}
           />
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleReload}
+            className={clsx(classes.menuButton)}
+          >
+            <RefreshIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
-      {/* <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}
-        >
-        <div className={classes.toolbarIcon}>
-        <IconButton onClick={handleDrawerClose}>
-        <ChevronLeftIcon />
-        </IconButton>
-        </div>
-        <Divider />
-        {<List>{mainListItems}</List>}
-        <Divider />
-        {<List>{secondaryListItems}</List>}
-      </Drawer> */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -293,73 +277,41 @@ export default function Dashboard() {
               <Paper className={fixedHeightPaper}>
                 {extTempLogFile && (
                   <LatestValues
+                    internalTempLogFileName={internalTempLogFile}
                     tempLogFileName={extTempLogFile}
-                    gravityLogFileName={gravityLogFile}
+                    hash={hash}
                   />
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                {extTempLogFile && (
-                  <LastHoursChart
-                    logFileName={extTempLogFile}
-                    title="External Temp"
-                  />
-                )}
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={fixedHeightPaper}>
-                {internalTempLogFile && (
-                  <LastHoursChart
-                    logFileName={internalTempLogFile}
-                    title="Internal Temp"
-                  />
-                )}
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={doubleHeightPaper}>
                 {gravityLogFile && (
-                  <GravityChart logFileName={gravityLogFile} />
-                )}
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={doubleHeightPaper}>
-                {extTempLogFile && (
-                  <OverallChart
-                    logFileName={extTempLogFile}
-                    title="External Temp"
+                  <GravitySummary
+                    gravityLogFileName={gravityLogFile}
+                    hash={hash}
                   />
                 )}
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={doubleHeightPaper}>
-                {internalTempLogFile && (
-                  <OverallChart
-                    logFileName={internalTempLogFile}
-                    title="Internal Temp"
+                {gravityLogFile && internalTempLogFile && (
+                  <ConsolidatedChart
+                    gravityLogFileName={gravityLogFile}
+                    internalTemperatureLogFileName={internalTempLogFile}
+                    hash={hash}
                   />
                 )}
               </Paper>
             </Grid>
-            {/* <Grid item xs={12} md={12} lg={12}>
-              <Paper className={classes.paper}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={doubleHeightPaper}>
                 {extTempLogFile && (
-                  <LastHoursChart logFileName={extTempLogFile} />
+                  <OverallChart logFileName={extTempLogFile} hash={hash} />
                 )}
               </Paper>
-            </Grid> */}
-            {/* Chart */}
-            {/* <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{<Chart />}</Paper>
             </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>{<Orders />}</Paper>
-            </Grid> */}
           </Grid>
         </Container>
         <Copyright />

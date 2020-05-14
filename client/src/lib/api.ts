@@ -122,12 +122,21 @@ export interface GenericApiResult {
 
 export const getGravityLog = async (
   fileName: string,
-  last?: number
+  options?: {
+    last?: number
+    first?: number
+  }
 ): Promise<GenericApiResult> => {
   validateFilename(fileName)
 
+  if (options && (options.first !== undefined && options.last !== undefined)) {
+    throw new Error('Cannot specific first AND last for data fetching')
+  }
+
   const result = await fetch(
-    `${api.baseUrl}gravity/${fileName}${last ? `?last=${last}` : ''}`
+    `${api.baseUrl}gravity/${fileName}${
+      options && options.last ? `?last=${options.last}` : ''
+    }${options && options.first ? `?first=${options.first}` : ''}`
   ).then(res => res.json())
 
   return {

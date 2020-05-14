@@ -6,9 +6,10 @@ import {
   YAxis,
   Label,
   ResponsiveContainer,
-  Tooltip
+  Tooltip,
+  CartesianGrid,
+  Legend
 } from 'recharts'
-import Title from './Title'
 import { getTemperatureLogs } from '../lib/api'
 import { RAW_DATE_FORMAT, api } from '../config'
 import moment = require('moment')
@@ -22,7 +23,7 @@ import {
 
 interface Props {
   logFileName: string
-  title?: string
+  hash?: number
 }
 
 interface Point {
@@ -68,7 +69,12 @@ export default function NewOverallChart(props: Props) {
 
   React.useEffect(() => {
     getPoints(props.logFileName, selectedDownsamplingOption, requiredDataPoints)
-  }, [props.logFileName, selectedDownsamplingOption, requiredDataPoints])
+  }, [
+    props.logFileName,
+    selectedDownsamplingOption,
+    requiredDataPoints,
+    props.hash
+  ])
 
   const Radios = api.selectGetOverallLogs
     .filter(option => option !== 'raw')
@@ -98,14 +104,13 @@ export default function NewOverallChart(props: Props) {
 
   return (
     <React.Fragment>
-      <Title>{props.title}</Title>
       <ResponsiveContainer height={350}>
         <LineChart
           data={points}
           margin={{
-            top: 16,
+            top: 5,
             right: 16,
-            bottom: 0,
+            bottom: 5,
             left: 24
           }}
         >
@@ -113,24 +118,29 @@ export default function NewOverallChart(props: Props) {
           <YAxis
             unit="°C"
             domain={[
-              dataMin => Math.round(dataMin) - 2,
-              dataMax => Math.round(dataMax) + 1
+              0,
+              40
+              // dataMin => Math.round(dataMin) - 2,
+              // dataMax => Math.round(dataMax) + 1
             ]}
           >
             <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
-              Temp. (°C)
+              External temperature
             </Label>
           </YAxis>
           <Tooltip />
+          <CartesianGrid stroke="#eee" strokeDasharray="1 1" />
+          <Legend />
           <Line
             type="monotone"
             dataKey="temperature"
             stroke="#556CD6"
+            strokeWidth={2}
             dot={false}
           />
         </LineChart>
       </ResponsiveContainer>
-      <div className="columns is-vcentered" style={{ margin: 10 }}>
+      <div className="columns is-vcentered" style={{ marginTop: 10 }}>
         <div className="column is-2">
           <span>Downsampling</span>
         </div>

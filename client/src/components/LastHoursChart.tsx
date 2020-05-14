@@ -16,6 +16,7 @@ import moment = require('moment')
 interface Props {
   logFileName: string
   title?: string
+  hash?: number
 }
 
 interface Point {
@@ -39,7 +40,7 @@ export default function Chart(props: Props) {
 
   React.useEffect(() => {
     getPoints(props.logFileName)
-  }, [props.logFileName])
+  }, [props.logFileName, props.hash])
 
   return (
     <React.Fragment>

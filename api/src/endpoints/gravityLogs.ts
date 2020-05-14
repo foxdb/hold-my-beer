@@ -33,14 +33,22 @@ export const getGravityLog = async (event, context) => {
     const lines = logFileContent.split('\n').filter((line) => line.length > 0)
 
     // parse points count, should be between 100 and 5000 and default to 500
-    let lastPointsCount: number = lines.length
+    let lastPointToTake = lines.length
+    let firstPointToTake = 0
 
     if (event.queryStringParameters && event.queryStringParameters.last) {
-      lastPointsCount = Math.min(event.queryStringParameters.last, lines.length)
+      firstPointToTake = Math.max(
+        lines.length - Math.min(event.queryStringParameters.last, lines.length),
+        0
+      )
+    }
+
+    if (event.queryStringParameters && event.queryStringParameters.first) {
+      lastPointToTake = firstPointToTake + event.queryStringParameters.first
     }
 
     const { metadata: pointsMetadata, points } = makeGravityPoints(
-      lines.slice(lines.length - lastPointsCount, lines.length)
+      lines.slice(firstPointToTake, lastPointToTake)
     )
 
     return {

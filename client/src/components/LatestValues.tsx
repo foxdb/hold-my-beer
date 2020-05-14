@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 
 import { RAW_DATE_FORMAT } from '../config'
-import { getMetadata, getGravityLog } from '../lib/api'
+import { getMetadata } from '../lib/api'
 import { round } from '../lib/numbers'
 
 const useStyles = makeStyles({
@@ -21,7 +21,8 @@ const useStyles = makeStyles({
 
 interface Props {
   tempLogFileName: string | null
-  gravityLogFileName: string | null
+  internalTempLogFileName: string | null
+  hash?: number
 }
 
 export default function LatestValues(props: Props) {
@@ -33,10 +34,14 @@ export default function LatestValues(props: Props) {
   const [latestTemperatureDate, setLatestTemperatureDate] = React.useState<
     string | null
   >(null)
-  const [latestGravity, setLatestGravity] = React.useState<number | null>(null)
-  const [latestGravityDate, setLatestGravityDate] = React.useState<
-    string | null
-  >(null)
+  const [
+    latestInternalTemperature,
+    setLatestInternalTemperature
+  ] = React.useState<number | null>(null)
+  const [
+    latestInternalTemperatureDate,
+    setLatestInternalTemperatureDate
+  ] = React.useState<string | null>(null)
   const [startDate, setStartDate] = React.useState<string | null>(null)
 
   const duration =
@@ -65,25 +70,25 @@ export default function LatestValues(props: Props) {
     }
   }
 
-  const loadLatestGravity = async () => {
-    if (props.gravityLogFileName) {
-      const result = await getGravityLog(props.gravityLogFileName, 1)
+  const loadLatestInternalTemperature = async () => {
+    if (props.internalTempLogFileName) {
+      const result = await getMetadata(props.internalTempLogFileName)
 
-      setLatestGravityDate(result.points[0] ? result.points[0].date : null)
-      setLatestGravity(result.points[0] ? result.points[0].gravity : null)
+      setLatestInternalTemperatureDate(result.metadata.last.date)
+      setLatestInternalTemperature(result.metadata.last.temperature)
     } else {
-      setLatestGravityDate(null)
-      setLatestGravity(null)
+      setStartDate(null)
+      setLatestInternalTemperatureDate(null)
+      setLatestInternalTemperature(null)
     }
   }
 
   React.useEffect(() => {
     loadLatestTemperature()
-  }, [props.tempLogFileName])
-
+  }, [props.tempLogFileName, props.hash])
   React.useEffect(() => {
-    loadLatestGravity()
-  }, [props.gravityLogFileName])
+    loadLatestInternalTemperature()
+  }, [props.internalTempLogFileName, props.hash])
 
   return (
     <React.Fragment>
@@ -103,7 +108,7 @@ export default function LatestValues(props: Props) {
         {`${latestTemperature ? round(latestTemperature, 1) : '-'}°C`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {`on ${
+        {`external temperature on ${
           latestTemperatureDate
             ? moment(latestTemperatureDate, RAW_DATE_FORMAT).format(
                 'DD MMMM - HH:mm'
@@ -112,12 +117,14 @@ export default function LatestValues(props: Props) {
         }`}
       </Typography>
       <Typography component="p" variant="h4">
-        {`SG: ${latestGravity ? round(latestGravity, 3) : '-'}`}
+        {`${
+          latestInternalTemperature ? round(latestInternalTemperature, 1) : '-'
+        }°C`}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {`on ${
-          latestGravityDate
-            ? moment(latestGravityDate, RAW_DATE_FORMAT).format(
+        {`internal temperature on ${
+          latestInternalTemperatureDate
+            ? moment(latestInternalTemperatureDate, RAW_DATE_FORMAT).format(
                 'DD MMMM - HH:mm'
               )
             : '-'
