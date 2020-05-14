@@ -24,8 +24,10 @@ import Copyright from '../components/Copyright'
 import OverallChart from '../components/OverallChart'
 
 import { getProjects, getProject } from '../lib/api'
+import Title from '../components/Title'
 
 import ProjectSelector from '../components/ProjectSelector'
+import ProjectSelectorV2 from '../components/ProjectSelectorV2'
 // import InputBase from '@material-ui/core/InputBase'
 // import NotificationsIcon from '@material-ui/icons/Notifications'
 // import { mainListItems, secondaryListItems } from './listItems'
@@ -253,26 +255,31 @@ export default function Dashboard() {
           >
             Hold my Beer
           </Typography>
-          <ProjectSelector
-            projects={availableProjects}
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-          />
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleReload}
-            className={clsx(classes.menuButton)}
-          >
-            <RefreshIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            {/* <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleReload}
+                  className={clsx(classes.menuButton)}
+                >
+                  <RefreshIcon />
+                </IconButton> */}
+
+            <Grid item xs={12} md={6} lg={6}>
+              <Title>Project</Title>
+
+              <ProjectSelectorV2
+                projects={availableProjects}
+                selectedProject={selectedProject}
+                setSelectedProject={setSelectedProject}
+              />
+            </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 {extTempLogFile && (

@@ -15,8 +15,8 @@ import { RAW_DATE_FORMAT } from '../config'
 import moment = require('moment')
 
 interface Props {
-  gravityLogFileName: string
-  internalTemperatureLogFileName: string
+  gravityLogFileName?: string
+  internalTemperatureLogFileName?: string
   hash?: number
 }
 
@@ -29,14 +29,21 @@ interface Point {
 export default function Chart(props: Props) {
   const [points, setPoints] = React.useState<Point[]>([])
 
-  const getPoints = async (fileName: string, internalTempFileName: string) => {
-    const rawGravityData = await getGravityLog(fileName)
-    const rawTempData = await getTemperatureLogs(internalTempFileName)
+  const getPoints = async (
+    fileName: string | null,
+    internalTempFileName: string | null
+  ) => {
+    const rawGravityDataPoints =
+      fileName !== null ? (await getGravityLog(fileName)).points : []
+    const rawTempDataPoints =
+      internalTempFileName !== null
+        ? (await getTemperatureLogs(internalTempFileName)).points
+        : []
 
     // create a date axis containing all dates
-    const mergedDates = rawGravityData.points
+    const mergedDates = rawGravityDataPoints
       .map(grPoint => grPoint.date)
-      .concat(rawTempData.points.map(tempPoint => tempPoint.date))
+      .concat(rawTempDataPoints.map(tempPoint => tempPoint.date))
 
     const uniqueDates = mergedDates.filter(
       (item, index) => mergedDates.indexOf(item) === index
@@ -50,10 +57,10 @@ export default function Chart(props: Props) {
         }
 
         // TODO: this is rather resource intensive...
-        const gravityPoint = rawGravityData.points.find(
+        const gravityPoint = rawGravityDataPoints.find(
           point => point.date === currentDate
         )
-        const tempPoint = rawTempData.points.find(
+        const tempPoint = rawTempDataPoints.find(
           point => point.date === currentDate
         )
 
@@ -76,7 +83,10 @@ export default function Chart(props: Props) {
   }
 
   React.useEffect(() => {
-    getPoints(props.gravityLogFileName, props.internalTemperatureLogFileName)
+    getPoints(
+      props.gravityLogFileName || null,
+      props.internalTemperatureLogFileName || null
+    )
   }, [
     props.gravityLogFileName,
     props.internalTemperatureLogFileName,
