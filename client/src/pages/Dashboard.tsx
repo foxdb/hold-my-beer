@@ -255,6 +255,15 @@ export default function Dashboard() {
           >
             Hold my Beer
           </Typography>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleReload}
+            className={clsx(classes.menuButton)}
+          >
+            <RefreshIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
