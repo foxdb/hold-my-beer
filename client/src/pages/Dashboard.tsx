@@ -26,7 +26,6 @@ import OverallChart from '../components/OverallChart'
 import { getProjects, getProject } from '../lib/api'
 import Title from '../components/Title'
 
-import ProjectSelector from '../components/ProjectSelector'
 import ProjectSelectorV2 from '../components/ProjectSelectorV2'
 // import InputBase from '@material-ui/core/InputBase'
 // import NotificationsIcon from '@material-ui/icons/Notifications'
