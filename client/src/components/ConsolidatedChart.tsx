@@ -11,6 +11,7 @@ import {
   Legend
 } from 'recharts'
 import { getGravityLog, getTemperatureLogs } from '../lib/api'
+import { dateStringToISOString } from '../lib/dates'
 import { RAW_DATE_FORMAT } from '../config'
 import moment = require('moment')
 
@@ -35,32 +36,52 @@ export default function Chart(props: Props) {
   ) => {
     const rawGravityDataPoints =
       fileName !== null ? (await getGravityLog(fileName)).points : []
+
     const rawTempDataPoints =
       internalTempFileName !== null
         ? (await getTemperatureLogs(internalTempFileName)).points
         : []
 
-    // create a date axis containing all dates
-    const mergedDates = rawGravityDataPoints
-      .map(grPoint => grPoint.date)
-      .concat(rawTempDataPoints.map(tempPoint => tempPoint.date))
+    // TODO: the below is costly... altering string to ISO string, then parsing to date, then comparing, then formatting with moment... beuark
 
-    const uniqueDates = mergedDates.filter(
-      (item, index) => mergedDates.indexOf(item) === index
-    )
+    const parsedTempDataPoints = rawTempDataPoints.map(p => ({
+      ...p,
+      date: Date.parse(dateStringToISOString(p.date))
+    }))
+
+    const parsedGravityPoints = rawGravityDataPoints.map(p => ({
+      ...p,
+      date: Date.parse(dateStringToISOString(p.date))
+    }))
+
+    // create a date axis containing all dates
+    const mergedDates = parsedGravityPoints
+      .map(grPoint => grPoint.date)
+      .concat(parsedTempDataPoints.map(tempPoint => tempPoint.date))
+
+    const uniqueDates = mergedDates
+      .filter((item, index) => mergedDates.indexOf(item) === index)
+      // .map(dateString => moment(dateString, RAW_DATE_FORMAT))
+      .sort((dateA, dateB) => {
+        if (dateA > dateB) {
+          return 1
+        } else {
+          return -1
+        }
+      })
 
     // create data points with date and gravity/temperature if available
     const points: Point[] = uniqueDates.reduce(
       (points, currentDate) => {
         let currentPoint: Point = {
-          date: moment(currentDate, RAW_DATE_FORMAT).format('HH:mm')
+          date: moment(currentDate).format('MMMM DD HH:mm')
         }
 
         // TODO: this is rather resource intensive...
-        const gravityPoint = rawGravityDataPoints.find(
+        const gravityPoint = parsedGravityPoints.find(
           point => point.date === currentDate
         )
-        const tempPoint = rawTempDataPoints.find(
+        const tempPoint = parsedTempDataPoints.find(
           point => point.date === currentDate
         )
 
