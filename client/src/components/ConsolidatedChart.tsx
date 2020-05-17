@@ -12,7 +12,6 @@ import {
 } from 'recharts'
 import { getGravityLog, getTemperatureLogs } from '../lib/api'
 import { dateStringToISOString } from '../lib/dates'
-import { RAW_DATE_FORMAT } from '../config'
 import moment = require('moment')
 
 interface Props {
