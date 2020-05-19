@@ -38,7 +38,7 @@ export default function Chart(props: Props) {
 
     const rawTempDataPoints =
       internalTempFileName !== null
-        ? (await getTemperatureLogs(internalTempFileName)).points
+        ? (await getTemperatureLogs(internalTempFileName, 'raw')).points
         : []
 
     // TODO: the below is costly... altering string to ISO string, then parsing to date, then comparing, then formatting with moment... beuark
