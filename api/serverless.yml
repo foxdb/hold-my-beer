@@ -4,10 +4,48 @@ provider:
   name: aws
   runtime: nodejs10.x
   region: ap-southeast-2
+  frameworkVersion: '>=1.43.0'
+  stage: ${opt:stage,'dev'}
+  environment:
+    logsBucketName: raspi-chill
+    projectsFileName: projects
+    logsPath: logs
+    DATABASE_USERNAME: ${self:custom.dbUsername.${self:provider.stage}}
+    DATABASE_PASSWORD: ${self:custom.dbPassword.${self:provider.stage}}
+    DATABASE_HOST: ${self:custom.dbHost.${self:provider.stage}}
+    DATABASE_PORT: ${self:custom.dbPort.${self:provider.stage}}
+    DATABASE_NAME: ${self:custom.dbName.${self:provider.stage}}
 
 plugins:
+  - serverless-stage-manager
   - serverless-webpack
   - serverless-offline
+
+custom:
+  stages:
+    - dev
+    - test
+    - prod
+  dbHost:
+    dev: ${ssm:/TEST_HMB_DATABASE_HOST~true}
+    test: ${ssm:/TEST_HMB_DATABASE_HOST~true}
+    prod: ${ssm:/PROD_HMB_DATABASE_HOST~true}
+  dbPort:
+    dev: ${ssm:/TEST_HMB_DATABASE_PORT~true}
+    test: ${ssm:/TEST_HMB_DATABASE_PORT~true}
+    prod: ${ssm:/PROD_HMB_DATABASE_PORT~true}
+  dbName:
+    dev: ${ssm:/TEST_HMB_DATABASE_DB_NAME~true}
+    test: ${ssm:/TEST_HMB_DATABASE_DB_NAME~true}
+    prod: ${ssm:/PROD_HMB_DATABASE_DB_NAME~true}
+  dbPassword:
+    dev: ${ssm:/TEST_HMB_DATABASE_PASSWORD~true}
+    test: ${ssm:/TEST_HMB_DATABASE_PASSWORD~true}
+    prod: ${ssm:/PROD_HMB_DATABASE_PASSWORD~true}
+  dbUsername:
+    dev: ${ssm:/TEST_HMB_DATABASE_USERNAME~true}
+    test: ${ssm:/TEST_HMB_DATABASE_USERNAME~true}
+    prod: ${ssm:/PROD_HMB_DATABASE_USERNAME~true}
 
 functions:
   hello:
@@ -20,9 +58,6 @@ functions:
 
   getProjects:
     handler: src/endpoints/getProjects.getProjects
-    environment:
-      projectsFileName: ${file(./.env.yml):projectsFileName}
-      logsBucketName: ${file(./.env.yml):logsBucketName}
     events:
       - http:
           method: get
@@ -31,20 +66,30 @@ functions:
 
   getProject:
     handler: src/endpoints/getProjects.getProject
-    environment:
-      projectsFileName: ${file(./.env.yml):projectsFileName}
-      logsBucketName: ${file(./.env.yml):logsBucketName}
     events:
       - http:
           method: get
           cors: true
           path: projects/{projectName}
 
+  createProject:
+    handler: src/endpoints/createProject.default
+    events:
+      - http:
+          method: post
+          cors: true
+          path: projects
+
+  syncSchemas:
+    handler: src/endpoints/syncSchemas.default
+    events:
+      - http:
+          method: post
+          cors: true
+          path: admin/sync-schemas
+
   listLogFiles:
     handler: src/endpoints/listLogs.listLogFiles
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
@@ -53,9 +98,6 @@ functions:
 
   recentTemperatureLogs:
     handler: src/endpoints/recentTemperatureLogs.recentTemperatureLogs
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
@@ -68,9 +110,6 @@ functions:
 
   getMetadata:
     handler: src/endpoints/getMetadata.getMetadata
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
@@ -83,9 +122,6 @@ functions:
 
   temperature:
     handler: src/endpoints/downsampledTemperatureLogs.downsample
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
@@ -101,9 +137,6 @@ functions:
 
   gravity:
     handler: src/endpoints/gravityLogs.getGravityLog
-    environment:
-      logsBucketName: ${file(./.env.yml):logsBucketName}
-      logsPath: ${file(./.env.yml):logsPath}
     events:
       - http:
           method: get
