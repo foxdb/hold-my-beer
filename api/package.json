@@ -11,7 +11,8 @@
     "compile": "tsc --noEmit",
     "deploy": "serverless deploy -s prod",
     "deploy:test": "serverless deploy -s test",
-    "package": "serverless package",
+    "package": "serverless package -s prod",
+    "package:test": "serverless package -s test",
     "start": "serverless offline start -s dev"
   },
   "dependencies": {
