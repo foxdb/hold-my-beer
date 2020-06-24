@@ -12,6 +12,10 @@ provider:
   frameworkVersion: '>=1.43.0'
   stage: ${opt:stage,'dev'}
   profile: serverless
+  apiKeys:
+    - ${opt:stage}-admin
+    - ${opt:stage}-embedded
+    - ${opt:stage}-backend
   environment:
     logsBucketName: raspi-chill
     projectsFileName: projects
@@ -85,6 +89,7 @@ functions:
           method: post
           cors: true
           path: projects
+          private: true
 
   syncSchemas:
     handler: src/endpoints/syncSchemas.default
@@ -93,6 +98,7 @@ functions:
           method: post
           cors: true
           path: admin/sync-schemas
+          private: true
 
   listLogFiles:
     handler: src/endpoints/listLogs.listLogFiles
