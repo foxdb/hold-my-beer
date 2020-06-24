@@ -13,6 +13,7 @@ blocks:
           - nvm use 10
       secrets:
         - name: hmb-github
+        - name: aws-creds-ben-ubuntu
       jobs:
         - name: Release a new version
           commands:
@@ -22,6 +23,7 @@ blocks:
     task:
       secrets:
         - name: aws-hold-my-beer
+        - name: aws-creds-ben-ubuntu
       jobs:
         - name: Deploy client to S3
           commands:
