@@ -22,7 +22,7 @@ blocks:
   - name: Deploy
     task:
       secrets:
-        - name: aws-hold-my-beer
+        - name: hmb-github
         - name: aws-credentials-ben-ubuntu
       jobs:
         - name: Deploy client to S3
