@@ -6,7 +6,7 @@ provider:
   region: ap-southeast-2
   frameworkVersion: '>=1.43.0'
   stage: ${opt:stage,'dev'}
-  profile: default
+  profile: serverless
   environment:
     logsBucketName: raspi-chill
     projectsFileName: projects
