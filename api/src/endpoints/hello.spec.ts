@@ -1,4 +1,4 @@
-import { hello } from './hello'
+import hello from './hello'
 
 test('hello handler returns 200', async () => {
   const response = await hello({}, {})

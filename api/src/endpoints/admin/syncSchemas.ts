@@ -1,4 +1,5 @@
-import * as db from '../lib/db'
+import * as db from '../../lib/db'
+import { handleLambdaError } from '../../lib/requests'
 
 export default async (event, context) => {
   try {
@@ -10,7 +11,6 @@ export default async (event, context) => {
       headers: { 'Access-Control-Allow-Origin': '*' },
     }
   } catch (error) {
-    console.error(error)
-    throw error
+    return handleLambdaError(error)
   }
 }

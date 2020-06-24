@@ -1,12 +1,12 @@
-export const hello = async (event, context) => {
+export default async (event, context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'Hello from HMB API'
+      message: 'Hello from HMB API',
     }),
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    }
+      'Access-Control-Allow-Credentials': true,
+    },
   }
 }

@@ -59,7 +59,7 @@ custom:
 
 functions:
   hello:
-    handler: src/endpoints/hello.hello
+    handler: src/endpoints/hello.default
     events:
       - http:
           method: get
@@ -67,7 +67,7 @@ functions:
           path: hello
 
   getProjects:
-    handler: src/endpoints/getProjects.getProjects
+    handler: src/endpoints/projects/getProjects.default
     events:
       - http:
           method: get
@@ -75,7 +75,7 @@ functions:
           path: projects
 
   getProject:
-    handler: src/endpoints/getProjects.getProject
+    handler: src/endpoints/projects/getProject.default
     events:
       - http:
           method: get
@@ -83,7 +83,7 @@ functions:
           path: projects/{projectName}
 
   createProject:
-    handler: src/endpoints/createProject.default
+    handler: src/endpoints/projects/createProject.default
     events:
       - http:
           method: post
@@ -92,7 +92,7 @@ functions:
           private: true
 
   syncSchemas:
-    handler: src/endpoints/syncSchemas.default
+    handler: src/endpoints/admin/syncSchemas.default
     events:
       - http:
           method: post

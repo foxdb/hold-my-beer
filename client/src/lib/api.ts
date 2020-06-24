@@ -37,17 +37,27 @@ interface MetadataResults {
   }
 }
 
+interface Project {
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
+}
+
 export const getProjects = async (): Promise<string[]> => {
   const result = await fetch(`${api.baseUrl}projects`).then(res => res.json())
-  return result.projects
+
+  const projects: Project[] = result.projects
+  return projects.map(p => p.name)
+}
+
+interface ProjectWithLogs extends Project {
+  logs: string[]
 }
 
 export const getProject = async (
   projectName: string
-): Promise<{
-  name: string
-  logs: string[]
-}> => {
+): Promise<ProjectWithLogs> => {
   const project = (await fetch(`${api.baseUrl}projects/${projectName}`).then(
     res => res.json()
   )).project

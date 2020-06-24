@@ -1,4 +1,5 @@
-import * as db from '../lib/db'
+import * as db from '../../lib/db'
+import { handleLambdaError } from '../../lib/requests'
 
 export default async (event, context) => {
   try {
@@ -30,13 +31,6 @@ export default async (event, context) => {
       headers: { 'Access-Control-Allow-Origin': '*' },
     }
   } catch (error) {
-    console.error(error)
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'Unexpected error. Check server logs.',
-      }),
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    }
+    return handleLambdaError(error)
   }
 }
