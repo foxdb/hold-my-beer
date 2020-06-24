@@ -5,6 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { RouteComponentProps } from 'react-router'
 import { useHistory } from 'react-router-dom'
 // import Drawer from '@material-ui/core/Drawer'
+import { Link as MaterialLink } from '@material-ui/core'
+import { Breadcrumbs } from '@material-ui/core'
 
 import AppBar from '@material-ui/core/AppBar'
 
@@ -135,6 +137,9 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
+  },
+  barTitle: {
+    flexGrow: 1
   },
   paper: {
     padding: theme.spacing(2),
@@ -268,15 +273,30 @@ export default function Dashboard(props: Props) {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            {`Hold my Beer  |  Metrics`}
-          </Typography>
+          <Breadcrumbs color="inherit" aria-label="breadcrumb">
+            <MaterialLink color="inherit" href="/">
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.barTitle}
+              >
+                {`Hold my Beer`}
+              </Typography>
+            </MaterialLink>
+            <MaterialLink color="inherit" href="/projects">
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.barTitle}
+              >
+                {`Metrics`}
+              </Typography>
+            </MaterialLink>
+          </Breadcrumbs>
           <IconButton
             edge="start"
             color="inherit"

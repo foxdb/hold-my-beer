@@ -17,6 +17,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Copyright from '../components/Copyright'
 import Emoji from '../components/Emoji'
 import { Link } from 'react-router-dom'
+import { Link as MaterialLink } from '@material-ui/core'
+import { Breadcrumbs } from '@material-ui/core'
 
 interface Beer {
   tapNumber: number
@@ -136,15 +138,30 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar)}>
         <Toolbar className={classes.toolbar}>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.barTitle}
-          >
-            {`Hold my Beer  |  On tap`}
-          </Typography>
+          <Breadcrumbs color="inherit" aria-label="breadcrumb">
+            <MaterialLink color="inherit" href="/">
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.barTitle}
+              >
+                {`Hold my Beer`}
+              </Typography>
+            </MaterialLink>
+            <MaterialLink color="inherit" href="/ontap">
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.barTitle}
+              >
+                {`On tap`}
+              </Typography>
+            </MaterialLink>
+          </Breadcrumbs>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
