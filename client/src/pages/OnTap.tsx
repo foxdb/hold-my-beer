@@ -62,9 +62,9 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 18,
     fontWeight: 600,
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-    paddingLeft: theme.spacing(2)
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1)
   },
   root: {
     display: 'flex'
@@ -147,7 +147,7 @@ export default function Dashboard() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <main>
+      <main className={classes.content}>
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
@@ -194,7 +194,7 @@ export default function Dashboard() {
                     className={classes.title}
                     color="textSecondary"
                     align="center"
-                    variant="h5"
+                    variant="overline"
                     component="h2"
                   >
                     {beer.comingSoon
