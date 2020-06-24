@@ -17,7 +17,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Copyright from '../components/Copyright'
 import Emoji from '../components/Emoji'
 import { Link } from 'react-router-dom'
-import { Link as MaterialLink } from '@material-ui/core'
 import { Breadcrumbs } from '@material-ui/core'
 
 interface Beer {
@@ -139,7 +138,7 @@ export default function Dashboard() {
       <AppBar position="absolute" className={clsx(classes.appBar)}>
         <Toolbar className={classes.toolbar}>
           <Breadcrumbs color="inherit" aria-label="breadcrumb">
-            <MaterialLink color="inherit" href="/">
+            <Link to="/" style={{ color: 'white' }}>
               <Typography
                 component="h1"
                 variant="h6"
@@ -149,8 +148,8 @@ export default function Dashboard() {
               >
                 {`Hold my Beer`}
               </Typography>
-            </MaterialLink>
-            <MaterialLink color="inherit" href="/ontap">
+            </Link>
+            <Link style={{ color: 'white' }} to="/ontap">
               <Typography
                 component="h1"
                 variant="h6"
@@ -160,7 +159,7 @@ export default function Dashboard() {
               >
                 {`On tap`}
               </Typography>
-            </MaterialLink>
+            </Link>
           </Breadcrumbs>
         </Toolbar>
       </AppBar>

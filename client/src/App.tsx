@@ -8,6 +8,7 @@ import {
 
 import Dashboard from './pages/Dashboard'
 import OnTap from './pages/OnTap'
+import Home from './pages/Home'
 
 interface Props {
   name: string
@@ -20,7 +21,8 @@ const App = (props: Props) => {
         <Switch>
           <Route path="/projects/:name?" component={Dashboard} />
           <Route path="/ontap/" component={OnTap} />
-          <Route render={() => <Redirect to="/projects" />} />
+          <Route path="/" component={Home} />
+          <Route render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
     </div>

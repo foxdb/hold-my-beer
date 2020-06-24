@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { RouteComponentProps } from 'react-router'
 import { useHistory } from 'react-router-dom'
 // import Drawer from '@material-ui/core/Drawer'
-import { Link as MaterialLink } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import { Breadcrumbs } from '@material-ui/core'
 
 import AppBar from '@material-ui/core/AppBar'
@@ -274,7 +274,7 @@ export default function Dashboard(props: Props) {
       >
         <Toolbar className={classes.toolbar}>
           <Breadcrumbs color="inherit" aria-label="breadcrumb">
-            <MaterialLink color="inherit" href="/">
+            <Link style={{ color: 'white' }} to="/">
               <Typography
                 component="h1"
                 variant="h6"
@@ -284,8 +284,8 @@ export default function Dashboard(props: Props) {
               >
                 {`Hold my Beer`}
               </Typography>
-            </MaterialLink>
-            <MaterialLink color="inherit" href="/projects">
+            </Link>
+            <Link style={{ color: 'white' }} to="/projects">
               <Typography
                 component="h1"
                 variant="h6"
@@ -295,7 +295,7 @@ export default function Dashboard(props: Props) {
               >
                 {`Metrics`}
               </Typography>
-            </MaterialLink>
+            </Link>
           </Breadcrumbs>
           <IconButton
             edge="start"
