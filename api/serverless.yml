@@ -1,5 +1,10 @@
 service: hmb-api
 
+# Note: some extra manual config is necessary in AWS
+# - lambda execution role needs more policies (S3, AWSLambdaVPCAccessExecutionRole, AWSLambdaBasicExecutionRole)
+# - lambdas needing db access need to be put in the same VPC, subnets and SG than the RDS
+# - RDS SG needs to allow inbound traffic from that same SG
+
 provider:
   name: aws
   runtime: nodejs10.x
