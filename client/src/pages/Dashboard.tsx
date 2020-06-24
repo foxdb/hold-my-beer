@@ -2,7 +2,8 @@ import * as React from 'react'
 import clsx from 'clsx'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-
+import { RouteComponentProps } from 'react-router'
+import { useHistory } from 'react-router-dom'
 // import Drawer from '@material-ui/core/Drawer'
 
 import AppBar from '@material-ui/core/AppBar'
@@ -143,7 +144,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Dashboard() {
+interface MatchParams {
+  name: string
+}
+
+interface Props extends RouteComponentProps<MatchParams> {}
+
+export default function Dashboard(props: Props) {
+  let history = useHistory()
   const classes = useStyles()
 
   const [open] = React.useState(false)
@@ -176,18 +184,33 @@ export default function Dashboard() {
   const loadLogFiles = async () => {
     const projects = await getProjects()
     setAvailableProjects(projects)
-
-    if (selectedProject === null) {
-      setSelectedProject(projects[0])
-    }
   }
 
   React.useEffect(() => {
+    if (
+      selectedProject === null &&
+      !!availableProjects &&
+      availableProjects.length
+    ) {
+      setSelectedProject(availableProjects[0])
+    }
+  }, [availableProjects])
+
+  React.useEffect(() => {
+    if (props.match.params.name && props.match.params.name.length) {
+      setSelectedProject(props.match.params.name)
+    }
     loadLogFiles()
   }, [])
 
   React.useEffect(() => {
     if (selectedProject !== null) {
+      history.push(`/projects/${selectedProject}`)
+    }
+  }, [selectedProject])
+
+  React.useEffect(() => {
+    if (selectedProject !== null && selectedProject !== undefined) {
       getProject(selectedProject).then(project => {
         const projectExtTempLog = project.logs.find(
           log =>
@@ -252,7 +275,7 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Hold my Beer
+            {`Hold my Beer  |  Metrics`}
           </Typography>
           <IconButton
             edge="start"
