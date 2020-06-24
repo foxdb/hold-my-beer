@@ -4,9 +4,8 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
-
 blocks:
-  - name: 'Compile'
+  - name: Compile
     task:
       prologue:
         commands:
@@ -14,7 +13,7 @@ blocks:
           - nvm use 10
       env_vars:
         - name: API_BASE_URL
-          value: https://wt5tn7alb9.execute-api.ap-southeast-2.amazonaws.com/dev/
+          value: 'https://wt5tn7alb9.execute-api.ap-southeast-2.amazonaws.com/dev/'
         - name: NODE_ENV
           value: production
       jobs:
@@ -23,12 +22,10 @@ blocks:
             - echo "Building client"
             - checkout
             - cd client
-            # For speed: cache restore/store node modules
             - cache restore node-modules-$(checksum yarn.lock)
-            - yarn --production=false # don't ignore the dev dependencies
+            - yarn --production=false
             - cache store node-modules-$(checksum yarn.lock) node_modules
             - yarn build
-            # used in production-deploy pipeline, use yarn lock as source of state
             - cache store client-dist-$SEMAPHORE_WORKFLOW_ID dist
             - cache store client-scripts-$SEMAPHORE_WORKFLOW_ID scripts
         - name: api
@@ -41,11 +38,11 @@ blocks:
             - cache store node-modules-$(checksum yarn.lock) node_modules
             - yarn test
             - yarn package
-            # used in production-deploy pipeline, use serverless-state as source of state?
             - cache store serverless-build-$SEMAPHORE_WORKFLOW_ID .serverless
             - cache store api-node-modules-$SEMAPHORE_WORKFLOW_ID node_modules
-
-# why not different pipelines: deploy portal, deploy api, deploy all
+      secrets:
+        - name: AWS credentials ben-ubuntu
+        - name: hmb-github
 promotions:
   - name: Deploy production
     pipeline_file: production-deploy.yml
