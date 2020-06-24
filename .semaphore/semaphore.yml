@@ -41,7 +41,7 @@ blocks:
             - cache store serverless-build-$SEMAPHORE_WORKFLOW_ID .serverless
             - cache store api-node-modules-$SEMAPHORE_WORKFLOW_ID node_modules
       secrets:
-        - name: aws-creds-ben-ubuntu
+        - name: aws-credentials-ben-ubuntu
         - name: hmb-github
 promotions:
   - name: Deploy production
