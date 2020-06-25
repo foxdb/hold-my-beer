@@ -40,7 +40,16 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
   },
-  appBarSpacer: theme.mixins.toolbar
+  appBarSpacer: theme.mixins.toolbar,
+  gridMenuItem: {
+    backgroundColor: '#3F51B5',
+    width: 150,
+    height: 100,
+    margin: 2,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 }))
 
 export default function Dashboard() {
@@ -69,18 +78,38 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <div className={classes.container}>
-          <Container maxWidth="sm">
-            <Grid container spacing={4}>
-              <Grid item>
-                <Link to="/projects">
-                  <Title>Metrics</Title>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/ontap">
-                  <Title>On tap</Title>
-                </Link>
-              </Grid>
+          <Container>
+            <Grid
+              container
+              spacing={4}
+              alignContent="center"
+              alignItems="center"
+              justify="center"
+            >
+              <Link to="/projects">
+                <Grid item className={classes.gridMenuItem}>
+                  <Typography
+                    component="h2"
+                    variant="button"
+                    style={{ color: 'white' }}
+                    gutterBottom
+                  >
+                    Metrics
+                  </Typography>
+                </Grid>
+              </Link>
+              <Link to="/ontap">
+                <Grid item className={classes.gridMenuItem}>
+                  <Typography
+                    component="h2"
+                    variant="button"
+                    style={{ color: 'white' }}
+                    gutterBottom
+                  >
+                    On tap
+                  </Typography>
+                </Grid>
+              </Link>
             </Grid>
           </Container>
         </div>
