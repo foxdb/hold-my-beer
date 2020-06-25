@@ -12,7 +12,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Copyright from '../components/Copyright'
 import { Breadcrumbs } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import Title from '../components/Title'
 
 const useStyles = makeStyles(theme => ({
   root: {
