@@ -92,10 +92,14 @@ export default function LatestValues(props: Props) {
 
   return (
     <React.Fragment>
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         {`${duration} days`}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography
+        color="textSecondary"
+        variant="overline"
+        className={classes.depositContext}
+      >
         {`started on ${
           startDate
             ? moment(startDate, RAW_DATE_FORMAT).format('DD MMMM - HH:mm')
@@ -104,10 +108,14 @@ export default function LatestValues(props: Props) {
       </Typography>
       <Divider className={classes.divider} />
 
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         {`${latestTemperature ? round(latestTemperature, 1) : '-'}°C`}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography
+        color="textSecondary"
+        variant="overline"
+        className={classes.depositContext}
+      >
         {`ext. temp. on ${
           latestTemperatureDate
             ? moment(latestTemperatureDate, RAW_DATE_FORMAT).format(
@@ -116,12 +124,16 @@ export default function LatestValues(props: Props) {
             : '-'
         }`}
       </Typography>
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         {`${
           latestInternalTemperature ? round(latestInternalTemperature, 1) : '-'
         }°C`}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography
+        color="textSecondary"
+        variant="overline"
+        className={classes.depositContext}
+      >
         {`int. temp. on ${
           latestInternalTemperatureDate
             ? moment(latestInternalTemperatureDate, RAW_DATE_FORMAT).format(

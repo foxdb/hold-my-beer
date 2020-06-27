@@ -100,7 +100,7 @@ function Control(props) {
 
   return (
     <TextField
-      // fullWidth
+      fullWidth
       InputProps={{
         inputComponent,
         inputProps: {

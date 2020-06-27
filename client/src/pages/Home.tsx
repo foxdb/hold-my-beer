@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
 
+import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
@@ -9,9 +10,10 @@ import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Toolbar from '@material-ui/core/Toolbar'
 
+import { colors } from '../style'
+
 import Copyright from '../components/Copyright'
-import { Breadcrumbs } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import BreadcrumbsNavigation from '../components/BreadcrumbsNavigation'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,14 +43,15 @@ const useStyles = makeStyles(theme => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   gridMenuItem: {
-    backgroundColor: '#3F51B5',
+    backgroundColor: colors.primary,
     width: 150,
     height: 100,
     margin: 2,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  menuItem: { color: 'white', fontWeight: 'bold', textDecoration: 'underline' }
 }))
 
 export default function Dashboard() {
@@ -59,19 +62,7 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar)}>
         <Toolbar className={classes.toolbar}>
-          <Breadcrumbs color="inherit" aria-label="breadcrumb">
-            <Link style={{ color: 'white' }} to="/">
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.barTitle}
-              >
-                {`Hold my Beer`}
-              </Typography>
-            </Link>
-          </Breadcrumbs>
+          <BreadcrumbsNavigation />
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
@@ -90,10 +81,10 @@ export default function Dashboard() {
                   <Typography
                     component="h2"
                     variant="button"
-                    style={{ color: 'white' }}
+                    className={classes.menuItem}
                     gutterBottom
                   >
-                    Metrics
+                    Projects
                   </Typography>
                 </Grid>
               </Link>
@@ -102,7 +93,7 @@ export default function Dashboard() {
                   <Typography
                     component="h2"
                     variant="button"
-                    style={{ color: 'white' }}
+                    className={classes.menuItem}
                     gutterBottom
                   >
                     On tap

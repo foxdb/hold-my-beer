@@ -9,7 +9,7 @@ export default function() {
       variant="body2"
       color="textSecondary"
       align="center"
-      style={{ marginBottom: 30 }}
+      style={{ marginBottom: 30, marginTop: 30 }}
     >
       {'Copyright © '}
       Hold My Beer {new Date().getFullYear()}

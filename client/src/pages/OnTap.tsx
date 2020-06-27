@@ -1,7 +1,8 @@
 import * as React from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
+import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -15,9 +16,10 @@ import Container from '@material-ui/core/Container'
 import Toolbar from '@material-ui/core/Toolbar'
 
 import Copyright from '../components/Copyright'
+import BreadcrumbsNavigation from '../components/BreadcrumbsNavigation'
 import Emoji from '../components/Emoji'
-import { Link } from 'react-router-dom'
-import { Breadcrumbs } from '@material-ui/core'
+
+const laJcdvImage = require('../public/la-jcdv.jpg')
 
 interface Beer {
   tapNumber: number
@@ -27,6 +29,7 @@ interface Beer {
   brewDate: string
   description: string
   brewersfriendLink?: string
+  img?: any
   projectName?: string
   pictureLink?: string
   comingSoon?: boolean
@@ -43,7 +46,7 @@ const beersOnTap: Beer[] = [
       'https://www.brewersfriend.com/homebrew/brewsession/338880',
     // projectName: null,
     description:
-      'Hazy IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping. Smashable!'
+      'Hazy IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping.'
   },
   {
     comingSoon: true,
@@ -51,11 +54,13 @@ const beersOnTap: Beer[] = [
     name: 'La JCDV',
     abvPercent: 7,
     style: 'Belgian Blonde Ale',
+    img: laJcdvImage,
     brewDate: '13/06/2020',
     brewersfriendLink:
       'https://www.brewersfriend.com/homebrew/brewsession/342497',
     projectName: '2020-06-13-la-jcdv',
-    description: 'Belgian Blonde Ale.'
+    description:
+      'Proudly brewed in Abbotsford, Victoria, La Jean Claude De Victoria features the best of two worlds.'
   }
 ]
 
@@ -137,30 +142,9 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar)}>
         <Toolbar className={classes.toolbar}>
-          <Breadcrumbs color="inherit" aria-label="breadcrumb">
-            <Link to="/" style={{ color: 'white' }}>
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.barTitle}
-              >
-                {`Hold my Beer`}
-              </Typography>
-            </Link>
-            <Link style={{ color: 'white' }} to="/ontap">
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.barTitle}
-              >
-                {`On tap`}
-              </Typography>
-            </Link>
-          </Breadcrumbs>
+          <BreadcrumbsNavigation
+            current={{ title: 'On tap', link: '/ontap' }}
+          />
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
@@ -220,16 +204,20 @@ export default function Dashboard() {
                   <CardMedia
                     className={classes.cardMedia}
                     // image="https://source.unsplash.com/random"
+                    image={beer.img}
                     title="Image title"
                   >
-                    <Emoji symbol="🍺" />
+                    {!beer.img && <Emoji symbol="🍺" />}
+                    {beer.img && <img src={beer.img} />}
                   </CardMedia>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {beer.name}
                     </Typography>
 
-                    <Typography gutterBottom>{beer.description}</Typography>
+                    <Typography gutterBottom style={{ textAlign: 'justify' }}>
+                      {beer.description}
+                    </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                       {`Brew date: ${beer.brewDate}`}
                     </Typography>

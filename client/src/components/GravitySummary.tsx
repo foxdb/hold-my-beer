@@ -84,24 +84,36 @@ export default function GravitySummary(props: Props) {
 
   return (
     <React.Fragment>
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         {`${latestGravity ? roundAndFormat(latestGravity, 3) : '-'}`}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography
+        color="textSecondary"
+        variant="overline"
+        className={classes.depositContext}
+      >
         {`sg on ${latestGravityDateText}`}
       </Typography>
       <Divider className={classes.divider} />
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         {`${firstGravity ? roundAndFormat(firstGravity, 3) : '-'}`}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography
+        color="textSecondary"
+        variant="overline"
+        className={classes.depositContext}
+      >
         {`og on ${firstGravityDateText}`}
       </Typography>
 
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         {attenuation ? `${attenuation} %` : '-'}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography
+        color="textSecondary"
+        variant="overline"
+        className={classes.depositContext}
+      >
         {`current attenuation`}
       </Typography>
     </React.Fragment>

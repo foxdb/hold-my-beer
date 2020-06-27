@@ -1,42 +1,35 @@
 import * as React from 'react'
 import clsx from 'clsx'
+import { useHistory } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { RouteComponentProps } from 'react-router'
-import { useHistory } from 'react-router-dom'
-// import Drawer from '@material-ui/core/Drawer'
-import { Link } from 'react-router-dom'
-import { Breadcrumbs } from '@material-ui/core'
-
 import AppBar from '@material-ui/core/AppBar'
-
 import Toolbar from '@material-ui/core/Toolbar'
-// import List from '@material-ui/core/List'
-import Typography from '@material-ui/core/Typography'
-// import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-// import Badge from '@material-ui/core/Badge'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
-import RefreshIcon from '@material-ui/icons/Refresh'
+import { Typography } from '@material-ui/core'
+
+// import Divider from '@material-ui/core/Divider'
+// import IconButton from '@material-ui/core/IconButton'
+// import Badge from '@material-ui/core/Badge'
+// import RefreshIcon from '@material-ui/icons/Refresh'
 // import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-
-import ConsolidatedChart from '../components/ConsolidatedChart'
-import Copyright from '../components/Copyright'
-import OverallChart from '../components/OverallChart'
-
-import { getProjects, getProject } from '../lib/api'
-import Title from '../components/Title'
-
-import ProjectSelectorV2 from '../components/ProjectSelectorV2'
 // import InputBase from '@material-ui/core/InputBase'
 // import NotificationsIcon from '@material-ui/icons/Notifications'
 // import { mainListItems, secondaryListItems } from './listItems'
 // import Chart from './Chart'
+
+import ConsolidatedChart from '../components/ConsolidatedChart'
+import Copyright from '../components/Copyright'
+import OverallChart from '../components/OverallChart'
+import BreadcrumbsNavigation from '../components/BreadcrumbsNavigation'
+import ProjectSelectorV2 from '../components/ProjectSelectorV2'
 import LatestValues from '../components/LatestValues'
 import GravitySummary from '../components/GravitySummary'
-// import Orders from './Orders'
+
+import { getProjects, getProject } from '../lib/api'
 
 const drawerWidth = 240
 
@@ -134,6 +127,11 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
     overflow: 'auto'
   },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6, 0, 6)
+    // marginTop: 20
+  },
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
@@ -180,11 +178,11 @@ export default function Dashboard(props: Props) {
     null
   )
 
-  const [hash, setHash] = React.useState<number>(Math.random() * 10000)
+  const [hash] = React.useState<number>(Math.random() * 10000)
 
-  const handleReload = () => {
-    setHash(Math.random() * 10000)
-  }
+  // const handleReload = () => {
+  //   setHash(Math.random() * 10000)
+  // }
 
   const loadLogFiles = async () => {
     const projects = await getProjects()
@@ -273,64 +271,43 @@ export default function Dashboard(props: Props) {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          <Breadcrumbs color="inherit" aria-label="breadcrumb">
-            <Link style={{ color: 'white' }} to="/">
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.barTitle}
-              >
-                {`Hold my Beer`}
-              </Typography>
-            </Link>
-            <Link style={{ color: 'white' }} to="/projects">
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.barTitle}
-              >
-                {`Metrics`}
-              </Typography>
-            </Link>
-          </Breadcrumbs>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleReload}
-            className={clsx(classes.menuButton)}
-          >
-            <RefreshIcon />
-          </IconButton>
+          <BreadcrumbsNavigation
+            current={{ title: 'Projects', link: '/projects' }}
+          />
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
+        <div className={classes.heroContent}>
+          <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              Project data
+            </Typography>
+            {/* <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleReload}
+              className={clsx(classes.menuButton)}
+            >
+              <RefreshIcon />
+            </IconButton> */}
+            <ProjectSelectorV2
+              projects={availableProjects}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
+            />
+          </Container>
+        </div>
+
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* <IconButton
-                  edge="start"
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={handleReload}
-                  className={clsx(classes.menuButton)}
-                >
-                  <RefreshIcon />
-                </IconButton> */}
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Title>Project</Title>
-
-              <ProjectSelectorV2
-                projects={availableProjects}
-                selectedProject={selectedProject}
-                setSelectedProject={setSelectedProject}
-              />
-            </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 {extTempLogFile && (
