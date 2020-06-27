@@ -84,7 +84,7 @@ export default function Dashboard() {
                     className={classes.menuItem}
                     gutterBottom
                   >
-                    Projects
+                    Brews
                   </Typography>
                 </Grid>
               </Link>

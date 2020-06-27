@@ -19,6 +19,8 @@ import Copyright from '../components/Copyright'
 import BreadcrumbsNavigation from '../components/BreadcrumbsNavigation'
 import Emoji from '../components/Emoji'
 
+import { roundAndFormat } from '../lib/numbers'
+
 const laJcdvImage = require('../public/la-jcdv.jpg')
 
 interface Beer {
@@ -129,8 +131,11 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1
   },
+  depositContext: {
+    flex: 1
+  },
   pos: {
-    marginBottom: 12
+    marginBottom: 20
   }
 }))
 
@@ -215,12 +220,40 @@ export default function Dashboard() {
                       {beer.name}
                     </Typography>
 
-                    <Typography gutterBottom style={{ textAlign: 'justify' }}>
+                    <Typography
+                      gutterBottom
+                      className={classes.pos}
+                      style={{ textAlign: 'justify' }}
+                    >
                       {beer.description}
                     </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      {`Brew date: ${beer.brewDate}`}
-                    </Typography>
+
+                    <Grid container spacing={1}>
+                      <Grid item xs={6} md={6} lg={6}>
+                        <Typography component="p" variant="h6">
+                          {`${roundAndFormat(beer.abvPercent, 1)} %`}
+                        </Typography>
+                        <Typography
+                          color="textSecondary"
+                          variant="overline"
+                          className={classes.depositContext}
+                        >
+                          {`ABV`}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} md={6} lg={6}>
+                        <Typography component="p" variant="h6">
+                          {beer.brewDate}
+                        </Typography>
+                        <Typography
+                          color="textSecondary"
+                          variant="overline"
+                          className={classes.depositContext}
+                        >
+                          {`Brew date`}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </CardContent>
                   <CardActions>
                     <Button
@@ -236,10 +269,10 @@ export default function Dashboard() {
                               : '/ontap'
                           }
                         >
-                          Data
+                          Brew Data
                         </Link>
                       ) : (
-                        'Data'
+                        'Brew Data'
                       )}
                     </Button>
                     <Button

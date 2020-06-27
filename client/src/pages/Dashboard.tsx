@@ -272,7 +272,7 @@ export default function Dashboard(props: Props) {
       >
         <Toolbar className={classes.toolbar}>
           <BreadcrumbsNavigation
-            current={{ title: 'Projects', link: '/projects' }}
+            current={{ title: 'Brews', link: '/projects' }}
           />
         </Toolbar>
       </AppBar>
@@ -287,7 +287,7 @@ export default function Dashboard(props: Props) {
               color="textPrimary"
               gutterBottom
             >
-              Project data
+              Brew data
             </Typography>
             {/* <IconButton
               edge="start"

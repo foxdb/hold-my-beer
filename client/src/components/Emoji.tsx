@@ -5,7 +5,7 @@ const Emoji = props => (
     role="img"
     aria-label={props.label ? props.label : ''}
     aria-hidden={props.label ? 'false' : 'true'}
-    style={{ fontSize: '10em' }}
+    style={{ fontSize: '9em' }}
   >
     {props.symbol}
   </span>
