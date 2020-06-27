@@ -46,7 +46,7 @@ const beersOnTap: Beer[] = [
       'https://www.brewersfriend.com/homebrew/brewsession/338880',
     // projectName: null,
     description:
-      'Hazy IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping.'
+      "IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping. Wasn't not meant to be hazy but wasn't meant to not be hazy."
   },
   {
     comingSoon: true,
@@ -60,7 +60,7 @@ const beersOnTap: Beer[] = [
       'https://www.brewersfriend.com/homebrew/brewsession/342497',
     projectName: '2020-06-13-la-jcdv',
     description:
-      'Proudly brewed in Abbotsford, Victoria, La Jean Claude De Victoria features the best of two worlds.'
+      'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
   }
 ]
 
