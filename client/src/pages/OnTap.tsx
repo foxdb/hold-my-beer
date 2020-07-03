@@ -24,7 +24,7 @@ import { roundAndFormat } from '../lib/numbers'
 const laJcdvImage = require('../public/la-jcdv.jpg')
 
 interface Beer {
-  tapNumber: number
+  tapLocation: string
   name: string
   style: string
   abvPercent: number
@@ -39,7 +39,21 @@ interface Beer {
 
 const beersOnTap: Beer[] = [
   {
-    tapNumber: 2,
+    // comingSoon: true,
+    tapLocation: 'Left',
+    name: 'La JCDV',
+    abvPercent: 7.2,
+    style: 'Belgian Blonde Ale',
+    img: laJcdvImage,
+    brewDate: '13/06/2020',
+    brewersfriendLink:
+      'https://www.brewersfriend.com/homebrew/brewsession/342497',
+    projectName: '2020-06-13-la-jcdv',
+    description:
+      'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
+  },
+  {
+    tapLocation: 'Middle',
     name: 'Zombie Dust',
     abvPercent: 6,
     style: 'American IPA',
@@ -49,26 +63,12 @@ const beersOnTap: Beer[] = [
     // projectName: null,
     description:
       "IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping. Wasn't not meant to be hazy but wasn't meant to not be hazy."
-  },
-  {
-    comingSoon: true,
-    tapNumber: 0,
-    name: 'La JCDV',
-    abvPercent: 7,
-    style: 'Belgian Blonde Ale',
-    img: laJcdvImage,
-    brewDate: '13/06/2020',
-    brewersfriendLink:
-      'https://www.brewersfriend.com/homebrew/brewsession/342497',
-    projectName: '2020-06-13-la-jcdv',
-    description:
-      'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
   }
 ]
 
 const useStyles = makeStyles(theme => ({
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 600,
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
@@ -193,18 +193,18 @@ export default function Dashboard() {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {beersOnTap.map(beer => (
-              <Grid item key={beer.tapNumber} xs={12} sm={6} md={4}>
+              <Grid item key={beer.tapLocation} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <Typography
                     className={classes.title}
                     color="textSecondary"
                     align="center"
                     variant="overline"
-                    component="h2"
+                    component="h4"
                   >
                     {beer.comingSoon
                       ? `Coming soon`
-                      : `Tap ${beer.tapNumber} - ${beer.style}`}
+                      : `${beer.tapLocation} Tap - ${beer.style}`}
                   </Typography>
                   <CardMedia
                     className={classes.cardMedia}
