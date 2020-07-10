@@ -100,6 +100,18 @@ export default function Dashboard() {
                   </Typography>
                 </Grid>
               </Link>
+              <Link to="/sensors">
+                <Grid item className={classes.gridMenuItem}>
+                  <Typography
+                    component="h2"
+                    variant="button"
+                    className={classes.menuItem}
+                    gutterBottom
+                  >
+                    Sensors
+                  </Typography>
+                </Grid>
+              </Link>
             </Grid>
           </Container>
         </div>

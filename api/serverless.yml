@@ -91,6 +91,15 @@ functions:
           path: projects
           private: true
 
+  getSensors:
+    handler: src/endpoints/admin/getSensors.default
+    events:
+      - http:
+          method: get
+          cors: true
+          path: admin/sensors
+          # private: true # TODO: make this admin
+
   syncSchemas:
     handler: src/endpoints/admin/syncSchemas.default
     events:

@@ -51,6 +51,34 @@ export const getProjects = async (): Promise<string[]> => {
   return projects.map(p => p.name)
 }
 
+export interface Sensor {
+  id: string
+  externalId: string
+  name: string | null
+  type: string | null
+  createdAt: string
+  updatedAt: string
+  readings: Reading[]
+}
+
+export interface Reading {
+  id: string
+  type: 'BATTERY'
+  value: number
+  unit: string
+  raw: any
+  createdAt: string
+  updatedAt: string
+  SensorId: string
+}
+
+export const getSensors = async (): Promise<Sensor[]> => {
+  const result = await fetch(`${api.baseUrl}admin/sensors`).then(res =>
+    res.json()
+  )
+  return result.sensors
+}
+
 interface ProjectWithLogs extends Project {
   logs: string[]
 }

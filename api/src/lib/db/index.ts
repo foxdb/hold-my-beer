@@ -22,7 +22,9 @@ const models = {
   Reading: Reading(sequelize),
 }
 
-models.Sensor.hasMany(models.Reading, {})
+models.Sensor.hasMany(models.Reading, {
+  as: 'readings',
+})
 
 // Object.keys(models).forEach((modelName) => {
 //   const model = models[modelName]

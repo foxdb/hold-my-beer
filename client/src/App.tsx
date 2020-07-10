@@ -10,6 +10,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import Dashboard from './pages/Dashboard'
 import OnTap from './pages/OnTap'
 import Home from './pages/Home'
+import Sensors from './pages/Sensors'
 import { colors } from './style'
 
 interface Props {
@@ -70,6 +71,7 @@ const App = (props: Props) => {
           <Switch>
             <Route path="/projects/:name?" component={Dashboard} />
             <Route path="/ontap/" component={OnTap} />
+            <Route path="/sensors/" component={Sensors} />
             <Route path="/" component={Home} />
             <Route render={() => <Redirect to="/" />} />
           </Switch>
