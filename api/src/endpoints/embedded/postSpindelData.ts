@@ -43,8 +43,7 @@ export default async (event, context) => {
     // create readings from that sensor
 
     // if (requestBody.angle) {
-    //   await db.models.Reading.create({
-    //     sensorId: sensor.id,
+    //   await sensor.createReading({
     //     type: 'ANGLE',
     //     value: requestBody.angle,
     //     unit: null,
@@ -54,7 +53,6 @@ export default async (event, context) => {
     if (requestBody.temperature) {
       console.log(`creating temperature reading ${requestBody.temperature}`)
       await sensor.createReading({
-        // Sensor: sensor,
         type: 'TEMPERATURE',
         value: requestBody.temperature,
         unit: requestBody.temp_units || 'C',
@@ -63,8 +61,7 @@ export default async (event, context) => {
 
     if (requestBody.battery) {
       console.log(`creating battery reading ${requestBody.battery}`)
-      await db.models.Reading.create({
-        sensorId: sensor.id,
+      await sensor.createReading({
         type: 'BATTERY',
         value: requestBody.battery,
         unit: 'V',
@@ -73,8 +70,7 @@ export default async (event, context) => {
 
     if (requestBody.gravity) {
       console.log(`creating gravity reading ${requestBody.gravity}`)
-      await db.models.Reading.create({
-        sensorId: sensor.id,
+      await sensor.createReading({
         type: 'SPECIFIC_GRAVITY',
         value: requestBody.gravity,
         unit: null,
@@ -92,8 +88,7 @@ export default async (event, context) => {
 
     console.log(`creating raw reading: ${requestBody}`)
 
-    await db.models.Reading.create({
-      sensorId: sensor.id,
+    await sensor.createReading({
       type: 'RAW',
       value: 0,
       unit: null,
