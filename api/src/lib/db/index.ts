@@ -1,6 +1,8 @@
 const { Sequelize } = require('sequelize')
 import { database } from '../../config'
 import Project from './models/project'
+import Sensor from './models/sensor'
+import Reading from './models/reading'
 
 // https://sequelize.org/master/manual/typescript.html
 
@@ -16,14 +18,18 @@ const sequelize = new Sequelize(
 
 const models = {
   Project: Project(sequelize),
+  Sensor: Sensor(sequelize),
+  Reading: Reading(sequelize),
 }
 
-Object.keys(models).forEach((modelName) => {
-  const model = models[modelName]
-  if ('associate' in model) {
-    model['associate'](models)
-  }
-})
+models.Sensor.hasMany(models.Reading, {})
+
+// Object.keys(models).forEach((modelName) => {
+//   const model = models[modelName]
+//   if ('associate' in model) {
+//     model['associate'](models)
+//   }
+// })
 
 const testConnection = async () => {
   try {

@@ -100,6 +100,15 @@ functions:
           path: admin/sync-schemas
           private: true
 
+  postSpindelData:
+    handler: src/endpoints/embedded/postSpindelData.default
+    events:
+      - http:
+          method: post
+          cors: true
+          path: embedded/push-spindel
+          private: true
+
   listLogFiles:
     handler: src/endpoints/listLogs.listLogFiles
     events:

@@ -18,3 +18,4 @@ index.old.html
 
 # test / coverage related
 api/coverage/**
+test_data
