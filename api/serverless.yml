@@ -66,6 +66,14 @@ functions:
           cors: true
           path: hello
 
+  getReadings:
+    handler: src/endpoints/readings/getReadings.default
+    events:
+      - http:
+          method: get
+          cors: true
+          path: readings
+
   getProjects:
     handler: src/endpoints/projects/getProjects.default
     events:

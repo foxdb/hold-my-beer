@@ -142,3 +142,11 @@ export const validatePathParam = (name, event): string => {
     throw new Error('Missing path param: ' + name)
   }
 }
+
+export const validateQueryParam = (name, event): string => {
+  if (event.queryStringParameters && event.queryStringParameters[name]) {
+    return event.queryStringParameters[name]
+  } else {
+    throw new Error('Missing query param: ' + name)
+  }
+}
