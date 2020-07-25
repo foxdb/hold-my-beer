@@ -1,7 +1,12 @@
 import * as Sequelize from 'sequelize'
 import { Model, BuildOptions } from 'sequelize'
 
-type Type = 'TEMPERATURE' | 'SPECIFIC_GRAVITY' | 'BATTERY' | 'ANGLE' | 'RSSI'
+export type Type =
+  | 'TEMPERATURE'
+  | 'SPECIFIC_GRAVITY'
+  | 'BATTERY'
+  | 'ANGLE'
+  | 'RSSI'
 
 export interface ReadingModel extends Model {
   id: string

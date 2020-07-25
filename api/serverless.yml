@@ -90,6 +90,14 @@ functions:
           cors: true
           path: projects/{projectName}
 
+  getProjectReadings:
+    handler: src/endpoints/projects/getProjectSensorData.default
+    events:
+      - http:
+          method: get
+          cors: true
+          path: projects/{projectName}/readings
+
   createProject:
     handler: src/endpoints/projects/createProject.default
     events:

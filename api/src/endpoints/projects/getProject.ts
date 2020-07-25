@@ -11,6 +11,22 @@ export default async (event, context) => {
       where: { name: requestedProject },
     })
 
+    if (!project) {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
+      }
+    }
+
+    const availableSensors = await db.models.ProjectSensorReading.findAll({
+      where: {
+        project_id: project.id,
+      },
+    })
+
     const s3 = getS3()
     const logsDirContent = await lsDirectory(
       s3,
@@ -40,6 +56,7 @@ export default async (event, context) => {
           createdAt: project.createdAt,
           updatedAt: project.updatedAt,
           logs: projectLogs,
+          availableSensors,
         },
       }),
       headers: {
