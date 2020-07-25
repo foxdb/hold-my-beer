@@ -22,6 +22,7 @@ import Emoji from '../components/Emoji'
 import { roundAndFormat } from '../lib/numbers'
 
 const laJcdvImage = require('../public/la-jcdv.jpg')
+const winterAleImage = require('../public/winterAle.jpg')
 
 interface Beer {
   tapLocation: string
@@ -35,6 +36,7 @@ interface Beer {
   projectName?: string
   pictureLink?: string
   comingSoon?: boolean
+  allGone?: boolean
 }
 
 const beersOnTap: Beer[] = [
@@ -53,6 +55,21 @@ const beersOnTap: Beer[] = [
       'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
   },
   {
+    comingSoon: true,
+    tapLocation: 'Middle',
+    name: 'Christmas in July',
+    abvPercent: 5.5,
+    style: 'Winter Ale',
+    img: winterAleImage,
+    brewDate: '19/07/2020',
+    brewersfriendLink:
+      'https://www.brewersfriend.com/homebrew/brewsession/346111',
+    projectName: '2020-07-19-winter',
+    description:
+      'Hopefully a nice spiced amber ale to warm spirits during the cold Melbourne winter!'
+  },
+  {
+    allGone: true,
     tapLocation: 'Middle',
     name: 'Zombie Dust',
     abvPercent: 6,
@@ -192,105 +209,209 @@ export default function Dashboard() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {beersOnTap.map(beer => (
-              <Grid item key={beer.tapLocation} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <Typography
-                    className={classes.title}
-                    color="textSecondary"
-                    align="center"
-                    variant="overline"
-                    component="h4"
-                  >
-                    {beer.comingSoon
-                      ? `Coming soon`
-                      : `${beer.tapLocation} Tap - ${beer.style}`}
-                  </Typography>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    // image="https://source.unsplash.com/random"
-                    image={beer.img}
-                    title="Image title"
-                  >
-                    {!beer.img && <Emoji symbol="🍺" />}
-                    {beer.img && <img src={beer.img} />}
-                  </CardMedia>
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {beer.name}
-                    </Typography>
-
+            {beersOnTap
+              .filter(beer => !beer.allGone && !beer.comingSoon)
+              .map(beer => (
+                <Grid item key={beer.tapLocation} xs={12} sm={6} md={4}>
+                  <Card className={classes.card}>
                     <Typography
-                      gutterBottom
-                      className={classes.pos}
-                      style={{ textAlign: 'justify' }}
+                      className={classes.title}
+                      color="textSecondary"
+                      align="center"
+                      variant="overline"
+                      component="h4"
                     >
-                      {beer.description}
+                      {beer.comingSoon
+                        ? `Coming soon`
+                        : `${beer.tapLocation} Tap - ${beer.style}`}
                     </Typography>
+                    <CardMedia
+                      className={classes.cardMedia}
+                      // image="https://source.unsplash.com/random"
+                      image={beer.img}
+                      title="Image title"
+                    >
+                      {!beer.img && <Emoji symbol="🍺" />}
+                      {beer.img && <img src={beer.img} />}
+                    </CardMedia>
+                    <CardContent className={classes.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {beer.name}
+                      </Typography>
 
-                    <Grid container spacing={1}>
-                      <Grid item xs={6} md={6} lg={6}>
-                        <Typography component="p" variant="h6">
-                          {`${roundAndFormat(beer.abvPercent, 1)} %`}
-                        </Typography>
-                        <Typography
-                          color="textSecondary"
-                          variant="overline"
-                          className={classes.depositContext}
-                        >
-                          {`ABV`}
-                        </Typography>
+                      <Typography
+                        gutterBottom
+                        className={classes.pos}
+                        style={{ textAlign: 'justify' }}
+                      >
+                        {beer.description}
+                      </Typography>
+
+                      <Grid container spacing={1}>
+                        <Grid item xs={6} md={6} lg={6}>
+                          <Typography component="p" variant="h6">
+                            {`${roundAndFormat(beer.abvPercent, 1)} %`}
+                          </Typography>
+                          <Typography
+                            color="textSecondary"
+                            variant="overline"
+                            className={classes.depositContext}
+                          >
+                            {`ABV`}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={6} md={6} lg={6}>
+                          <Typography component="p" variant="h6">
+                            {beer.brewDate}
+                          </Typography>
+                          <Typography
+                            color="textSecondary"
+                            variant="overline"
+                            className={classes.depositContext}
+                          >
+                            {`Brew date`}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={6} md={6} lg={6}>
-                        <Typography component="p" variant="h6">
-                          {beer.brewDate}
-                        </Typography>
-                        <Typography
-                          color="textSecondary"
-                          variant="overline"
-                          className={classes.depositContext}
-                        >
-                          {`Brew date`}
-                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        color="primary"
+                        disabled={!beer.projectName}
+                      >
+                        {beer.projectName ? (
+                          <Link
+                            to={
+                              beer.projectName
+                                ? '/projects/' + beer.projectName
+                                : '/ontap'
+                            }
+                          >
+                            Brew Data
+                          </Link>
+                        ) : (
+                          'Brew Data'
+                        )}
+                      </Button>
+                      <Button
+                        size="small"
+                        color="primary"
+                        disabled={!beer.brewersfriendLink}
+                      >
+                        {beer.brewersfriendLink ? (
+                          <a href={beer.brewersfriendLink}>Brew session</a>
+                        ) : (
+                          'Brew session'
+                        )}
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            {beersOnTap
+              .filter(beer => beer.allGone || beer.comingSoon)
+              .map(beer => (
+                <Grid item key={beer.tapLocation} xs={12} sm={6} md={4}>
+                  <Card className={classes.card}>
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      align="center"
+                      variant="overline"
+                      component="h4"
+                    >
+                      {beer.comingSoon ? `Coming soon` : `All Gone!`}
+                    </Typography>
+                    <CardMedia
+                      className={classes.cardMedia}
+                      // image="https://source.unsplash.com/random"
+                      // image={beer.img}
+                      title="Image title"
+                    >
+                      {!beer.img && <Emoji symbol="🍺" />}
+                      {beer.img && <img src={beer.img} />}
+                    </CardMedia>
+                    <CardContent className={classes.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {beer.name}
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        className={classes.pos}
+                        style={{ textAlign: 'justify' }}
+                      >
+                        {beer.description}
+                      </Typography>
+
+                      <Grid container spacing={1}>
+                        <Grid item xs={6} md={6} lg={6}>
+                          <Typography component="p" variant="h6">
+                            {`${roundAndFormat(beer.abvPercent, 1)} %`}
+                          </Typography>
+                          <Typography
+                            color="textSecondary"
+                            variant="overline"
+                            className={classes.depositContext}
+                          >
+                            {`ABV`}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={6} md={6} lg={6}>
+                          <Typography component="p" variant="h6">
+                            {beer.brewDate}
+                          </Typography>
+                          <Typography
+                            color="textSecondary"
+                            variant="overline"
+                            className={classes.depositContext}
+                          >
+                            {`Brew date`}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      color="primary"
-                      disabled={!beer.projectName}
-                    >
-                      {beer.projectName ? (
-                        <Link
-                          to={
-                            beer.projectName
-                              ? '/projects/' + beer.projectName
-                              : '/ontap'
-                          }
-                        >
-                          Brew Data
-                        </Link>
-                      ) : (
-                        'Brew Data'
-                      )}
-                    </Button>
-                    <Button
-                      size="small"
-                      color="primary"
-                      disabled={!beer.brewersfriendLink}
-                    >
-                      {beer.brewersfriendLink ? (
-                        <a href={beer.brewersfriendLink}>Brew session</a>
-                      ) : (
-                        'Brew session'
-                      )}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        color="primary"
+                        disabled={!beer.projectName}
+                      >
+                        {beer.projectName ? (
+                          <Link
+                            to={
+                              beer.projectName
+                                ? '/projects/' + beer.projectName
+                                : '/ontap'
+                            }
+                          >
+                            Brew Data
+                          </Link>
+                        ) : (
+                          'Brew Data'
+                        )}
+                      </Button>
+                      <Button
+                        size="small"
+                        color="primary"
+                        disabled={!beer.brewersfriendLink}
+                      >
+                        {beer.brewersfriendLink ? (
+                          <a href={beer.brewersfriendLink}>Brew session</a>
+                        ) : (
+                          'Brew session'
+                        )}
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
           </Grid>
+        </Container>
+        <Container className={classes.cardGrid} maxWidth="md">
+          {/* End hero unit */}
+          <Grid container spacing={4}></Grid>
         </Container>
         <Copyright />
       </main>
