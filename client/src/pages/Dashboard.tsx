@@ -21,6 +21,7 @@ import { Typography } from '@material-ui/core'
 // import { mainListItems, secondaryListItems } from './listItems'
 // import Chart from './Chart'
 
+import ConsolidatedChartV2 from '../components/ConsolidatedChartV2'
 import ConsolidatedChart from '../components/ConsolidatedChart'
 import Copyright from '../components/Copyright'
 import OverallChart from '../components/OverallChart'
@@ -162,6 +163,7 @@ export default function Dashboard(props: Props) {
   const [availableProjects, setAvailableProjects] = React.useState<
     string[] | null
   >([])
+  const [isProjectV2, setProjectV2] = React.useState<boolean>(false)
   const [extTempLogFile, setExtTempLogFile] = React.useState<string | null>(
     null
   )
@@ -215,6 +217,12 @@ export default function Dashboard(props: Props) {
   React.useEffect(() => {
     if (selectedProject !== null && selectedProject !== undefined) {
       getProject(selectedProject).then(project => {
+        if (project.availableSensors && project.availableSensors.length > 0) {
+          setProjectV2(true)
+        } else {
+          setProjectV2(false)
+        }
+
         const projectExtTempLog = project.logs.find(
           log =>
             log.includes('external-temperature') ||
@@ -329,17 +337,31 @@ export default function Dashboard(props: Props) {
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={doubleHeightPaper}>
-                {gravityLogFile && internalTempLogFile && (
-                  <ConsolidatedChart
-                    gravityLogFileName={gravityLogFile}
-                    internalTemperatureLogFileName={internalTempLogFile}
-                    hash={hash}
-                  />
-                )}
-              </Paper>
-            </Grid>
+            {!isProjectV2 && (
+              <Grid item xs={12} md={12} lg={12}>
+                <Paper className={doubleHeightPaper}>
+                  {gravityLogFile && internalTempLogFile && (
+                    <ConsolidatedChart
+                      gravityLogFileName={gravityLogFile}
+                      internalTemperatureLogFileName={internalTempLogFile}
+                      hash={hash}
+                    />
+                  )}
+                </Paper>
+              </Grid>
+            )}
+            {isProjectV2 && (
+              <Grid item xs={12} md={12} lg={12}>
+                <Paper className={doubleHeightPaper}>
+                  {!!selectedProject && selectedProject !== null && (
+                    <ConsolidatedChartV2
+                      projectName={selectedProject}
+                      hash={hash}
+                    />
+                  )}
+                </Paper>
+              </Grid>
+            )}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={doubleHeightPaper}>
                 {extTempLogFile && (

@@ -61,9 +61,11 @@ export interface Sensor {
   readings: Reading[]
 }
 
+type ReadingType = 'BATTERY' | 'TEMPERATURE' | 'SPECIFIC_GRAVITY'
+
 export interface Reading {
   id: string
-  type: 'BATTERY'
+  type: ReadingType
   value: number
   unit: string
   raw: any
@@ -79,8 +81,20 @@ export const getSensors = async (): Promise<Sensor[]> => {
   return result.sensors
 }
 
+interface AvailableSensor {
+  id: string
+  readingType: ReadingType
+  startDate: string
+  endDate: string | null
+  createdAt: string
+  updatedAt: string
+  ProjectId: string
+  SensorId: string
+}
+
 interface ProjectWithLogs extends Project {
   logs: string[]
+  availableSensors: AvailableSensor[]
 }
 
 export const getProject = async (
@@ -90,6 +104,22 @@ export const getProject = async (
     res => res.json()
   )).project
   return project
+}
+
+interface ProjectReadingResult {
+  type: ReadingType
+  value: number
+  createdAt: string
+}
+
+export const getProjectReadingsByType = async (
+  projectName: string,
+  readingType: ReadingType
+): Promise<ProjectReadingResult[]> => {
+  const readings = (await fetch(
+    `${api.baseUrl}projects/${projectName}/readings?type=${readingType}`
+  ).then(res => res.json())).readings
+  return readings
 }
 
 const validateFilename = fileName => {
