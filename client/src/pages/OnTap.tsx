@@ -42,6 +42,7 @@ interface Beer {
 const beersOnTap: Beer[] = [
   {
     // comingSoon: true,
+    allGone: true,
     tapLocation: 'Left',
     name: 'La JCDV',
     abvPercent: 7.2,
@@ -55,7 +56,7 @@ const beersOnTap: Beer[] = [
       'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
   },
   {
-    comingSoon: true,
+    // comingSoon: true,
     tapLocation: 'Middle',
     name: 'Christmas in July',
     abvPercent: 5.5,
