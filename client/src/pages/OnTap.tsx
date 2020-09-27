@@ -21,8 +21,8 @@ import Emoji from '../components/Emoji'
 
 import { roundAndFormat } from '../lib/numbers'
 
-const laJcdvImage = require('../public/la-jcdv.jpg')
-const winterAleImage = require('../public/winterAle.jpg')
+// const laJcdvImage = require('../public/la-jcdv.jpg')
+// const winterAleImage = require('../public/winterAle.jpg')
 
 interface Beer {
   tapLocation: string
@@ -42,46 +42,60 @@ interface Beer {
 const beersOnTap: Beer[] = [
   {
     // comingSoon: true,
-    allGone: true,
-    tapLocation: 'Left',
-    name: 'La JCDV',
-    abvPercent: 7.2,
-    style: 'Belgian Blonde Ale',
-    img: laJcdvImage,
-    brewDate: '13/06/2020',
-    brewersfriendLink:
-      'https://www.brewersfriend.com/homebrew/brewsession/342497',
-    projectName: '2020-06-13-la-jcdv',
-    description:
-      'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
-  },
-  {
-    // comingSoon: true,
     tapLocation: 'Middle',
-    name: 'Christmas in July',
-    abvPercent: 5.5,
-    style: 'Winter Ale',
-    img: winterAleImage,
-    brewDate: '19/07/2020',
+    name: 'Pitt Stop Pale Ale',
+    abvPercent: 5.1,
+    style: 'Pale Ale',
+    // img: winterAleImage,
+    brewDate: '04/09/2020',
     brewersfriendLink:
-      'https://www.brewersfriend.com/homebrew/brewsession/346111',
-    projectName: '2020-07-19-winter',
+      'https://www.brewersfriend.com/homebrew/brewsession/354514',
+    projectName: '2020-09-04-pitt-stop-pale-ale',
     description:
-      'Hopefully a nice spiced amber ale to warm spirits during the cold Melbourne winter!'
-  },
-  {
-    allGone: true,
-    tapLocation: 'Middle',
-    name: 'Zombie Dust',
-    abvPercent: 6,
-    style: 'American IPA',
-    brewDate: '28/05/2020',
-    brewersfriendLink:
-      'https://www.brewersfriend.com/homebrew/brewsession/338880',
-    // projectName: null,
-    description:
-      "IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping. Wasn't not meant to be hazy but wasn't meant to not be hazy."
+      'A simple pale ale. Showcasing Galaxy, Citra (DH) and Centennial (DH) hops. Simple grain bill: Pilsner malt and CaraAmber. Fermented with English Ale yeast . It took its time!'
   }
+  // {
+  //   // comingSoon: true,
+  //   allGone: true,
+  //   tapLocation: 'Left',
+  //   name: 'La JCDV',
+  //   abvPercent: 7.2,
+  //   style: 'Belgian Blonde Ale',
+  //   img: laJcdvImage,
+  //   brewDate: '13/06/2020',
+  //   brewersfriendLink:
+  //     'https://www.brewersfriend.com/homebrew/brewsession/342497',
+  //   projectName: '2020-06-13-la-jcdv',
+  //   description:
+  //     'Imagine a Venn diagram. On the left, Belgium. On the right, Melbourne. The intersection? La Jean-Claude De Victoria!'
+  // },
+  // {
+  //   // comingSoon: true,
+  //   tapLocation: 'Middle',
+  //   name: 'Christmas in July',
+  //   abvPercent: 5.5,
+  //   style: 'Winter Ale',
+  //   img: winterAleImage,
+  //   brewDate: '19/07/2020',
+  //   brewersfriendLink:
+  //     'https://www.brewersfriend.com/homebrew/brewsession/346111',
+  //   projectName: '2020-07-19-winter',
+  //   description:
+  //     'Hopefully a nice spiced amber ale to warm spirits during the cold Melbourne winter!'
+  // },
+  // {
+  //   allGone: true,
+  //   tapLocation: 'Middle',
+  //   name: 'Zombie Dust',
+  //   abvPercent: 6,
+  //   style: 'American IPA',
+  //   brewDate: '28/05/2020',
+  //   brewersfriendLink:
+  //     'https://www.brewersfriend.com/homebrew/brewsession/338880',
+  //   // projectName: null,
+  //   description:
+  //     "IPA with lots of Citra hops. Two weeks of primary fermentation, including a week of dry-hopping. Wasn't not meant to be hazy but wasn't meant to not be hazy."
+  // }
 ]
 
 const useStyles = makeStyles(theme => ({
