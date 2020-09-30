@@ -117,7 +117,7 @@ export default function Chart(props: Props) {
                 //   // dataMin => Math.round(dataMin) - 0.1,
                 //   // dataMax => Math.round(dataMax) + 0.1
                 dataMin => 1.0,
-                dataMax => 1.09
+                dataMax => 1.13
               ]}
             >
               <Label
