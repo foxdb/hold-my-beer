@@ -22,6 +22,8 @@ import Emoji from '../components/Emoji'
 import { roundAndFormat } from '../lib/numbers'
 
 // const laJcdvImage = require('../public/la-jcdv.jpg')
+const pitStopImage = require('../public/pitstop.jpg')
+const pitViperImage = require('../public/cobrakai.jpeg')
 // const winterAleImage = require('../public/winterAle.jpg')
 
 interface Beer {
@@ -42,11 +44,24 @@ interface Beer {
 const beersOnTap: Beer[] = [
   {
     // comingSoon: true,
+    tapLocation: 'Left',
+    name: 'Pitt Viper IPA',
+    abvPercent: 6.2,
+    style: 'IPA',
+    img: pitViperImage,
+    brewDate: '12/09/2020',
+    brewersfriendLink:
+      'https://www.brewersfriend.com/homebrew/brewsession/355929',
+    // projectName: null,
+    description: "'Cause it bites."
+  },
+  {
+    // comingSoon: true,
     tapLocation: 'Middle',
     name: 'Pitt Stop Pale Ale',
     abvPercent: 5.1,
     style: 'Pale Ale',
-    // img: winterAleImage,
+    img: pitStopImage,
     brewDate: '04/09/2020',
     brewersfriendLink:
       'https://www.brewersfriend.com/homebrew/brewsession/354514',
@@ -243,7 +258,7 @@ export default function Dashboard() {
                     <CardMedia
                       className={classes.cardMedia}
                       // image="https://source.unsplash.com/random"
-                      image={beer.img}
+                      // image={beer.img}
                       title="Image title"
                     >
                       {!beer.img && <Emoji symbol="🍺" />}
