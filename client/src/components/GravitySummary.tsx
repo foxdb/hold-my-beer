@@ -82,6 +82,11 @@ export default function GravitySummary(props: Props) {
     latestGravity &&
     round(((firstGravity - latestGravity) / (firstGravity - 1)) * 100, 1)
 
+  const currentAbv =
+    firstGravity &&
+    latestGravity &&
+    round((firstGravity - latestGravity) * 131.25, 1)
+
   return (
     <React.Fragment>
       <Typography component="p" variant="h5">
@@ -108,13 +113,15 @@ export default function GravitySummary(props: Props) {
 
       <Typography component="p" variant="h5">
         {attenuation ? `${attenuation} %` : '-'}
+        {` / `}
+        {currentAbv ? `${currentAbv} %` : '-'}
       </Typography>
       <Typography
         color="textSecondary"
         variant="overline"
         className={classes.depositContext}
       >
-        {`current attenuation`}
+        {`current attenuation / est. ABV`}
       </Typography>
     </React.Fragment>
   )
