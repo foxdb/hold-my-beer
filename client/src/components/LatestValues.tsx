@@ -44,17 +44,27 @@ export default function LatestValues(props: Props) {
   ] = React.useState<string | null>(null)
   const [startDate, setStartDate] = React.useState<string | null>(null)
 
-  const duration =
-    startDate && latestTemperatureDate
-      ? moment
-          .duration(
-            moment(latestTemperatureDate, RAW_DATE_FORMAT).diff(
-              moment(startDate, RAW_DATE_FORMAT)
-            )
-          )
-          .asDays()
-          .toFixed(2)
-      : 0
+  let duration = '0'
+
+  if (startDate && latestInternalTemperatureDate) {
+    duration = moment
+      .duration(
+        moment(latestInternalTemperatureDate, RAW_DATE_FORMAT).diff(
+          moment(startDate, RAW_DATE_FORMAT)
+        )
+      )
+      .asDays()
+      .toFixed(2)
+  } else if (startDate && latestTemperatureDate) {
+    duration = moment
+      .duration(
+        moment(latestTemperatureDate, RAW_DATE_FORMAT).diff(
+          moment(startDate, RAW_DATE_FORMAT)
+        )
+      )
+      .asDays()
+      .toFixed(2)
+  }
 
   const loadLatestTemperature = async () => {
     if (props.tempLogFileName) {
