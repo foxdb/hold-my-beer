@@ -4,10 +4,12 @@ import moment = require('moment')
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { RAW_DATE_FORMAT } from '../config'
 import { getGravityLog } from '../lib/api'
 import { round, roundAndFormat } from '../lib/numbers'
+import { calculateAbvAlternate, calculateAbv } from '../lib/brewing'
 
 const useStyles = makeStyles({
   divider: {
@@ -82,6 +84,14 @@ export default function GravitySummary(props: Props) {
     latestGravity &&
     round(((firstGravity - latestGravity) / (firstGravity - 1)) * 100, 1)
 
+  const currentAbv =
+    firstGravity && latestGravity && calculateAbv(firstGravity, latestGravity)
+
+  const currentAbvAlternateFormula =
+    firstGravity &&
+    latestGravity &&
+    calculateAbvAlternate(firstGravity, latestGravity)
+
   return (
     <React.Fragment>
       <Typography component="p" variant="h5">
@@ -108,13 +118,17 @@ export default function GravitySummary(props: Props) {
 
       <Typography component="p" variant="h5">
         {attenuation ? `${attenuation} %` : '-'}
+        {` / `}
+        <Tooltip title={`Alternate ABV: ${currentAbvAlternateFormula}`}>
+          <span>{currentAbv ? `${currentAbv} %` : '-'}</span>
+        </Tooltip>
       </Typography>
       <Typography
         color="textSecondary"
         variant="overline"
         className={classes.depositContext}
       >
-        {`current attenuation`}
+        {`current attenuation / est. ABV`}
       </Typography>
     </React.Fragment>
   )
