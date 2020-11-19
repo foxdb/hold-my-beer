@@ -22,8 +22,9 @@ import Emoji from '../components/Emoji'
 import { roundAndFormat } from '../lib/numbers'
 
 // const laJcdvImage = require('../public/la-jcdv.jpg')
-const pitStopImage = require('../public/pitstop.jpg')
-const pitViperImage = require('../public/cobrakai.jpeg')
+// const pitStopImage = require('../public/pitstop.jpg')
+// const pitViperImage = require('../public/cobrakai.jpeg')
+const goldenAyeImage = require('../public/goldeneye.jpeg')
 // const winterAleImage = require('../public/winterAle.jpg')
 
 interface Beer {
@@ -45,30 +46,57 @@ const beersOnTap: Beer[] = [
   {
     // comingSoon: true,
     tapLocation: 'Left',
-    name: 'Pitt Viper IPA',
-    abvPercent: 6.2,
-    style: 'IPA',
-    img: pitViperImage,
-    brewDate: '12/09/2020',
+    name: 'Pitt\'s Best Bitter',
+    abvPercent: 5,
+    style: 'Best Bitter',
+    // img: pitViperImage,
+    brewDate: '17/10/2020',
     brewersfriendLink:
-      'https://www.brewersfriend.com/homebrew/brewsession/355929',
+      'https://www.brewersfriend.com/homebrew/brewsession/360784',
     // projectName: null,
-    description: "'Cause it bites."
+    description: ""
   },
   {
     // comingSoon: true,
     tapLocation: 'Middle',
-    name: 'Pitt Stop Pale Ale',
-    abvPercent: 5.1,
-    style: 'Pale Ale',
-    img: pitStopImage,
-    brewDate: '04/09/2020',
+    name: 'Golden Aye',
+    abvPercent: 4.8,
+    style: 'British Golden Ale',
+    img: goldenAyeImage,
+    brewDate: '01/11/2020',
     brewersfriendLink:
-      'https://www.brewersfriend.com/homebrew/brewsession/354514',
-    projectName: '2020-09-04-pitt-stop-pale-ale',
+      'https://www.brewersfriend.com/homebrew/brewsession/361863',
+    projectName: 'golden-aye',
     description:
-      'A simple pale ale. Showcasing Galaxy, Citra (DH) and Centennial (DH) hops. Simple grain bill: Pilsner malt and CaraAmber. Fermented with English Ale yeast . It took its time!'
+      'British yeast, british malt, british hops,... Fancy a cuppa?'
   }
+  // {
+  //   // comingSoon: true,
+  //   tapLocation: 'Left',
+  //   name: 'Pitt Viper IPA',
+  //   abvPercent: 6.2,
+  //   style: 'IPA',
+  //   img: pitViperImage,
+  //   brewDate: '12/09/2020',
+  //   brewersfriendLink:
+  //     'https://www.brewersfriend.com/homebrew/brewsession/355929',
+  //   // projectName: null,
+  //   description: "'Cause it bites."
+  // },
+  // {
+  //   // comingSoon: true,
+  //   tapLocation: 'Middle',
+  //   name: 'Pitt Stop Pale Ale',
+  //   abvPercent: 5.1,
+  //   style: 'Pale Ale',
+  //   img: pitStopImage,
+  //   brewDate: '04/09/2020',
+  //   brewersfriendLink:
+  //     'https://www.brewersfriend.com/homebrew/brewsession/354514',
+  //   projectName: '2020-09-04-pitt-stop-pale-ale',
+  //   description:
+  //     'A simple pale ale. Showcasing Galaxy, Citra (DH) and Centennial (DH) hops. Simple grain bill: Pilsner malt and CaraAmber. Fermented with English Ale yeast . It took its time!'
+  // }
   // {
   //   // comingSoon: true,
   //   allGone: true,
