@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Toolbar from '@material-ui/core/Toolbar'
+import Fab from '@material-ui/core/Fab';
 
 import Copyright from '../components/Copyright'
 import BreadcrumbsNavigation from '../components/BreadcrumbsNavigation'
@@ -25,6 +26,7 @@ import { roundAndFormat } from '../lib/numbers'
 // const pitStopImage = require('../public/pitstop.jpg')
 // const pitViperImage = require('../public/cobrakai.jpeg')
 const goldenAyeImage = require('../public/goldeneye.jpeg')
+const lactoImage = require('../public/lactoplantarum.jpeg')
 // const winterAleImage = require('../public/winterAle.jpg')
 
 interface Beer {
@@ -69,7 +71,20 @@ const beersOnTap: Beer[] = [
     projectName: 'golden-aye',
     description:
       'British yeast, british malt, british hops,... Fancy a cuppa?'
-  }
+  },
+  {
+    comingSoon: true,
+    tapLocation: 'Right',
+    name: 'Süß und sauer',
+    abvPercent: 4,
+    style: 'Berliner Weisse',
+    img: lactoImage,
+    brewDate: '17/11/2020',
+    brewersfriendLink:
+      'https://www.brewersfriend.com/homebrew/brewsession/364382',
+    // projectName: null,
+    description: "Kettle soured Berliner Weisse."
+  },
   // {
   //   // comingSoon: true,
   //   tapLocation: 'Left',
@@ -211,6 +226,14 @@ const useStyles = makeStyles(theme => ({
   },
   pos: {
     marginBottom: 20
+  },
+  feedbackButton: {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
   }
 }))
 
@@ -228,6 +251,9 @@ export default function Dashboard() {
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
+      <Fab variant="extended" color="secondary" aria-label="add" className={classes.feedbackButton}>
+        <a href='https://forms.gle/nR57QE9JC2rZ6DRV8' target='_blank'>Feedback</a>
+      </Fab>
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
