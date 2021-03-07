@@ -114,10 +114,11 @@ export default function Chart(props: Props) {
               yAxisId="gravity"
               unit=""
               domain={[
-                //   // dataMin => Math.round(dataMin) - 0.1,
-                //   // dataMax => Math.round(dataMax) + 0.1
                 dataMin => 1.0,
-                dataMax => 1.13
+                // dataMin =>  Math.floor(dataMin * 100) / 100
+                // dataMax => 1.13
+                // max: max reading rounded to the next 0.01
+                dataMax => Math.ceil(dataMax * 100) / 100
               ]}
             >
               <Label
@@ -132,12 +133,10 @@ export default function Chart(props: Props) {
               yAxisId="temperature"
               unit="°C"
               domain={[
-                0,
-                40
-                // dataMin => Math.round(dataMin) - 5,
-                // dataMax => Math.round(dataMax) + 5
-                // dataMin => 1.0,
-                // dataMax => 1.09
+                // 0,
+                // 40
+                dataMin => Math.floor(dataMin) - 2,
+                dataMax => Math.ceil(dataMax) + 2
               ]}
             >
               <Label
