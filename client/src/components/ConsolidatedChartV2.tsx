@@ -133,10 +133,10 @@ export default function Chart(props: Props) {
               yAxisId="temperature"
               unit="°C"
               domain={[
-                // 0,
-                // 40
-                dataMin => Math.floor(dataMin) - 2,
-                dataMax => Math.ceil(dataMax) + 2
+                0,
+                40
+                // dataMin => Math.floor(dataMin) - 2,
+                // dataMax => Math.ceil(dataMax) + 2
               ]}
             >
               <Label
